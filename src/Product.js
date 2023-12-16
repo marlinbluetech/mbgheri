@@ -104,6 +104,8 @@ const Product = () => {
                         </div>
                         <div className="container text-center mt-4">
                             <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }}onClick={handleAddCustomer}>Add</button>
+                            <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }}>Add</button>
+
                         </div>
 
                     </div>
