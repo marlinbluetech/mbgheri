@@ -1,12 +1,14 @@
-import logo from './logo.svg';
+
+
+// App.js
+import React from 'react';
 import './App.css';
 import Indexpage from './Indexpage';
 
 function App() {
   return (
     <div className="App">
-      <Indexpage></Indexpage>
-      
+      <Indexpage />
     </div>
   );
 }
