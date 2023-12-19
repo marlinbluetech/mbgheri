@@ -176,21 +176,11 @@
     padding-left: calc(var(--nav-width) + 188px)
   }
  
-  
+
+
 
 }
-.mainpage{
-  
-  /* background-color:rgb(215, 217, 218); */
-  height:100vh;
-  margin-top: 20px !important
-  
-  
-  
-  
-  ;
 
-}
 .amount{
  justify-content: space-between;
  flex-wrap: wrap;
@@ -233,29 +223,39 @@ body{
   .nav_links{
     display:none;
   }
-
+  
 }
 @media screen and (max-width: 668px){
   
   input{
     width:200px;
   }
+  
 
+  
 }
 .mainpages{
 
   background-image: url(../public/bg.jpg);
   background-size: cover;
-  height:100vh;
+  height:1200px;
   background-repeat: no-repeat;
 }
-input{
+input,select{
   border:none;
   background-color: rgb(230, 232, 233);
+  padding: 3px;
+  border-radius: 5px;
 }
 .nav_links{
   text-decoration: none;
   color:black;
   font-size: 20px;
   margin: 0px !important;
+}
+.table-container {
+  overflow-x: auto;
+}
+th{
+  background-color:skyblue !important;
 }

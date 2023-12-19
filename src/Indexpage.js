@@ -102,9 +102,7 @@ function Indexpage() {
               <Link to="/credit" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Credit-pending List</span>
               </Link>
-              <Link to="/credit" className="nav_link">
-                <i className="bi bi-person-check nav_icon" /><span className="nav_name">Credit-pending List</span>
-              </Link>
+              
               <Link to="/tech" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Technical Dashboard</span>
               </Link>
