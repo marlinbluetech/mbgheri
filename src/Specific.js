@@ -10,6 +10,7 @@ const Specific = () => {
   
   const [customerData, setCustomerData] = useState(null);
   const [catchData, setCatchData] = useState(null)
+  const[discount,setDiscount]=useState([]);
   const productdetails = async () => {
     try {
       const result = await fetch(`http://localhost:5000/customerupdateget/${_id}`);
@@ -47,8 +48,20 @@ const Specific = () => {
     productdetails();
     getproduct();
     getcatchproduct();
+    getdiscountdetails();
   }, []); 
+  const getdiscountdetails = async () => {
+    try {
+      const result = await fetch('http://localhost:5000/extradiscountget', {
 
+      });
+      const data = await result.json();
+      console.log(data);
+      setDiscount(data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
   return (
     <div>
      <h3>Name:{name}</h3> 
@@ -128,6 +141,32 @@ const Specific = () => {
 )}
 
        
+    </tbody>
+  </table>
+        </div>
+        <div className='container table-container'>
+        <table className='table table-bordered table-striped'>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Category</th>
+        <th>Company</th>
+        <th>Season</th>
+        <th>Discount</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {discount.map((item, index) => (
+            <tr key={item._id} >
+              <td>{index+1}</td>
+           <td>{item.category}</td>
+           <td>{item.company}</td>
+           <td>{item.season}</td>
+           <td>{item.discount}</td>
+            </tr>
+          ))}
+      
     </tbody>
   </table>
         </div>
