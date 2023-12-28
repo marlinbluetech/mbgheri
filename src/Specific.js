@@ -52,16 +52,25 @@ const Specific = () => {
   }, []); 
   const getdiscountdetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/extradiscountget', {
-
-      });
+      const result = await fetch('http://localhost:5000/extradiscountget');
       const data = await result.json();
-      console.log(data);
-      setDiscount(data);
+  
+      const apiId = data.id;
+      console("dataid:",data.id);
+      const expectedId = '_id';
+  console("expid:",expectedId);
+      if (apiId === expectedId) {
+        console.log(data);
+        setDiscount(data);
+      } else {
+        console.log('IDs do not match. Data will not be displayed.');
+      }
     } catch (error) {
       console.error('Error fetching product data:', error);
     }
   };
+  
+  
   return (
     <div>
      <h3>Name:{name}</h3> 
@@ -116,7 +125,6 @@ const Specific = () => {
       
         <th>Market price</th>
       
-        {/* <th>Operation</th> */}
       </tr>
     </thead>
     <tbody>

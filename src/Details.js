@@ -14,6 +14,7 @@ const Details = () => {
     const[product,setProduct]=useState([]);
     const[season,setSeason]=useState('');
     const[discount,setDiscount]=useState('');
+    const { _id } = useParams();
     const productdetails = async () => {
         try {
           const result = await fetch(`http://localhost:5000/customerupdateget/${_id}`);
@@ -35,7 +36,7 @@ const Details = () => {
      
       }, []); 
    
-  const { _id } = useParams();
+
   const adddiscount = async () => {
 try {
       const response = await fetch('http://localhost:5000/adddiscount', {
@@ -45,6 +46,7 @@ try {
          
         },
         body: JSON.stringify({
+            id:_id,
          category:category,
          company:company,
          season:season,
