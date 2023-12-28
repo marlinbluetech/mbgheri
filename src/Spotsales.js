@@ -46,7 +46,7 @@ const Spotsales = () => {
            
     
          
-                alert('Product Added successfully!');
+                
     
                 setSelectedOption('');
                 setQuantity('');
@@ -105,8 +105,9 @@ const Spotsales = () => {
          
           localStorage.removeItem('inputData');
           setLocalData([]);
+          getproduct();
       
-          alert('Checkout successful!');
+         
         } catch (error) {
           console.error('Error during checkout:', error);
           alert('An error occurred during checkout. Please try again later.');
@@ -122,6 +123,7 @@ const Spotsales = () => {
     useEffect(() => {
        
         productlistdetails();
+        getproduct();
     }, []);
     useEffect(() => {
         
