@@ -6,7 +6,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-import { useParams } from 'react-router-dom';
+
 
 
 const Gheri = () => {
@@ -18,14 +18,32 @@ const Gheri = () => {
   const [purpose, setPurpose] = useState();
   const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
-  const params = useParams();
+  const [updateItemId, setUpdateItemId] = useState(null);
+  const[customer,setCustomer]=useState([]);
+  const customernamedetails = async () => {
+    try {
+      const result = await fetch('http://localhost:5000/userget', {
 
+      });
+      const data = await result.json();
+      console.log(data);
+      setCustomer(data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    setDate('');
+    setName('');
+    setSeason('');
+    setAmount('');
+    setPurpose('');
+
   };
 
   const handleAddCustomer = async () => {
@@ -47,6 +65,13 @@ const Gheri = () => {
 
       if (response.ok) {
         toast.success('Employee added successfully');
+       
+      setDate('');
+      setName('');
+      setSeason('');
+      setAmount('');
+      setPurpose('');
+
       } else {
         toast.error('Failed to add Employee');
       }
@@ -57,6 +82,7 @@ const Gheri = () => {
 
   useEffect(() => {
     getproduct();
+    customernamedetails();
   }, []);
 
   const getproduct = async () => {
@@ -107,20 +133,19 @@ const Gheri = () => {
       setSeason(data.season);
       setAmount(data.amount);
       setPurpose(data.purpose);
+      setUpdateItemId(data._id); 
     } catch (error) {
 
       console.error('Error fetching product details:', error);
     }
   };
-  const updateitem = async (id) => {
-    try {
-      if (!params || !params._id) {
-        console.error('Invalid or missing _id parameter');
-        return;
-      }
 
-      const result = await fetch(`http://localhost:5000/gheriexpenditureupdate/${params._id}`, {
-        method: 'PUT',
+  
+  const handleUpdateCustomer = async () => {
+    console.log(updateItemId);
+    try {
+      const response = await fetch(`http://localhost:5000/gheriexpenditureupdate/${updateItemId}`, {
+        method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
         },
@@ -133,13 +158,17 @@ const Gheri = () => {
         }),
       });
 
-      const data = await result.json();
-      console.log('Update successful:', data);
+      if (response.ok) {
+        toast.success('Record updated successfully');
+        handleDrawerClose(); 
+        getproduct(); 
+      } else {
+        toast.error('Failed to update record');
+      }
     } catch (error) {
-      console.error('Error updating product:', error);
+      toast.error('Error updating record');
     }
   };
-
 
 
 
@@ -159,8 +188,12 @@ const Gheri = () => {
                 </div>
                 <div class=" col">
                   <label>Customer Name</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={name}
-                    onChange={(e) => setName(e.target.value)}></input>
+                  <select  value={name} onChange={(e) => setName(e.target.value)} >
+                                        <option>Select a product</option>
+                                        {customer.map((item) => (
+                                            <option key={item._id} value={item.name}>{item.name}</option>
+                                        ))}
+                                    </select>
                 </div>
                 <div class="col">
                   <label>Season</label><br></br>
@@ -281,6 +314,9 @@ const Gheri = () => {
               <input type="text" style={{ borderRadius: "5px" }} value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}></input>
             </div>
+            <div>
+              <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
            
           </List>
         </Drawer>
@@ -289,6 +325,6 @@ const Gheri = () => {
       <ToastContainer />
     </div>
   )
-}
-
+              }
+  
 export default Gheri

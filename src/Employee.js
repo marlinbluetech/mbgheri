@@ -1,6 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+
 
 const Employee = () => {
   const [name, setName] = useState();
@@ -11,8 +16,32 @@ const Employee = () => {
   const [worklocation, setWorklocation] = useState();
   const [address, setAddress] = useState();
   const [product, setProduct] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [updateItemId, setUpdateItemId] = useState(null);
+  const[error,setError]=useState(false)
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+    setName('');
+    setDoj('');
+    setDesignation('');
+    setSalary('');
+    setWorklocation('');
+    setAddress('');
+    setMobile('');
+  };
 
   const handleAddCustomer = async () => {
+    
+    if(!name || !doj || !designation || !address||mobile.length > 10 || mobile.length < 10 || !salary )
+    {
+        setError(true);
+        return false;
+    } 
     try {
       const response = await fetch('http://localhost:5000/addemployee', {
         method: 'POST',
@@ -27,12 +56,20 @@ const Employee = () => {
           mobile: mobile,
           address: address,
           worklocation:worklocation,
-         address:address
+        
         }),
       });
 
       if (response.ok) {
         toast.success('Employee added successfully');
+        setName('');
+setDoj('');
+setDesignation('');
+setSalary('');
+setWorklocation('');
+setAddress('');
+setMobile('');
+        getproduct();
       } else {
         toast.error('Failed to add Employee');
       }
@@ -72,6 +109,67 @@ const Employee = () => {
       console.error('Error deleting product:', error);
     }
   };
+  const productdetails = async (id) => {
+    try {
+
+      const result = await fetch(`http://localhost:5000/employeeupdateget/${id}`, {
+
+      });
+
+
+      const data = await result.json();
+
+
+      console.log(data);
+
+setName(data.name);
+setDoj(data.doj);
+setDesignation(data.designation);
+setSalary(data.salary);
+setWorklocation(data.worklocation);
+setAddress(data.address);
+setMobile(data.mobile);
+    
+      setUpdateItemId(data._id); 
+    } catch (error) {
+
+      console.error('Error fetching product details:', error);
+    }
+  };
+
+  
+  const handleUpdateCustomer = async () => {
+    console.log(updateItemId);
+    try {
+      const response = await fetch(`http://localhost:5000/employeeupdate/${updateItemId}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+         name:name,
+         doj:doj,
+         designation:designation,
+         salary:salary,
+         mobile:mobile,
+         address:address,
+         worklocation:worklocation
+
+        }),
+      });
+
+      if (response.ok) {
+        toast.success('Record updated successfully');
+        handleDrawerClose(); 
+        getproduct(); 
+      } else {
+        toast.error('Failed to update record');
+      }
+    } catch (error) {
+      toast.error('Error updating record');
+    }
+  };
+
   return (
     <div>
       <div className="mainpages">
@@ -85,21 +183,25 @@ const Employee = () => {
                   <label >Employee name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={name}
                     onChange={(e)=>setName(e.target.value)}></input>
+                      {error && !name && <span className="error">Enter valid Name</span>}
                 </div>
                 <div class="col-lg-3 col-md-12 col-sm-12">
                   <label >Date</label><br></br>
                   <input type="Date" style={{ borderRadius: "5px" }} value={doj}
                     onChange={(e)=>setDoj(e.target.value)}></input>
+                      {error && !doj  && <span className="error">Enter valid DOJ</span>}
                 </div>
                 <div class=" col-lg-3 col-md-12 col-sm-12">
                   <label>Designation</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={designation}
                     onChange={(e)=>setDesignation(e.target.value)}></input>
+                      {error && !designation && <span className="error">Enter valid Designation</span>}
                 </div>
                 <div class="col-lg-3 col-md-12 col-sm-12">
                   <label>salary</label><br></br>
                   <input type="number" style={{ borderRadius: "5px" }} value={salary}
                     onChange={(e)=>setSalary(e.target.value)}></input>
+                      {error && !salary && <span className="error">Enter valid Salary</span>}
                 </div>
               </div>
               <div class="row">
@@ -107,6 +209,7 @@ const Employee = () => {
                   <label >mobile</label><br></br>
                   <input type="number" style={{ borderRadius: "5px" }} value={mobile}
                     onChange={(e)=>setMobile(e.target.value)}></input>
+                     {error && !mobile && mobile.length!=10 && <span className="error">Enter valid Address</span>}
                 </div>
                 <div class=" col-lg-3 col-md-12 col-sm-12">
                   <label>worklocation</label><br></br>
@@ -117,6 +220,9 @@ const Employee = () => {
                   <label>Address</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={address}
                     onChange={(e)=>setAddress(e.target.value)}></input>
+                   {error && !address &&  <span className="error">Enter valid Address</span>}
+                   {error && !address && mobile.length!=10 && <span className="error">Enter valid Address</span>}
+
                 </div>
               </div>
               <div className="container text-center mt-4">
@@ -163,7 +269,7 @@ const Employee = () => {
               <td>{item.worklocation}</td>
               <td>{item.address}</td>
               <td>
-              <button className='btn btn-primary'style={{marginRight:"5px"}}>Edit</button>
+              <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger' onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
             </tr>
@@ -172,6 +278,55 @@ const Employee = () => {
     </tbody>
   </table>
         </div>
+        <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
+          <List>
+            <ListItem button onClick={handleDrawerClose}>
+              <ListItemText primary="Close" />
+
+            </ListItem>
+            <div class="col">
+                  <label >Employee Name</label><br></br>
+                  <input type="text" style={{ borderRadius: "5px" }} value={name}
+                    onChange={(e)=>setName(e.target.value)}></input>
+                </div>
+                <div class="col">
+                  <label >Date</label><br></br>
+                  <input type="Date" style={{ borderRadius: "5px" }} value={doj}
+                    onChange={(e)=>setDoj(e.target.value)}></input>
+                </div>
+                <div class=" col">
+                  <label>Designation</label><br></br>
+                  <input type="text" style={{ borderRadius: "5px" }} value={designation}
+                    onChange={(e)=>setDesignation(e.target.value)}></input>
+                </div>
+                <div class="col">
+                  <label>salary</label><br></br>
+                  <input type="number" style={{ borderRadius: "5px" }} value={salary}
+                    onChange={(e)=>setSalary(e.target.value)}></input>
+                </div>
+              
+                <div class="col">
+                  <label >mobile</label><br></br>
+                  <input type="number" style={{ borderRadius: "5px" }} value={mobile}
+                    onChange={(e)=>setMobile(e.target.value)}></input>
+                </div>
+                <div class=" col">
+                  <label>worklocation</label><br></br>
+                  <input type="text" style={{ borderRadius: "5px" }} value={worklocation}
+                    onChange={(e)=>setWorklocation(e.target.value)}></input>
+                </div>
+                <div class="col">
+                  <label>Address</label><br></br>
+                  <input type="text" style={{ borderRadius: "5px" }} value={address}
+                    onChange={(e)=>setAddress(e.target.value)}></input>
+                </div>
+            <div>
+              <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
+           
+          </List>
+        </Drawer>
+
 
       </div>
       <ToastContainer />

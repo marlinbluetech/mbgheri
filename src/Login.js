@@ -10,7 +10,7 @@ const Headd = () => {
   
   const handlechange = () =>{
     if(mail==="smruti@gmail.com" && password==="smruti123"){
-        navigate('/indexpage');
+        navigate('/indexpage/mainapge');
       
        alert("sucessfully Login")
       

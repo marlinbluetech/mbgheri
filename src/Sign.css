@@ -1,0 +1,61 @@
+.signbody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+  }
+  .signup{
+        padding-top: 150px;   
+   
+    
+}
+@media (max-width: 767px) {
+.signup {
+margin-top: 0;
+}
+}
+
+  
+  
+  .signcard {
+    width: 450px; /* Set your desired width */
+    padding: 20px;
+    border: 1px solid #ec8b8b;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .signform {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formtext {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+  
+ .signbtn {
+    width: 100%;
+    padding: 10px;
+    background-color:#ec8b8b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  .signpage{
+    background: rgb(143,143,150);
+    background: linear-gradient(90deg, rgba(143,143,150,1) 0%, rgba(28,95,113,1) 35%);
+    height: 100vh;
+  }
+  
+  .link{
+    color:#ec8b8b;
+  }

@@ -1,6 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 
 const Transaction = () => {
@@ -13,6 +17,22 @@ const Transaction = () => {
    
     const [description, setDescription] = useState([]);
     const [product, setProduct] = useState([]);
+    const [open, setOpen] = useState(false);
+  const [updateItemId, setUpdateItemId] = useState(null);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+    setDate('');
+    setCashflow('');
+    setAmount('');
+    setPurpose('');
+    setType('');
+    setDescription('')
+  };
     const handleAddCustomer = async () => {
         try {
           const response = await fetch('http://localhost:5000/addtransaction', {
@@ -32,6 +52,13 @@ const Transaction = () => {
     
           if (response.ok) {
             toast.success('Employee added successfully');
+            setDate('');
+            setCashflow('');
+            setAmount('');
+            setPurpose('');
+            setType('');
+            setDescription('')
+            getproduct();
           } else {
             toast.error('Failed to add Employee');
           }
@@ -69,6 +96,60 @@ const Transaction = () => {
           }
         } catch (error) {
           console.error('Error deleting product:', error);
+        }
+      };
+      const productdetails = async (id) => {
+        try {
+    
+          const result = await fetch(`http://localhost:5000/transactionupdateget/${id}`, {
+    
+          });
+    
+    
+          const data = await result.json();
+    
+    
+          console.log(data);
+        setDate(data.date);
+        setCashflow(data.cashflow);
+        setAmount(data.amount);
+        setPurpose(data.purpose);
+        setType(data.purpose);
+        setDescription(data.description)
+    
+          setUpdateItemId(data._id); 
+        } catch (error) {
+    
+          console.error('Error fetching product details:', error);
+        }
+      };
+      const handleUpdateCustomer = async () => {
+        console.log(updateItemId);
+        try {
+          const response = await fetch(`http://localhost:5000/transactionupdate/${updateItemId}`, {
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              date:date,
+             cashflow:cashflow,
+             amount:amount,
+             purpose:purpose,
+             type:type,
+             description:description
+            }),
+          });
+    
+          if (response.ok) {
+            toast.success('Record updated successfully');
+            handleDrawerClose(); 
+            getproduct(); 
+          } else {
+            toast.error('Failed to update record');
+          }
+        } catch (error) {
+          toast.error('Error updating record');
         }
       };
   return (
@@ -177,7 +258,7 @@ const Transaction = () => {
               <td>{item.type}</td>
               <td>{item.description}</td>
               <td>
-              <button className='btn btn-primary'style={{marginRight:"5px"}}>Edit</button>
+              <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
             </tr>
@@ -186,6 +267,78 @@ const Transaction = () => {
     </tbody>
   </table>
              </div>
+             <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
+          <List>
+            <ListItem button onClick={handleDrawerClose}>
+              <ListItemText primary="Close" />
+
+            </ListItem>
+           
+            <div class="col">
+                                    <label >Date</label><br></br>
+                                    <input type="Date" style={{ borderRadius: "5px", padding: "3px" }}value={date}
+                    onChange={(e)=>setDate(e.target.value)}></input>
+                                </div>
+                                <div class=" col">
+                                    <label>Cash flow</label><br></br>
+                                    <select name="Category" value={cashflow} onChange={(e) => setCashflow(e.target.value)}>
+                                    <option value="Select">Select</option>
+
+                                        <option value="salry">Receive</option>
+                                        <option value="paid">Paid</option>
+                                        
+                                    </select>                            
+                                       </div>
+                                <div class="col">
+                                    <label>Amount</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }}value={amount}
+                    onChange={(e)=>setAmount(e.target.value)}></input>
+                                </div>
+                                <div class="col">
+                                    <label >Purpose</label><br></br>
+                                   <select name="Category" value={purpose} onChange={(e) => setPurpose(e.target.value)}>
+                                    <option value="Select">Select</option>
+
+                                        <option value="diesel">Diesel</option>
+                                        <option value="Engine oil">Engine oil</option>
+                                        <option value="Transport">Transport</option>
+                                        <option value="Salary">Salary</option>
+                                        <option value="feed purchase">Feed Purchase</option>
+                                        <option value="medicine purchase">Madicine purchase</option>
+                                        <option value="chemical purchase">Chemical Purchase</option>
+                                        <option value="machinery">Mechinery</option>
+                                        <option value="maintainance">maintainance</option>
+                                        <option value="grocery vegetable">Grocery Vegetable</option>
+                                        <option value="home">home</option>
+                                        <option value="catch">catch</option>
+                                        <option value="farmer">Farmer</option>
+                                        <option value="other">other</option>
+                                        
+                                        
+                                    </select>
+                                </div>
+                                <div class=" col">
+                                    <label>Type</label><br></br>
+                                    <select name="Category" value={type} onChange={(e) => setType(e.target.value)}>
+                                    <option value="Select">Select Category</option>
+
+                                        <option value="gheri">Gheri</option>
+                                        <option value="poultry">poultry</option>
+                                        <option value="personal">Personal</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class=" col">
+                                    <label>Description</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }}value={description} onChange={(e) => setDescription(e.target.value)}></input>
+                                </div>
+
+            
+                <div>
+              <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
+          </List>
+        </Drawer>
 
             </div>
             <ToastContainer/>

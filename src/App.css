@@ -195,7 +195,7 @@ body{
 .seccard{
   border-radius: 30px;
   background-color: skyblue;
-  height:250px;
+  height:270px;
   margin-top: 100px;
   /* max-width:1200px; */
   text-align: center;
@@ -210,11 +210,11 @@ body{
 }
 @media screen and (max-width: 988px){
   .seccard{
-    height:500px;
+    height:650px;
 
   }
   .seccards{
-    height:750px;
+    height:800px;
 
   }
   input{
@@ -259,3 +259,9 @@ input,select{
 th{
   background-color:skyblue !important;
 }
+.error{
+  color:red;
+}
+
+
+

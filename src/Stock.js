@@ -1,6 +1,105 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Stock = () => {
+    const [itemname, setItemname] = useState();
+    const [price, setPrice] = useState();
+    const [company, setCompany] = useState();
+    const [product, setProduct] = useState([]);
+    const [companyname, setCompanyname] = useState([]);
+    const[purchase,setPurchase]=useState();
+    const [returnlist, setReturnlist] = useState([]);
+  
+    const[sale,setSale]=useState([]);
+    const handleAddCustomer = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/addstock', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    itemname: itemname,
+                    price: price,
+                    company: company
+                }),
+            });
+
+            if (response.ok) {
+                toast.success('Stock added successfully');
+                setItemname('');
+                setPrice('');
+                setCompany('');
+
+            } else {
+                toast.error('Failed to add stock');
+
+            }
+        } catch (error) {
+            toast.error('Error adding Stock');
+
+        }
+    };
+    useEffect(() => {
+        companynamedetails();
+        getpurchase();
+        getreturn();
+        getsales();
+    }, []);
+    const companynamedetails = async () => {
+        try {
+            const result = await fetch('http://localhost:5000/companyget', {
+
+            });
+            const data = await result.json();
+
+            setCompanyname(data);
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+        }
+    };
+    const getpurchase = async () => {
+        try {
+          const result = await fetch('http://localhost:5000/purchaseget',{
+            
+          });
+          const data = await result.json();
+          
+          const extractedPrices = data.map(item => item.price);
+
+        
+          setPurchase(extractedPrices);
+          console.log(extractedPrices);
+
+        } catch (error) {
+          console.error('Error fetching product data:', error);
+        }
+      };
+      const getsales = async () => {
+        try {
+          const result = await fetch('http://localhost:5000/saleget');
+          const data = await result.json();
+          const extractedsales = data.map(item => item.paid);
+
+        
+          setSale(extractedsales);
+          console.log(extractedsales);
+        } catch (error) {
+          console.error('Error fetching product data:', error);
+        }
+      };
+      const getreturn = async () => {
+        try {
+          const result = await fetch('http://localhost:5000/returnlistget',{
+            
+          });
+          const data = await result.json();
+       
+          setReturnlist(data.quantity);
+        } catch (error) {
+          console.error('Error fetching product data:', error);
+        }};
     return (
         <div>
             <div className="mainpages">
@@ -11,22 +110,26 @@ const Stock = () => {
                         <div class="container text-start mb-4">
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-sm-12">
-                                    <label >Name</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <label >Item Name</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={itemname} onChange={(e) => setItemname(e.target.value)}></input>
                                 </div>
                                 <div class=" col-lg-4 col-md-12 col-sm-12">
-                                    <label>Mobile</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <label>Price</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={price} onChange={(e) => setPrice(e.target.value)}></input>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12">
-                                    <label>Address</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
-                                </div>
+                                    <label>Company</label><br></br>
+                                    <select value={company} onChange={(e) => setCompany(e.target.value)} >
+                                        <option>Select a product</option>
+                                        {companyname.map((item) => (
+                                            <option key={item._id} value={item.name}>{item.name}</option>
+                                        ))}
+                                    </select>                                </div>
                             </div>
 
                         </div>
                         <div className="container text-center mt-4">
-                            <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }}>Add</button>
+                            <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }} onClick={handleAddCustomer}>Add</button>
                         </div>
 
 
@@ -47,8 +150,10 @@ const Stock = () => {
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                 </div>
+                {purchase}
 
             </div>
+            <ToastContainer />
 
 
 

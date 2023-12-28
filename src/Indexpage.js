@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Mainpage from './Mainpage';
@@ -17,12 +17,25 @@ import Catch from './Catch';
 import Sales from './Sales';
 import Product from './Product';
 import Techdashboard from './Techdashboard';
+import Details from './Details';
+import Specific from './Specific'
+import { useNavigate } from 'react-router-dom';
 
 function Indexpage() {
   const [showNav, setShowNav] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+      
+      const hasToken = !!localStorage.getItem('token');
+  
+     
+      if (!hasToken) {
+        navigate('/loginn');
+      }
+    }, [navigate]);
 
   return (
-    <Router>
+    
       <div className={`body-area${showNav ? ' body-pd' : ''}`}>
         <header className={`header${showNav ? ' body-pd' : ''}`}>
           <div className="header_toggle">
@@ -53,61 +66,61 @@ function Indexpage() {
             
             <img src="../logologin.png" style={{width:"100px",height:"100px",textAlign:"center"}} alt="Logo" />
           </div>
-              <Link to="/" className="nav_link">
+              <Link to="/indexpage/mainpage" className="nav_link">
                 <i className="bi bi-people nav_icon" /><span className="nav_name">Home</span>
               </Link>
-              <Link to="/customer" className="nav_link">
+              <Link to="/indexpage/customer" className="nav_link">
                 <i className="bi bi-people nav_icon" /><span className="nav_name">Customer</span>
               </Link>
-              <Link to="/spotsales" className="nav_link">
+              <Link to="/indexpage/spotsales" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Spotsales</span>
               </Link>
-              <Link to="/company" className="nav_link">
+              <Link to="/indexpage/company" className="nav_link">
               <i class="bi bi-building"></i><span className="nav_name">Company</span>
               </Link>
-              <Link to="/employee" className="nav_link">
+              <Link to="/indexpage/employee" className="nav_link">
                 <i className="bi bi-people nav_icon" /><span className="nav_name">Employee</span>
               </Link>
-              <Link to="/product" className="nav_link">
+              <Link to="/indexpage/product" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Product List</span>
               </Link>
-              <Link to="/stock" className="nav_link">
+              <Link to="/indexpage/stock" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Stock</span>
               </Link>
-              <Link to="/sales" className="nav_link">
+              <Link to="/indexpage/sales" className="nav_link">
               <i class="bi bi-receipt"></i><span className="nav_name">Sales</span>
               </Link>
-              <Link to="/return" className="nav_link">
+              <Link to="/indexpage/return" className="nav_link">
                 <i className="bi bi-people nav_icon" /><span className="nav_name">Return</span>
               </Link>
-              <Link to="/purchase" className="nav_link">
+              <Link to="/indexpage/purchase" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Purchase</span>
               </Link>
-              <Link to="/catch" className="nav_link">
+              <Link to="/indexpage/catch" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Catch</span>
               </Link>
              
-              <Link to="/payment" className="nav_link">
+              <Link to="/indexpage/payment" className="nav_link">
               <i class="bi bi-credit-card"></i><span className="nav_name">Payment</span>
               </Link>
-              <Link to="/gheri" className="nav_link">
+              <Link to="/indexpage/gheri" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Gheri-Expenditure List</span>
               </Link>
               
               
-              <Link to="/transaction" className="nav_link">
+              <Link to="/indexpage/transaction" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Transaction</span>
               </Link>
               
-              <Link to="/credit" className="nav_link">
+              <Link to="/indexpage/credit" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Credit-pending List</span>
               </Link>
               
-              <Link to="/tech" className="nav_link">
+              <Link to="/indexpage/tech" className="nav_link">
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Technical Dashboard</span>
               </Link>
             
-              <Link to="/signout" className="nav_link">
+              <Link to="/loginn" className="nav_link">
               <i className="bi bi-box-arrow-left nav_icon" /><span className="nav_name">SignOut</span>
             </Link>
              
@@ -119,7 +132,7 @@ function Indexpage() {
         </div>
         <div className="pt-4 pb-4 mt-4">
           <Routes>
-            <Route path="/" element={<Mainpage />} />
+            <Route path="/mainpage" element={<Mainpage />} />
             <Route path="/customer" element={<Customer />} />
             <Route path="/return" element={<Return />} />
             <Route path="/employee" element={<Employee />} />
@@ -135,10 +148,15 @@ function Indexpage() {
             <Route path="/sales" element={<Sales/>} />
             <Route path="/product" element={<Product/>} />
             <Route path="/tech" element={<Techdashboard/>} />
+            <Route path="details/:_id" element={<Details />} />
+
+            <Route path="/specific/:_id" element={<Specific />} />
+       
+
           </Routes>
         </div>
       </div>
-    </Router>
+   
   );
 }
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 const Payment = () => {
 
@@ -11,8 +15,44 @@ const Payment = () => {
     const [amount, setAmount] = useState();
     const [description, setDescription] = useState([]);
     const [product, setProduct] = useState([]);
+    const [open, setOpen] = useState(false);
+  const [updateItemId, setUpdateItemId] = useState(null);
+  const [employee, setEmployee] = useState([]);
+  const [error, setError] = useState(false)
+
+  const employeenamedetails = async () => {
+    try {
+      const result = await fetch('http://localhost:5000/employeeget',{
+        
+      });
+      const data = await result.json();
+      console.log(data);
+      setEmployee(data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+    setDate('');
+    setCategory('');
+    setEmployeename('');
+    setAmount('');
+    setDescription('');
+          
+  };
 
     const handleAddCustomer = async () => {
+      if(!date || !employeename || !amount  || !category || !description)
+      {
+          setError(true);
+          return false;
+      } 
         try {
             const response = await fetch('http://localhost:5000/addpayment', {
                 method: 'POST',
@@ -31,6 +71,13 @@ const Payment = () => {
 
             if (response.ok) {
                 toast.success('Payment Details added successfully');
+                setDate('');
+    setCategory('');
+    setEmployeename('');
+    setAmount('');
+    setDescription('');
+          
+                getproduct();
             } else {
                 toast.error('Failed to add Payment Details');
             }
@@ -40,6 +87,7 @@ const Payment = () => {
     };
     useEffect(() => {
         getproduct();
+        employeenamedetails();
       }, []);
     
       const getproduct = async () => {
@@ -70,6 +118,63 @@ const Payment = () => {
           console.error('Error deleting product:', error);
         }
       };
+      const productdetails = async (id) => {
+        try {
+    
+          const result = await fetch(`http://localhost:5000/paymentupdateget/${id}`, {
+    
+          });
+    
+    
+          const data = await result.json();
+    
+    
+          console.log(data);
+    
+    setDate(data.date);
+    setCategory(data.category);
+    setEmployeename(data.employeename);
+    setAmount(data.amount);
+    setDescription(data.description);
+          
+         
+    setUpdateItemId(data._id);
+          
+        } catch (error) {
+    
+          console.error('Error fetching product details:', error);
+        }
+      };
+      const handleUpdateCustomer = async () => {
+        console.log(updateItemId);
+        try {
+          const response = await fetch(`http://localhost:5000/paymentupdate/${updateItemId}`, {
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              date: date,
+              category: category,
+              employeename: employeename,
+              amount: amount,
+              description: description,
+
+            }),
+          });
+    
+          if (response.ok) {
+            toast.success('Record updated successfully');
+            handleDrawerClose(); 
+            getproduct(); 
+          } else {
+            toast.error('Failed to update record');
+          }
+        } catch (error) {
+          toast.error('Error updating record');
+        }
+      };
+    
     return (
         <div>
             <div className="mainpages">
@@ -83,6 +188,8 @@ const Payment = () => {
                                     <label >Date</label><br></br>
                                     <input type="Date" style={{ borderRadius: "5px", padding: "3px" }} value={date}
                                         onChange={(e) => setDate(e.target.value)}></input>
+                                                          {error && !date &&  <span className="error">Enter Date</span>}
+
                                 </div>
                                 <div class=" col">
                                     <label>Catagory</label><br></br>
@@ -92,23 +199,40 @@ const Payment = () => {
                                         <option value="salry">Salary</option>
                                         <option value="others">Others</option>
                                         
-                                    </select>
+                                    </select><br>
+                                    
+                                    
+                                    
+                                    
+                                    </br>
+                                    {error && !category &&  <span className="error">Enter Category</span>}
+
 
                                 </div>
                                 <div class="col">
                                     <label>Employee Name</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }} value={employeename}
-                                        onChange={(e) => setEmployeename(e.target.value)}></input>
+                                    <select  value={employeename} onChange={(e) => setEmployeename(e.target.value)} >
+                                        <option>Select a product</option>
+                                        {employee.map((item) => (
+                                            <option key={item._id} value={item.name}>{item.name}</option>
+                                        ))}
+                                    </select>
+                                    {error && !employeename &&  <span className="error">Enter Employee Name</span>}
+
                                 </div>
                                 <div class="col">
                                     <label >Amount</label><br></br>
                                     <input type="text" style={{ borderRadius: "5px" }} value={amount}
                                         onChange={(e) => setAmount(e.target.value)}></input>
+                                                          {error && !amount &&  <span className="error">Enter Amount</span>}
+
                                 </div>
                                 <div class=" col">
                                     <label>Description</label><br></br>
                                     <input type="text" style={{ borderRadius: "5px" }} value={description}
                                         onChange={(e) => setDescription(e.target.value)}></input>
+                                                          {error && !description &&  <span className="error">Enter Description</span>}
+
                                 </div>
 
 
@@ -145,7 +269,7 @@ const Payment = () => {
               <td>{item.amount}</td>
               <td>{item.description}</td>
               <td>
-              <button className='btn btn-primary'style={{marginRight:"5px"}}>Edit</button>
+              <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
             </tr>
@@ -154,6 +278,51 @@ const Payment = () => {
     </tbody>
   </table>
              </div>
+             <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 , marginLeft:"50px"} }}>
+          <List>
+            <ListItem button onClick={handleDrawerClose}>
+              <ListItemText primary="Close" />
+
+            </ListItem>
+            <div class="col">
+                                    <label >Date</label><br></br>
+                                    <input type="Date" style={{ borderRadius: "5px", padding: "3px" }} value={date}
+                                        onChange={(e) => setDate(e.target.value)}></input>
+                                </div>
+                                <div class=" col">
+                                    <label>Catagory</label><br></br>
+                                    <select name="Category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                    <option value="Select">Select Category</option>
+
+                                        <option value="salry">Salary</option>
+                                        <option value="others">Others</option>
+                                        
+                                    </select>
+
+                                </div>
+                                <div class="col">
+                                    <label>Employee Name</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={employeename}
+                                        onChange={(e) => setEmployeename(e.target.value)}></input>
+                                </div>
+                                <div class="col">
+                                    <label >Amount</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={amount}
+                                        onChange={(e) => setAmount(e.target.value)}></input>
+                                </div>
+                                <div class=" col">
+                                    <label>Description</label><br></br>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={description}
+                                        onChange={(e) => setDescription(e.target.value)}></input>
+                                </div>
+
+
+          
+            <div>
+              <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
+          </List>
+        </Drawer>
 
             </div>
             <ToastContainer />
