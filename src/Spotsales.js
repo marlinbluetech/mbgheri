@@ -9,7 +9,7 @@ const Spotsales = () => {
     const [quantity, setQuantity] = useState();
     const [discount, setDiscount] = useState([]);
     const [product, setProduct] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
+    
     const [productlist, setProductlist] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState('');
     const [selectedProductPrice, setSelectedProductPrice] = useState('');

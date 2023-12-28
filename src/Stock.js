@@ -6,7 +6,7 @@ const Stock = () => {
     const [itemname, setItemname] = useState();
     const [price, setPrice] = useState();
     const [company, setCompany] = useState();
-    const [product, setProduct] = useState([]);
+   
     const [companyname, setCompanyname] = useState([]);
     const[purchase,setPurchase]=useState();
     const [returnlist, setReturnlist] = useState([]);
