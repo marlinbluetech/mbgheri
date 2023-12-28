@@ -737,9 +737,10 @@ app.post('/spotsale', async (req, res) => {
   });
   app.post('/spotsalesecond', async (req, res) => {
     try {
-      const {date,customer,mobile, selectedOption,mrp, quantity, discount} = req.body;
+      const {billno,date,customer,mobile, selectedOption,mrp, quantity, discount} = req.body;
   
       const result = new spotsalesecond({
+        billno,
        date,
        customer,
        mobile,

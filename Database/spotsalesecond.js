@@ -1,6 +1,8 @@
 const mongoose=require('mongoose');
 const Productschema=new mongoose.Schema({
+    billno:String,
     date:String,
+
     customer:String,
     mobile:String,
 
