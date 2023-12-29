@@ -62,6 +62,9 @@ const Loginn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
+          <Link to="/confirm" className='text-center mt-4 link'>
+            Forgot Password
+            </Link>
           <button className='signbtn mt-3' type="submit">Login</button>
           <Link to="/" className='text-center mt-4 link'>
             No Account

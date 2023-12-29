@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter as Router, Route, Routes, Link,useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Details from './Details';
+
 
 
 
@@ -185,7 +185,7 @@ const Customer = () => {
                     onChange={(e) => setMobile(e.target.value)}
                     style={{ borderRadius: "5px" }}
                   />
-                                                        {error && !mobile  && mobile!=10 &&  <span className="error">Enter valid Number</span>}
+                                                        {error && !mobile  && mobile!==10 &&  <span className="error">Enter valid Number</span>}
 
                 </div>
                 <div className="col-lg-4 col-md-12 col-sm-12">

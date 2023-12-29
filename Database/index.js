@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('./config');
-
+const bcrypt = require('bcrypt');
 const product = require('./product');
 const productlist = require('./productlist');
 const company = require('./company');
@@ -932,9 +932,18 @@ app.get('/customer/:customerId', async (req, res) => {
 
 });
 
+
 app.post("/create", async (req, resp) => {
-    let data = new signuser(req.body);
-    let user = await data.save();
+    let {name,mobile,email,password} = new signuser(req.body);
+    const hashedPassword = await bcrypt.hash(password, 10);
+   
+    const users = new signuser({
+        name:name,
+        email:email,
+        mobile: mobile,
+        password: hashedPassword,
+      });
+      let user = await users.save();
     console.log(user);
     jwt.sign({ user }, jwtkey, { expiresIn: "8h" }, (err,token) => {
         if(err){
@@ -946,31 +955,74 @@ app.post("/create", async (req, resp) => {
     })
 
 });
-app.post("/login", async (req, resp) => {
+app.post('/login', async (req, res) => {
     try {
-        if (req.body.password && req.body.mobile) {
-            let user = await signuser.findOne(req.body).select("-password");
-
-            if (user !== null) {
-                jwt.sign({ user }, jwtkey, { expiresIn: "8h" }, (err,token) => {
-                    if(err){
-                        resp.send("not found");
-                    }else{
-                        resp.send({user,auth:token});
-                    }
-
-                })
-                
-            } else {
-
-                resp.send("not found");
-            }
-        }
+      const { mobile, password } = req.body;
+ 
+      const user = await signuser.findOne({ mobile });
+  
+      if (!user) {
+        return res.status(401).json({ success: false, message: 'Invalid mobile number or password' });
+      }
+  
+    
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!passwordMatch) {
+        return res.status(401).json({ success: false, message: 'Invalid mobile number or password' });
+      }
+  
+     
+      const token = jwt.sign({ user }, jwtkey, { expiresIn: '8h' });
+  
+      res.status(200).json({ success: true, auth: token });
     } catch (error) {
-        console.error('Error processing login:', error);
-        resp.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error processing login:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
     }
-});
+  });
+  app.post("/forgot-password", async (req, res) => {
+    try {
+      const { mobile, newPassword, confirmPassword } = req.body;
+  
+      if (!mobile || !newPassword || !confirmPassword) {
+        return res.status(400).json({ success: false, message: "Invalid input. Please provide mobile, newPassword, and confirmPassword." });
+      }
+  
+      const mobileNumber = parseInt(mobile, 10);
+  
+      if (isNaN(mobileNumber) || !Number.isInteger(mobileNumber)) {
+        console.error('Invalid mobile number:', mobile);
+        return res.status(400).json({ success: false, message: 'Invalid mobile number.' });
+      }
+  
+      const user = await signuser.findOne({ mobile: mobileNumber });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found." });
+      }
+  
+    
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({ success: false, message: "Passwords do not match." });
+      }
+  
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+  
+      jwt.sign({ user }, jwtkey, { expiresIn: "8h" }, (err, token) => {
+        if (err) {
+          console.error('Error signing JWT:', err);
+          return res.status(500).json({ success: false, message: "Internal server error." });
+        }
+        res.status(200).json({ success: true, auth: token });
+      });
+    } catch (error) {
+      console.error('Error processing forgot password:', error);
+      res.status(500).json({ success: false, message: "Internal server error." });
+    }
+  });
 function verifytoken(req,resp,next){
    
     let token=req.headers['authorization'];
