@@ -53,22 +53,37 @@ const Specific = () => {
   const getdiscountdetails = async () => {
     try {
       const result = await fetch('http://localhost:5000/extradiscountget');
-      const data = await result.json();
+      const dataArray = await result.json();
   
-      const apiId = data.id;
-      console("dataid:",data.id);
-      const expectedId = '_id';
-  console("expid:",expectedId);
-      if (apiId === expectedId) {
-        console.log(data);
-        setDiscount(data);
-      } else {
-        console.log('IDs do not match. Data will not be displayed.');
-      }
+      console.log('Received data:', dataArray);
+  
+
+      const matchingObject = dataArray.find(item => item.slno === _id);
+  
+      
+      if (matchingObject) {
+        const apiId = matchingObject.slno;
+  
+        console.log('apiId:', apiId, typeof apiId);
+        console.log('expectedId:', _id, typeof _id);
+  
+       
+        if (apiId !== undefined && _id !== undefined) {
+          if (apiId === _id) {
+            setDiscount( dataArray);
+          } else {
+            console.log('IDs do not match. Data will not be displayed.');
+          }
+        } 
+      } 
     } catch (error) {
-      console.error('Error fetching product data:', error);
+      console.error('Error fetching discount data:', error);
     }
   };
+  
+  
+  
+  
   
   
   return (
@@ -152,6 +167,7 @@ const Specific = () => {
     </tbody>
   </table>
         </div>
+        <h2 className='text-center'>Extra Discount</h2>
         <div className='container table-container'>
         <table className='table table-bordered table-striped'>
     <thead>

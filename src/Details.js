@@ -14,6 +14,12 @@ const Details = () => {
     const[product,setProduct]=useState([]);
     const[season,setSeason]=useState('');
     const[discount,setDiscount]=useState('');
+    const[date,setDate]=useState('');
+    const[cashflow,setCashflow]=useState('');
+    const[seasons,setSeasons]=useState('');
+    const[amount,setAmount]=useState('');
+    const[remark,setRemark]=useState('');
+    const[payment,setPayment]=useState([]);
     const { _id } = useParams();
     const productdetails = async () => {
         try {
@@ -33,6 +39,7 @@ const Details = () => {
         companynamedetails();
         categorynamedetails();
         getproduct();
+        getpaymentdetails();
      
       }, []); 
    
@@ -46,7 +53,7 @@ try {
          
         },
         body: JSON.stringify({
-            id:_id,
+            slno:_id,
          category:category,
          company:company,
          season:season,
@@ -71,6 +78,56 @@ setDiscount('');
       console.error( error);
     }
   };
+  const addpayment = async () => {
+    try {
+          const response = await fetch('http://localhost:5000/adddpaymenthistory', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+             
+            },
+            body: JSON.stringify({
+                slno:_id,
+             date:date,
+             amount:amount,
+             seasons:season,
+             cashflow:cashflow,
+             remark:remark
+            }),
+          });
+    
+          if (response.ok) {
+            toast.success('Discount added successfully');
+          getpaymentdetails();
+    
+           
+          } else {
+            toast.error('Failed to add Discount');
+    
+            
+          }
+        } catch (error) {
+          console.error( error);
+        }
+      };
+      const getpaymentdetails = async () => {
+        try {
+            const result = await fetch('http://localhost:5000/paymenthistoryget');
+            const dataArray = await result.json();
+        
+            console.log('Received data:', dataArray);
+        
+            const matchingObjects = dataArray.filter(item => item.slno === _id);
+        
+            if (matchingObjects.length > 0) {
+              setProduct(matchingObjects);
+            } else {
+              console.log('No matching IDs found. Data will not be displayed.');
+            }
+          } catch (error) {
+            console.error('Error fetching discount data:', error);
+          }
+      };
 
   const companynamedetails = async () => {
     try {
@@ -98,16 +155,23 @@ setDiscount('');
   };
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/extradiscountget', {
-
-      });
-      const data = await result.json();
-      console.log(data);
-      setProduct(data);
+      const result = await fetch('http://localhost:5000/extradiscountget');
+      const dataArray = await result.json();
+  
+      console.log('Received data:', dataArray);
+  
+      const matchingObjects = dataArray.filter(item => item.slno === _id);
+  
+      if (matchingObjects.length > 0) {
+        setProduct(matchingObjects);
+      } else {
+        console.log('No matching IDs found. Data will not be displayed.');
+      }
     } catch (error) {
-      console.error('Error fetching product data:', error);
+      console.error('Error fetching discount data:', error);
     }
   };
+  
   return (
     <div>
      <div className='mainpages'>
@@ -130,37 +194,81 @@ setDiscount('');
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label >Payment Date</label><br></br>
-                                    <input type="date" style={{ borderRadius: "5px" }}></input>
+                                    <input type="date" style={{ borderRadius: "5px" }} value={date} onChange={(e) => setDate(e.target.value)}></input>
                                 </div>
                                 <div class=" col-lg-4 col-md-12 col-sm-12">
+                                   
                                     <label>Season</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <select value={seasons}
+                    onChange={(e) => setSeasons(e.target.value)}>
+                    <option value="s1">s1</option>
+                    <option value="s2">s2</option>
+                    <option value="s3">s3</option>
+                    <option value="s4">s4</option>
+                    <option value="s5">s5</option>
+                    <option value="s6">s6</option>
+                    <option value="s7">s7</option>
+                    <option value="s8">s8</option>
+                    <option value="s9">s9</option>
+                    <option value="s10">s10</option>
+                    <option value="s11">s11</option>
+                    <option value="s12">s11</option>
+
+                  </select>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label>Amount</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={amount} onChange={(e) => setAmount(e.target.value)}></input>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label>Casflow</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={cashflow} onChange={(e) => setCashflow(e.target.value)}></input>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label>Remark</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }}></input>
+                                    <input type="text" style={{ borderRadius: "5px" }} value={remark} onChange={(e) => setRemark(e.target.value)}></input>
                                 </div>
                             </div>
 
                         </div>
                         <div className="container text-center mt-4">
-                            <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }}>Add</button>
+                            <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }} onClick={addpayment}>Add</button>
                         </div>
 
 
 
                     </div>
+                    
                 </div>
                 
-
+                <div className='container table-container'>
+        <table className='table table-bordered table-striped'>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Date</th>
+        <th>Season</th>
+        <th>cashflow</th>
+        <th>Amount</th>
+        <th>Remark</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {payment.map((item, index) => (
+            <tr key={item._id} >
+              <td>{index+1}</td>
+           <td>{item.date}</td>
+           <td>{item.season}</td>
+           <td>{item.cashflow}</td>
+           <td>{item.amount}</td>
+           <td>{item.remark}</td>
+            </tr>
+          ))}
+      
+    </tbody>
+  </table>
+        </div>
             </div>  
             <h4 className="text-center mt-5">Extra Discount To Customer</h4>
             <div className="">
@@ -224,6 +332,7 @@ setDiscount('');
 
 
                     </div>
+                   
                 </div>
                 
 

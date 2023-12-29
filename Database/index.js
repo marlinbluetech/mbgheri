@@ -16,7 +16,7 @@ const spotsalefirst=require('./spotsalefirst');
 const stock=require('./stock');
 const signuser=require('./signuser');
 const { ObjectId } = require('mongodb');
-
+const paymenthistory=require('./paymenthistory');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const jwtkey = 'marlintech';
@@ -737,7 +737,7 @@ app.post('/spotsale', async (req, res) => {
   });
   app.post('/spotsalesecond', async (req, res) => {
     try {
-      const {billno,date,customer,mobile, selectedOption,mrp, quantity, discount} = req.body;
+      const {billno,date,customer,mobile, selectedOption,mrp, quantity, discount,balance} = req.body;
   
       const result = new spotsalesecond({
         billno,
@@ -747,7 +747,8 @@ app.post('/spotsale', async (req, res) => {
         selectedOption,
         mrp,
         quantity,
-        discount
+        discount,
+     balance
       });
   
       await result.save();
@@ -1051,6 +1052,20 @@ app.post("/adddiscount",  async (req, resp) => {
 app.get("/extradiscountget",  async (req, resp) => {
 
     let result = await extradiscount.find();
+    console.log(result);
+    resp.send(result);
+
+});
+app.post("/adddpaymenthistory",  async (req, resp) => {
+    let data = new paymenthistory(req.body);
+    let result = await data.save();
+    console.log(result);
+    resp.send(result);
+
+});
+app.get("/paymenthistoryget",  async (req, resp) => {
+
+    let result = await paymenthistory.find();
     console.log(result);
     resp.send(result);
 

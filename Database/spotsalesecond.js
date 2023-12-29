@@ -22,6 +22,7 @@ const Productschema=new mongoose.Schema({
         type: Number,
     
       },
+      balance:Number
 
  
 })

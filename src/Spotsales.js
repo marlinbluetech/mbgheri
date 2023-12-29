@@ -14,15 +14,25 @@ const Spotsales = () => {
     const [selectedProduct, setSelectedProduct] = useState('');
     const [selectedProductPrice, setSelectedProductPrice] = useState('');
     const [localData, setLocalData] = useState([]);
-  
+  const[paiditem,setPaiditem]=useState('');
+  const[price,setPrice]=useState('')
 
 
-    const calculateTotalPrice = () => {
-        return localData.reduce((total, data) => {
-          const productTotal = data.mrp * data.quantity * (100 - data.discount) / 100;
-          return total + productTotal;
-        }, 0).toFixed(2);
-      };
+  const calculateTotalPrice = () => {
+    const newTotalPrice = localData.reduce((total, data) => {
+      const productTotal = data.mrp * data.quantity * (100 - data.discount) / 100;
+      return total + productTotal;
+    }, 0).toFixed(2);
+
+    // Update the state with the new total price
+    setPrice(newTotalPrice);
+  }
+
+  // Call calculateTotalPrice when the component mounts or when localData changes
+  React.useEffect(() => {
+    calculateTotalPrice();
+  }, [localData]);
+
       
 
     const searchprod = async (e) => {
@@ -84,37 +94,54 @@ const Spotsales = () => {
         setLocalData(storedData);
     }, []);
     
-    const handleCheckout = async () => {
+    const generateBillNo = () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = currentDate.getDate().toString().padStart(2, '0');
+        // const hours = currentDate.getHours().toString().padStart(2, '0');
+        // const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+
+
+         const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+        const billno = `MB${year}${month}${day}${seconds}`;
+        return billno;
+      };
+      
+      const handleCheckout = async () => {
         try {
-          
           for (const entry of localData) {
+            const billno = generateBillNo();
+      const balance=price-paiditem;
             const response = await fetch('http://localhost:5000/spotsalesecond', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(entry),
+              body: JSON.stringify({ ...entry, billno,balance}),
             });
       
             if (!response.ok) {
               console.error('Error adding product to the database:', response.status);
-             
+              setPaiditem('');
+              setCustomer('');
+              setDate('');
+              setMobile('');
+              setSelectedOption('');
             }
           }
       
-         
           localStorage.removeItem('inputData');
           setLocalData([]);
           getproduct();
-      
-         
         } catch (error) {
           console.error('Error during checkout:', error);
           alert('An error occurred during checkout. Please try again later.');
         }
       };
       
-    
       
       
     
@@ -316,9 +343,9 @@ const Spotsales = () => {
 
                         <div className='mt-4'style={{display:"flex",columnGap:"30px",flexWrap:"wrap"}}>
 
-                        <h3>Total Price: {calculateTotalPrice()}</h3>
+                        <h3>Total Price: {price}</h3>
                             <h3>Paid</h3>
-                            <input type="text">
+                            <input type="text" value={paiditem} onChange={(e) => setPaiditem(e.target.value)}>
 
                             </input>
                             <button className='btn btn-success' onClick={handleCheckout}>Check Out</button>
@@ -354,7 +381,7 @@ const Spotsales = () => {
                         {product.map((item, index) => (
                             <tr key={item._id} >
                                 <td>{index + 1}</td>
-                                <td></td>
+                                <td>{item.billno}</td>
                                 <td>  {item.date}</td>
                                 <td>  {item.customer}</td>
                                 <td>  {item.mobile}</td>

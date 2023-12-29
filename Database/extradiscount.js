@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const Productschema=new mongoose.Schema({
-    id:String,
+  slno:String,
     category:String,
     company:String,
     season:String,
