@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const Productschema=new mongoose.Schema({
+  billno:String,
     date:String,
     customer:String,
     season:String,
@@ -13,7 +14,7 @@ const Productschema=new mongoose.Schema({
         type: Number,
       
       },
-      paid: {
+      paiditem: {
         type: Number,
     
       },

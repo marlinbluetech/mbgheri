@@ -7,21 +7,38 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 const Purchase = () => {
+ 
     const[date,setDate]=useState();
     const[itemname,setItemname]=useState();
     const[company,setCompany]=useState();
-
-    const[quantity,setQuantity]=useState();
+     const[quantity,setQuantity]=useState();
     const[price,setPrice]=useState();
     const[category,setCategory]=useState();
     const [paid, setPaid] = useState([]);
      const [product, setProduct] = useState([]);
      const [open, setOpen] = useState(false);
      const [error, setError] = useState(false)
-
-  const [updateItemId, setUpdateItemId] = useState(null);
+   const [updateItemId, setUpdateItemId] = useState(null);
   const[itemdeatils,setItemdeatils]=useState([]);
   const[companydeatils,setCompanydeatils]=useState([]);
+  const [totalPaid, setTotalPaid] = useState(0);
+  const[remaining,setRemaining]=useState(0);
+  useEffect(() => {
+    
+    let calculatedTotalPaid = 0;
+    product.forEach((item) => {
+      calculatedTotalPaid += item.paid;
+    });
+    setTotalPaid(calculatedTotalPaid);
+  }, [product]);
+  useEffect(() => {
+    
+    let calculatedTotalremain = 0;
+    product.forEach((item) => {
+      calculatedTotalremain += item.quantity*item.price-item.paid;
+    });
+    setRemaining(calculatedTotalremain);
+  }, [product]);
   const companynamedetails = async () => {
     try {
       const result = await fetch('http://localhost:5000/companyget', {
@@ -127,7 +144,7 @@ const Purchase = () => {
         if (response.ok) {
           toast.success('Purchase Details added successfully');
   
-          console.log('Customer added successfully');
+         getproduct();
         } else {
           toast.error('Failed to add Purchase Details');
   
@@ -188,13 +205,9 @@ const Purchase = () => {
     setCategory(data.category);
     setPaid(data.paid);
     setUpdateItemId(data._id);
-   
-    
+
           console.log(data);
     
-    
-        
-        
         } catch (error) {
     
           console.error('Error fetching product details:', error);
@@ -279,6 +292,8 @@ const Purchase = () => {
 
                     </div>
                 </div>
+                <h5>Total Paid: {totalPaid}</h5>
+                <h5>Balance:{remaining}</h5>
                 <div className='container table-container'>
              <table className='table table-bordered table-striped'>
     <thead>
@@ -292,28 +307,46 @@ const Purchase = () => {
         <th>Price/Unit</th>
         <th>Category</th>
         <th>Paid</th>
+        <th>Balance</th>
         <th>Operation</th>
       </tr>
     </thead>
     <tbody>
-    {product.map((item, index) => (
-            <tr key={item._id} >
-              <td>{index+1}</td>
-              <td>{item.date}</td>
-              <td>{item.itemname}</td>
-              <td>{item.company}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price}</td>
-              <td>{item.category}</td>
-              <td>{item.paid}</td>
-   
-              <td>
-              <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
-
-                <button className='btn btn-danger' onClick={()=>deleteproduct(item._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
+    {product.map((item, index) => {
+          //  const remaining = item.quantity * item.price - item.paid;
+     
+            return (
+              <tr key={item._id}>
+                <td>{index + 1}</td>
+                <td>{item.date}</td>
+                <td>{item.itemname}</td>
+                <td>{item.company}</td>
+                <td>{item.quantity}</td>
+                <td>{item.price}</td>
+                <td>{item.category}</td>
+                <td>{item.paid}</td>
+                <td>{remaining}</td>
+                <td>
+                  <button
+                    className='btn btn-primary'
+                    style={{ marginRight: "5px" }}
+                    onClick={() => {
+                      handleDrawerOpen();
+                      productdetails(item._id);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className='btn btn-danger'
+                    onClick={() => deleteproduct(item._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
       
     </tbody>
   </table>

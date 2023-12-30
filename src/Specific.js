@@ -7,10 +7,12 @@ const Specific = () => {
   const[name,setName]=useState();
   const[mobile,setMobile]=useState();
   const[address,setAddress]=useState();
-  
+  const[payment,setPayment]=useState([]);
   const [customerData, setCustomerData] = useState(null);
   const [catchData, setCatchData] = useState(null)
   const[discount,setDiscount]=useState([]);
+  const [gheridata, setGheridata] = useState([]);
+
   const productdetails = async () => {
     try {
       const result = await fetch(`http://localhost:5000/customerupdateget/${_id}`);
@@ -44,12 +46,44 @@ const Specific = () => {
       console.error('Error fetching product data:', error);
     }
   };
+  const getgheridetails = async () => {
+    try {
+      const result = await fetch(`http://localhost:5000/gheriexpenditure/${_id}`);
+      const data = await result.json();
+      console.log(data); 
+      setGheridata(data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
+  
   useEffect(() => {
     productdetails();
     getproduct();
     getcatchproduct();
     getdiscountdetails();
+    getpaymentdetails();
+    getgheridetails();
   }, []); 
+  const getpaymentdetails = async () => {
+    try {
+        const result = await fetch('http://localhost:5000/paymenthistoryget');
+        const getdataArray = await result.json();
+    
+        console.log('Received data:', getdataArray);
+    
+        const matchingObjectid = getdataArray.filter(item => item.slno === _id);
+    
+        if (matchingObjectid.length > 0) {
+          setPayment(matchingObjectid);
+        } else {
+          console.log('No matching IDs found. Data will not be displayed.');
+        }
+      } catch (error) {
+        console.error('Error fetching discount data:', error);
+      }
+  };
+
   const getdiscountdetails = async () => {
     try {
       const result = await fetch('http://localhost:5000/extradiscountget');
@@ -57,36 +91,18 @@ const Specific = () => {
   
       console.log('Received data:', dataArray);
   
-
-      const matchingObject = dataArray.find(item => item.slno === _id);
+      const matchingObjects = dataArray.filter(item => item.slno === _id);
   
-      
-      if (matchingObject) {
-        const apiId = matchingObject.slno;
-  
-        console.log('apiId:', apiId, typeof apiId);
-        console.log('expectedId:', _id, typeof _id);
-  
-       
-        if (apiId !== undefined && _id !== undefined) {
-          if (apiId === _id) {
-            setDiscount( dataArray);
-          } else {
-            console.log('IDs do not match. Data will not be displayed.');
-          }
-        } 
-      } 
+      if (matchingObjects.length > 0) {
+        setDiscount(matchingObjects);
+      } else {
+        console.log('No matching IDs found. Data will not be displayed.');
+      }
     } catch (error) {
       console.error('Error fetching discount data:', error);
     }
   };
-  
-  
-  
-  
-  
-  
-  return (
+ return (
     <div>
      <h3>Name:{name}</h3> 
     <h3>Mobile:{mobile}</h3>
@@ -194,8 +210,63 @@ const Specific = () => {
     </tbody>
   </table>
         </div>
+        <h3 className='text-center'>Payment</h3>
+        <div className='container table-container'>
+        <table className='table table-bordered table-striped'>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+       <th>Date</th>
+       <th>Amount</th>
+       <th>Remark</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {payment.map((item, index) => (
+            <tr key={item._id} >
+              <td>{index+1}</td>
+           <td>{item.date}</td>
+           <td>{item.amount}</td>
+           <td>{item.remark}</td>
+           
+            </tr>
+          ))}
       
-    </div>
+    </tbody>
+  </table>
+        </div>
+       
+<h2 className='text-center'>Gheri Details</h2>
+<div className='container table-container'>
+  <table className='table table-bordered table-striped'>
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Name</th>
+        <th>Purpose</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+    {gheridata && gheridata.customer && gheridata.gheridetails && (
+  <tr>
+    {gheridata.gheridetails.map((item, index) => (
+      <React.Fragment key={index}>
+        <td>{index+1}</td>
+       
+       <td>{item.name}</td>
+       <td>{item.purpose}</td>
+       <td>{item.amount}</td>
+      </React.Fragment>
+    ))}
+  </tr>
+)}
+
+    </tbody>
+  </table>
+</div>
+</div>
 
   );
 };

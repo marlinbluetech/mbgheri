@@ -1,10 +1,11 @@
 const mongoose=require('mongoose');
 const Productschema=new mongoose.Schema({
+    billno:String,
     date:String,
     customer:String,
-    mobile:String,
+   balance:Number,
 
   
  
 })
-module.exports =mongoose.model('spotsalefirst',Productschema,'spotsalefirst');
+module.exports =mongoose.model('spotsale',Productschema,'spotsale');

@@ -24,11 +24,11 @@ const Spotsales = () => {
       return total + productTotal;
     }, 0).toFixed(2);
 
-    // Update the state with the new total price
+    
     setPrice(newTotalPrice);
   }
 
-  // Call calculateTotalPrice when the component mounts or when localData changes
+ 
   React.useEffect(() => {
     calculateTotalPrice();
   }, [localData]);
@@ -54,10 +54,6 @@ const Spotsales = () => {
     const handleAddCustomer = async () => {
         try {
            
-    
-         
-                
-    
                 setSelectedOption('');
                 setQuantity('');
                 setMrp('');
@@ -99,10 +95,7 @@ const Spotsales = () => {
         const year = currentDate.getFullYear();
         const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
         const day = currentDate.getDate().toString().padStart(2, '0');
-        // const hours = currentDate.getHours().toString().padStart(2, '0');
-        // const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-
-
+        
 
          const seconds = currentDate.getSeconds().toString().padStart(2, '0');
 
@@ -125,12 +118,49 @@ const Spotsales = () => {
       
             if (!response.ok) {
               console.error('Error adding product to the database:', response.status);
-              setPaiditem('');
-              setCustomer('');
-              setDate('');
-              setMobile('');
-              setSelectedOption('');
+             
             }
+          }
+          setPaiditem('');
+          setCustomer('');
+          setDate('');
+          setMobile('');
+          setSelectedOption('');
+          localStorage.removeItem('inputData');
+          setLocalData([]);
+          getproduct();
+        } catch (error) {
+          console.error('Error during checkout:', error);
+          alert('An error occurred during checkout. Please try again later.');
+        }
+      };
+      
+      const handleCheckouts = async () => {
+        try {
+          const entry = localData[0];
+      
+          if (!entry) {
+            console.error('No data to post.');
+            return;
+          }
+      
+          const billno = generateBillNo();
+          const balance = price - paiditem;
+      
+          const { date,customer,} = entry; 
+      
+          const response = await fetch('http://localhost:5000/spotsale', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ date, customer, billno, balance }), 
+          });
+      
+          if (!response.ok) {
+            console.error('Error adding product to the database:', response.status);
+          
+           
           }
       
           localStorage.removeItem('inputData');
@@ -141,7 +171,6 @@ const Spotsales = () => {
           alert('An error occurred during checkout. Please try again later.');
         }
       };
-      
       
       
     
@@ -348,7 +377,16 @@ const Spotsales = () => {
                             <input type="text" value={paiditem} onChange={(e) => setPaiditem(e.target.value)}>
 
                             </input>
-                            <button className='btn btn-success' onClick={handleCheckout}>Check Out</button>
+                            <button
+                    className='btn btn-primary'
+                    style={{ marginRight: "5px" }}
+                    onClick={() => {
+                      handleCheckout();
+                     handleCheckouts();
+                    }}
+                  >
+                    ckeck out
+                  </button>
 
 
                         </div>

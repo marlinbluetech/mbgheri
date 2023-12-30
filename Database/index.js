@@ -12,7 +12,7 @@ const returnlist = require('./returnlist');
 const purchase = require('./purchase');
 const gheriexpenditure = require('./gheriexpenditure');
 const catchs = require('./catchs');
-const spotsalefirst=require('./spotsalefirst');
+const spotsale=require('./spotsale');
 const stock=require('./stock');
 const signuser=require('./signuser');
 const { ObjectId } = require('mongodb');
@@ -718,13 +718,13 @@ app.get("/customer/:name",  async (req, resp) => {
 
 app.post('/spotsale', async (req, res) => {
     try {
-      const {date,customer,mobile} = req.body;
+      const {billno,date,customer,balance} = req.body;
   
-      const result = new spotsalefirst({
+      const result = new spotsale({
+        billno,
         date,
         customer,
-        mobile,
-        
+      balance
       });
   
       await result.save();
@@ -775,16 +775,17 @@ app.get("/spotsalesecondget",  async (req, resp) => {
 });
 app.post('/saleadd', async (req, res) => {
     try {
-      const {date,customer,season, selectedOption, quantity, paid} = req.body;
+      const { billno,date,customer,season, selectedOption, quantity,paiditem} = req.body;
   
       const result = new sales({
+        billno,
         date,
         customer,
        season,
         selectedOption,
       
         quantity,
-      paid
+      paiditem
       });
   
       await result.save();
@@ -925,6 +926,25 @@ app.get('/customer/:customerId', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+  app.get('/gheriexpenditure/:userId', async (req, res) => {
+    try {
+        const userId = new mongoose.Types.ObjectId(req.params.userId);
+  
+      const customer = await product.findById(userId);
+  
+      if (!customer) {
+        return res.status(404).json({ message: 'Customer not found' });
+      }
+  
+     
+      const gheridetails = await gheriexpenditure.find({ name: customer.name });
+  
+      res.json({ customer, gheridetails});
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
   app.get("/saleget",  async (req, resp) => {
 
     let result = await salefirst.find();
@@ -976,9 +996,9 @@ app.post('/login', async (req, res) => {
      
       const token = jwt.sign({ user }, jwtkey, { expiresIn: '8h' });
   
-      res.status(200).json({ success: true, auth: token });
+      res.send({user,auth:token});
     } catch (error) {
-      console.error('Error processing login:', error);
+     
       res.status(500).json({ success: false, message: 'Internal server error' });
     }
   });

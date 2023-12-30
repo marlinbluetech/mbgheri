@@ -6,9 +6,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-
-
-
 const Gheri = () => {
 
   const [date, setDate] = useState();
@@ -19,7 +16,7 @@ const Gheri = () => {
   const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [updateItemId, setUpdateItemId] = useState(null);
-  const[customer,setCustomer]=useState([]);
+  const [customer, setCustomer] = useState([]);
   const customernamedetails = async () => {
     try {
       const result = await fetch('http://localhost:5000/userget', {
@@ -65,12 +62,12 @@ const Gheri = () => {
 
       if (response.ok) {
         toast.success('Employee added successfully');
-       
-      setDate('');
-      setName('');
-      setSeason('');
-      setAmount('');
-      setPurpose('');
+
+        setDate('');
+        setName('');
+        setSeason('');
+        setAmount('');
+        setPurpose('');
 
       } else {
         toast.error('Failed to add Employee');
@@ -133,19 +130,19 @@ const Gheri = () => {
       setSeason(data.season);
       setAmount(data.amount);
       setPurpose(data.purpose);
-      setUpdateItemId(data._id); 
+      setUpdateItemId(data._id);
     } catch (error) {
 
       console.error('Error fetching product details:', error);
     }
   };
 
-  
+
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
       const response = await fetch(`http://localhost:5000/gheriexpenditureupdate/${updateItemId}`, {
-        method: 'PUT', 
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -160,8 +157,8 @@ const Gheri = () => {
 
       if (response.ok) {
         toast.success('Record updated successfully');
-        handleDrawerClose(); 
-        getproduct(); 
+        handleDrawerClose();
+        getproduct();
       } else {
         toast.error('Failed to update record');
       }
@@ -188,12 +185,12 @@ const Gheri = () => {
                 </div>
                 <div class=" col">
                   <label>Customer Name</label><br></br>
-                  <select  value={name} onChange={(e) => setName(e.target.value)} >
-                                        <option>Select a product</option>
-                                        {customer.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
-                                        ))}
-                                    </select>
+                  <select value={name} onChange={(e) => setName(e.target.value)} >
+                    <option>Select a product</option>
+                    {customer.map((item) => (
+                      <option key={item._id} value={item.name}>{item.name}</option>
+                    ))}
+                  </select>
                 </div>
                 <div class="col">
                   <label>Season</label><br></br>
@@ -317,7 +314,7 @@ const Gheri = () => {
             <div>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
             </div>
-           
+
           </List>
         </Drawer>
 
@@ -325,6 +322,6 @@ const Gheri = () => {
       <ToastContainer />
     </div>
   )
-              }
-  
+}
+
 export default Gheri

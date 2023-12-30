@@ -90,7 +90,7 @@ setDiscount('');
                 slno:_id,
              date:date,
              amount:amount,
-             seasons:season,
+             seasons:seasons,
              cashflow:cashflow,
              remark:remark
             }),
@@ -113,14 +113,14 @@ setDiscount('');
       const getpaymentdetails = async () => {
         try {
             const result = await fetch('http://localhost:5000/paymenthistoryget');
-            const dataArray = await result.json();
+            const getdataArray = await result.json();
         
-            console.log('Received data:', dataArray);
+            console.log('Received data:', getdataArray);
         
-            const matchingObjects = dataArray.filter(item => item.slno === _id);
+            const matchingObjectid = getdataArray.filter(item => item.slno === _id);
         
-            if (matchingObjects.length > 0) {
-              setProduct(matchingObjects);
+            if (matchingObjectid.length > 0) {
+              setPayment(matchingObjectid);
             } else {
               console.log('No matching IDs found. Data will not be displayed.');
             }
@@ -240,7 +240,7 @@ setDiscount('');
                     </div>
                     
                 </div>
-                
+                <h4>Customer Payment History</h4>
                 <div className='container table-container'>
         <table className='table table-bordered table-striped'>
     <thead>
@@ -259,7 +259,7 @@ setDiscount('');
             <tr key={item._id} >
               <td>{index+1}</td>
            <td>{item.date}</td>
-           <td>{item.season}</td>
+           <td>{item.seasons}</td>
            <td>{item.cashflow}</td>
            <td>{item.amount}</td>
            <td>{item.remark}</td>

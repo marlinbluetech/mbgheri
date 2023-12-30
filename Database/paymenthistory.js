@@ -3,7 +3,7 @@ const Productschema=new mongoose.Schema({
   slno:String,
     date:String,
     
-    season:String,
+    seasons:String,
     amount:Number,
     cashflow:String,
     remark:String

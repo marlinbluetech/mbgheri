@@ -2,22 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Stock = () => {
     const [itemname, setItemname] = useState();
     const [price, setPrice] = useState();
     const [company, setCompany] = useState();
-   
+
+    
+
     const [companyname, setCompanyname] = useState([]);
-    const[purchase,setPurchase]=useState();
+    const [purchase, setPurchase] = useState();
     const [returnlist, setReturnlist] = useState([]);
-  
     const[sale,setSale]=useState([]);
+     const[stock,setStock]=useState([]);
     const handleAddCustomer = async () => {
         try {
             const response = await fetch('http://localhost:5000/addstock', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
                 },
                 body: JSON.stringify({
                     itemname: itemname,
@@ -44,8 +48,8 @@ const Stock = () => {
     useEffect(() => {
         companynamedetails();
         getpurchase();
-        getreturn();
-        getsales();
+        getstock();
+       
     }, []);
     const companynamedetails = async () => {
         try {
@@ -61,45 +65,35 @@ const Stock = () => {
     };
     const getpurchase = async () => {
         try {
-          const result = await fetch('http://localhost:5000/purchaseget',{
-            
-          });
-          const data = await result.json();
-          
-          const extractedPrices = data.map(item => item.price);
+            const result = await fetch('http://localhost:5000/purchaseget', {
 
-        
-          setPurchase(extractedPrices);
-          console.log(extractedPrices);
+            });
+            const data = await result.json();
+
+         
+
+
+            setPurchase(data);
+           
 
         } catch (error) {
-          console.error('Error fetching product data:', error);
+            console.error('Error fetching product data:', error);
         }
-      };
-      const getsales = async () => {
+    };
+  
+    const getstock = async () => {
         try {
-          const result = await fetch('http://localhost:5000/saleget');
-          const data = await result.json();
-          const extractedsales = data.map(item => item.paid);
+            const result = await fetch('http://localhost:5000/stockget', {
 
-        
-          setSale(extractedsales);
-          console.log(extractedsales);
+            });
+            const data = await result.json();
+
+            setStock(data);
         } catch (error) {
-          console.error('Error fetching product data:', error);
+            console.error('Error fetching product data:', error);
         }
-      };
-      const getreturn = async () => {
-        try {
-          const result = await fetch('http://localhost:5000/returnlistget',{
-            
-          });
-          const data = await result.json();
-       
-          setReturnlist(data.quantity);
-        } catch (error) {
-          console.error('Error fetching product data:', error);
-        }};
+    };
+
     return (
         <div>
             <div className="mainpages">
@@ -150,7 +144,7 @@ const Stock = () => {
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                 </div>
-                {purchase}
+                
 
             </div>
             <ToastContainer />
