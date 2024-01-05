@@ -159,7 +159,7 @@ const Customer = () => {
     <div>
       <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Customer Details</h2>
-        <div className="card mb-4 seccard">
+        <div className=" container card mb-4 seccard">
           <div className="card-body">
             <h4>Add|Update Customer Record</h4>
             <div className="container text-center">
@@ -173,7 +173,7 @@ const Customer = () => {
                     onChange={(e) => setName(e.target.value)}
                     style={{ borderRadius: "5px" }}
                   />
-                                                        {error && !name &&  <span className="error">Enter valid Name</span>}
+               {error && !name &&  <span className="error">Enter valid Name</span>}
 
                 </div>
                 <div className="col-lg-4 col-md-12 col-sm-12">
@@ -197,7 +197,7 @@ const Customer = () => {
                     onChange={(e) => setAddress(e.target.value)}
                     style={{ borderRadius: "5px" }}
                   />
-                                                        {error && !address &&  <span className="error">Enter Address</span>}
+                 {error && !address &&  <span className="error">Enter Address</span>}
 
                 </div>
               </div>
@@ -213,8 +213,6 @@ const Customer = () => {
             </div>
           </div>
         </div>
-
-
 
         <div className='container table-container'>
           <table className='table table-bordered table-striped'>
@@ -232,11 +230,11 @@ const Customer = () => {
 
                 <tr key={item._id} >
                   <td>{index + 1}</td>
-                  <td>  <Link to={`/indexpage/details/${item._id}`}>{item.name}</Link>
+                  <td>  <Link to={`/indexpage/details/${item._id}`}style={{textDecoration:"none"}}>{item.name}</Link>
 </td>
                   <td>{item.mobile}</td>
                   <td>{item.address}</td>
-                  <td>
+                  <td style={{display:"flex",columnGap:"7px"}}>
                     <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                     <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
                   </td>
@@ -249,47 +247,49 @@ const Customer = () => {
         <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
-            <div className="col-lg-4 col-md-12 col-sm-12">
+            <div className='textdrawer'>
+            <div >
               <label>Name</label><br />
               <input
                 type="text"
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={{ borderRadius: "5px" }}
+                style={{ borderRadius: "5px" ,textAlign:"center"}}
               />
               {error && !name && <span className="error">Enter valid Name</span>}
 
             </div>
-            <div className="col-lg-4 col-md-12 col-sm-12">
+            <div>
               <label>Mobile</label><br />
               <input
                 type="text"
                 name="mobile"
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value)}
-                style={{ borderRadius: "5px" }}
+                style={{ borderRadius: "5px",textAlign:"center" }}
               />
               {error && (!mobile || mobile.length !== 10) && <span className="error">Enter valid Mobile Number</span>}
 
             </div>
-            <div className="col-lg-4 col-md-12 col-sm-12">
+            <div>
               <label>Address</label><br />
               <input
                 type="text"
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                style={{ borderRadius: "5px" }}
+                style={{ borderRadius: "5px",textAlign:"center" }}
               />
               {error && !address && <span className="error">Enter valid Address</span>}
 
             </div>
-            <div>
+            <div className='mt-4 '>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
             </div>
 
           </List>

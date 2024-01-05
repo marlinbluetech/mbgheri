@@ -16,6 +16,7 @@ const Return = () => {
   const [open, setOpen] = useState(false);
   const [updateItemId, setUpdateItemId] = useState(null);
   const [customername, setCustomername] = useState([]);
+  const [itemdeatils, setItemdeatils] = useState([]);
 
   const customernamedetails = async () => {
     try {
@@ -75,6 +76,7 @@ const Return = () => {
   useEffect(() => {
     getproduct();
     customernamedetails();
+    itemnamedetails();
   }, []);
 
   const getproduct = async () => {
@@ -157,11 +159,23 @@ const Return = () => {
       toast.error('Error updating record');
     }
   };
+  const itemnamedetails = async () => {
+    try {
+        const result = await fetch('http://localhost:5000/purchaseget', {
+
+        });
+        const data = await result.json();
+        console.log(data);
+        setItemdeatils(data);
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
   return (
     <div>
       <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Return List</h2>
-        <div class="card mb-4 seccard">
+        <div class="container card mb-4 seccard">
           <div class="card-body">
             <h4>Add|Update Customer Record</h4>
             <div class="container text-start">
@@ -175,9 +189,11 @@ const Return = () => {
                   <label >Customer Name</label><br></br>
                   <select  value={customer} onChange={(e) => setCustomer(e.target.value)} >
                                         <option>Select a product</option>
-                                        {customername.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
-                                        ))}
+                                        {Array.from(new Set(customername.map((item) => item.name))).map((uniqueName) => (
+    <option key={uniqueName} value={uniqueName}>
+      {uniqueName}
+    </option>
+  ))}
                                     </select>
                 </div>
                 <div className='col md-5'>
@@ -200,9 +216,17 @@ const Return = () => {
                   </select>
                 </div>
                 <div class="col">
-                  <label >Item</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={item}
-                    onChange={(e) => setItem(e.target.value)}></input>
+                <label >Item Name</label><br></br>
+                                    <select value={item} onChange={(e) => setItem(e.target.value)}>
+                                        <option>Select a product</option>
+                                        {Array.from(new Set(itemdeatils.map((item) => item.
+                                            itemname
+                                        ))).map((uniqueName) => (
+                                            <option key={uniqueName} value={uniqueName}>
+                                                {uniqueName}
+                                            </option>
+                                        ))}
+                                    </select>
                 </div>
                 <div class="col">
                   <label >Quantity</label><br></br>
@@ -221,11 +245,6 @@ const Return = () => {
                 Add
               </button>
             </div>
-
-
-
-
-
           </div>
         </div>
         <div className='container table-container'>
@@ -250,7 +269,7 @@ const Return = () => {
               <td>{item.season}</td>
               <td>{item.item}</td>
               <td>{item.quantity}</td>
-              <td>
+              <td style={{display:"flex",columnGap:"7px"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
@@ -263,12 +282,13 @@ const Return = () => {
         <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer'/>
 
             </ListItem>
            
             
-            <div class="col">
+          <div className='textdrawer'>
+          <div class="col">
                   <label >Date</label><br></br>
                   <input type="Date" style={{ borderRadius: "5px" }} value={date}
                     onChange={(e) => setDate(e.target.value)}></input>
@@ -310,6 +330,7 @@ const Return = () => {
                 <div>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
             </div>
+          </div>
           </List>
         </Drawer>
         

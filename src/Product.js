@@ -18,8 +18,8 @@ const Product = () => {
   const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [updateItemId, setUpdateItemId] = useState(null);
-  const[error,setError]=useState(false)
-  const[companydeatils,setCompanydeatils]=useState([]);
+  const [error, setError] = useState(false)
+  const [companydeatils, setCompanydeatils] = useState([]);
 
 
   const handleDrawerOpen = () => {
@@ -29,21 +29,20 @@ const Product = () => {
   const handleDrawerClose = () => {
     setOpen(false);
     setName('');
-      setCategory('');
-      setPacksize('');
-      setMrp('');
-      setPurprice('');
-      setDiscount('');
-      setCompanyname('');
-      setDealername('');
+    setCategory('');
+    setPacksize('');
+    setMrp('');
+    setPurprice('');
+    setDiscount('');
+    setCompanyname('');
+    setDealername('');
   };
 
   const handleAddCustomer = async () => {
-    if(!name || !category || !packsize || !mrp || !companyname || !dealername || !purprice || !discount )
-    {
-        setError(true);
-        return false;
-    } 
+    if (!name || !category || !packsize || !mrp || !companyname || !dealername || !purprice || !discount) {
+      setError(true);
+      return false;
+    }
     try {
       const response = await fetch('http://localhost:5000/addproduct', {
         method: 'POST',
@@ -65,18 +64,18 @@ const Product = () => {
 
       if (response.ok) {
         toast.success('Product added successfully');
-      getproduct();
-      
-      
-      setName('');
-      setCategory('');
-      setPacksize('');
-      setMrp('');
-      setPurprice('');
-      setDiscount('');
-      setCompanyname('');
-      setDealername('');
-        
+        getproduct();
+
+
+        setName('');
+        setCategory('');
+        setPacksize('');
+        setMrp('');
+        setPurprice('');
+        setDiscount('');
+        setCompanyname('');
+        setDealername('');
+
       } else {
         toast.error('Failed to add Product');
       }
@@ -131,7 +130,7 @@ const Product = () => {
       console.log(data);
 
 
-      
+
       setName(data.name);
       setCategory(data.category);
       setPacksize(data.packsize);
@@ -140,8 +139,8 @@ const Product = () => {
       setDiscount(data.discount);
       setCompanyname(data.companyname);
       setDealername(data.dealername);
-setUpdateItemId(data._id);
-      
+      setUpdateItemId(data._id);
+
     } catch (error) {
 
       console.error('Error fetching product details:', error);
@@ -151,28 +150,28 @@ setUpdateItemId(data._id);
     console.log(updateItemId);
     try {
       const response = await fetch(`http://localhost:5000/productlistupdate/${updateItemId}`, {
-        method: 'PUT', 
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-       
+
           name: name,
-          category:category,
-          packsize:packsize,
-          companyname:companyname,
-          dealername:dealername,
-          purprice:purprice,
-          discount:discount,
-          mrp:mrp,
+          category: category,
+          packsize: packsize,
+          companyname: companyname,
+          dealername: dealername,
+          purprice: purprice,
+          discount: discount,
+          mrp: mrp,
 
         }),
       });
 
       if (response.ok) {
         toast.success('Record updated successfully');
-        handleDrawerClose(); 
-        getproduct(); 
+        handleDrawerClose();
+        getproduct();
       } else {
         toast.error('Failed to update record');
       }
@@ -198,7 +197,7 @@ setUpdateItemId(data._id);
     <div>
       <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>ProductList Details</h2>
-        <div class="card mb-4 seccard">
+        <div class="container card mb-4 seccard">
           <div class="card-body">
             <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
             <div class="container text-start">
@@ -207,7 +206,7 @@ setUpdateItemId(data._id);
                   <label >Product Name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px", padding: "3px" }} value={name}
                     onChange={(e) => setName(e.target.value)}></input>
-                     {error && !name && <span className="error">Enter valid Name</span>}
+                  {error && !name && <span className="error">Enter valid Name</span>}
                 </div>
                 <div class=" col">
                   <label>Catagory</label><br></br>
@@ -229,33 +228,39 @@ setUpdateItemId(data._id);
                   <input type="text" style={{ borderRadius: "5px" }} value={purprice}
                     onChange={(e) => setPurprice(e.target.value)}></input>
                 </div>
-                <div class=" col">
-                  <label>MB Discount</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}></input>
-                </div>
+
 
 
               </div>
               <div class="row">
-                <div class="col-lg-2 col-md-12 col-sm-12">
+                <div class="col">
+                  <label>MB Discount</label><br></br>
+                  <input type="text" style={{ borderRadius: "5px" }} value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}></input>
+                </div>
+                <div class="col">
                   <label >Company Name</label><br></br>
 
-                  <select  value={companyname} onChange={(e) => setCompanyname(e.target.value)} >
-                                        <option>Select a product</option>
-                                        {companydeatils.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
-                                        ))}
-                                    </select>
+                  <select value={companyname} onChange={(e) => setCompanyname(e.target.value)} >
+                    <option>Select a product</option>
+                    {Array.from(new Set(companydeatils.map((item) => item.name))).map((uniqueName) => (
+                      <option key={uniqueName} value={uniqueName}>
+                        {uniqueName}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div class=" col-lg-2 col-md-12 col-sm-12">
+                <div class=" col">
                   <label>Dealer Name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={dealername}
                     onChange={(e) => setDealername(e.target.value)}></input>
                 </div>
+                <div className='col'>
 
-
-
+                </div>
+                <div className='col'>
+                  
+                </div>
 
               </div>
 
@@ -263,12 +268,6 @@ setUpdateItemId(data._id);
             </div>
             <div className="container text-center mt-4">
               <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }} onClick={handleAddCustomer}>Add</button>
-
-
-
-
-
-
             </div>
 
           </div>
@@ -302,8 +301,8 @@ setUpdateItemId(data._id);
                   <td>{item.discount}</td>
                   <td>{item.companyname}</td>
                   <td>{item.dealername}</td>
-                  <td>
-                  <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
+                  <td style={{ display: "flex", columnGap: "7px" }}>
+                    <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                     <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
                   </td>
                 </tr>
@@ -312,56 +311,58 @@ setUpdateItemId(data._id);
             </tbody>
           </table>
         </div>
-        <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 , marginLeft:"50px"} }}>
+        <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400, marginLeft: "50px" } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
 
-            <div class="col">
-              <label >Product Name</label><br></br>
-              <input type="text" style={{ borderRadius: "5px", padding: "3px" }} value={name}
-                onChange={(e) => setName(e.target.value)}></input>
-            </div>
-            <div class=" col">
-              <label>Catagory</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={category}
-                onChange={(e) => setCategory(e.target.value)}></input>
-            </div>
-            <div class="col">
-              <label>pack size</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={packsize}
-                onChange={(e) => setPacksize(e.target.value)}></input>
-            </div>
-            <div class="col">
-              <label >MRP</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={mrp}
-                onChange={(e) => setMrp(e.target.value)}></input>
-            </div>
-            <div class=" col">
-              <label>Purchase Price</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={purprice}
-                onChange={(e) => setPurprice(e.target.value)}></input>
-            </div>
-            <div class=" col">
-              <label>MB Discount</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={discount}
-                onChange={(e) => setDiscount(e.target.value)}></input>
-            </div>
-            <div class="col">
-              <label >Company Name</label><br></br>
+            <div className='textdrawer'>
+              <div class="col">
+                <label >Product Name</label><br></br>
+                <input type="text" style={{ borderRadius: "5px", padding: "3px" }} value={name}
+                  onChange={(e) => setName(e.target.value)}></input>
+              </div>
+              <div class=" col">
+                <label>Catagory</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={category}
+                  onChange={(e) => setCategory(e.target.value)}></input>
+              </div>
+              <div class="col">
+                <label>pack size</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={packsize}
+                  onChange={(e) => setPacksize(e.target.value)}></input>
+              </div>
+              <div class="col">
+                <label >MRP</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={mrp}
+                  onChange={(e) => setMrp(e.target.value)}></input>
+              </div>
+              <div class=" col">
+                <label>Purchase Price</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={purprice}
+                  onChange={(e) => setPurprice(e.target.value)}></input>
+              </div>
+              <div class=" col">
+                <label>MB Discount</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}></input>
+              </div>
+              <div class="col">
+                <label >Company Name</label><br></br>
 
-              <input type="text" style={{ borderRadius: "5px", padding: "3px" }} value={companyname}
-                onChange={(e) => setCompanyname(e.target.value)}></input>
-            </div>
-            <div class=" col">
-              <label>Dealer Name</label><br></br>
-              <input type="text" style={{ borderRadius: "5px" }} value={dealername}
-                onChange={(e) => setDealername(e.target.value)}></input>
-            </div>
-            <div>
-              <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+                <input type="text" style={{ borderRadius: "5px", padding: "3px" }} value={companyname}
+                  onChange={(e) => setCompanyname(e.target.value)}></input>
+              </div>
+              <div class=" col">
+                <label>Dealer Name</label><br></br>
+                <input type="text" style={{ borderRadius: "5px" }} value={dealername}
+                  onChange={(e) => setDealername(e.target.value)}></input>
+              </div>
+              <div>
+                <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+              </div>
             </div>
           </List>
         </Drawer>

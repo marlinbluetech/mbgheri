@@ -20,6 +20,7 @@ import Techdashboard from './Techdashboard';
 import Details from './Details';
 import Specific from './Specific'
 import { useNavigate } from 'react-router-dom';
+import Bill from './Bill';
 
 function Indexpage() {
   const [showNav, setShowNav] = useState(true);
@@ -33,6 +34,14 @@ function Indexpage() {
         navigate('/loginn');
       }
     }, [navigate]);
+    const handleSignOut = () => {
+     
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+  
+   
+      window.location.href = '/loginn';
+    };
 
   return (
     
@@ -50,7 +59,7 @@ function Indexpage() {
               <Link to="/tech" className="nav_links">
            Technical Dashboard
               </Link> 
-              <Link to="/" className="nav_links">
+              <Link to="/" className="nav_links"onClick={handleSignOut}>
           signout
               </Link>
           
@@ -116,21 +125,17 @@ function Indexpage() {
                 <i className="bi bi-person-check nav_icon" /><span className="nav_name">Credit-pending List</span>
               </Link>
               
-              <Link to="/indexpage/tech" className="nav_link">
-                <i className="bi bi-person-check nav_icon" /><span className="nav_name">Technical Dashboard</span>
-              </Link>
-            
-              <Link to="/loginn" className="nav_link">
-              <i className="bi bi-box-arrow-left nav_icon" /><span className="nav_name">SignOut</span>
-            </Link>
-             
               
+            
+              <Link to="/loginn" className="nav_link" onClick={handleSignOut}>
+      <i className="bi bi-box-arrow-left nav_icon" />
+      <span className="nav_name">SignOut</span>
+    </Link>
+         
             </div>
-           
-
           </nav>
         </div>
-        <div className="pt-4 pb-4 mt-4">
+        <div className="pt-4 mt-4 ">
           <Routes>
             <Route path="/mainpage" element={<Mainpage />} />
             <Route path="/customer" element={<Customer />} />
@@ -149,8 +154,9 @@ function Indexpage() {
             <Route path="/product" element={<Product/>} />
             <Route path="/tech" element={<Techdashboard/>} />
             <Route path="details/:_id" element={<Details />} />
+            <Route path="/bill" element={<Bill />} />
 
-            <Route path="/specific/:_id" element={<Specific />} />
+           
        
 
           </Routes>

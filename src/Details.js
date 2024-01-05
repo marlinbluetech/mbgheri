@@ -4,7 +4,6 @@ import {  Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const Details = () => {
     const[name,setName]=useState();
     const[category,setCategory]=useState('');
@@ -178,16 +177,52 @@ setDiscount('');
 
      <h2 className='text-center'>Details for {name}</h2>
    <div className='text-center'>
-   <Link to={`/indexpage/specific/${_id}`}>Generate</Link>
+   <Link to={`/specific/${_id}`} style={{textDecoration:"none",height:"40px",width:"40px",backgroundColor:"skyblue",color:"white",padding:"6px",borderRadius:"5px"}}>Generate</Link>
    </div>
         <div className='row'>
-            <div className='col-lg-5'>
-
+            <div className='col-lg-5 mt-5'>
+            <div className='container table-container'>
+        <table className='table table-bordered table-striped'>
+        <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Amount</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Seeds</th>
+      <td>0</td>
+      <td>0.00</td>
+     
+    </tr>
+    <tr>
+      <th scope="row">Feeds</th>
+      <td>0</td>
+      <td>0.00</td>
+    
+    </tr>
+    <tr>
+      <th scope="row">Chemicals</th>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+     <tr>
+      <th scope="row">Mechinery</th>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    </tbody>
+  </table>
+        </div>
+           
             </div>
             <div className='col-lg-7'>
-            <div className="">
+            <div >
                
-                <div class="card mb-4 seccard">
+                <div class="card mb-4 seccard"style={{marginTop:"40px"}}>
                     <div class="card-body">
                         <h4 style={{ marginBottom: "15px" }}>Add|Update Customer Record</h4>
                         <div class="container text-start mb-4">

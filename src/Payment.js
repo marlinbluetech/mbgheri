@@ -179,7 +179,7 @@ const Payment = () => {
         <div>
             <div className="mainpages">
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Payment Details</h2>
-                <div class="card mb-4 seccard">
+                <div class="container card mb-4 seccard">
                     <div class="card-body">
                         <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
                         <div class="container text-start">
@@ -213,9 +213,11 @@ const Payment = () => {
                                     <label>Employee Name</label><br></br>
                                     <select  value={employeename} onChange={(e) => setEmployeename(e.target.value)} >
                                         <option>Select a product</option>
-                                        {employee.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
-                                        ))}
+                                        {Array.from(new Set(employee.map((item) => item.name))).map((uniqueName) => (
+    <option key={uniqueName} value={uniqueName}>
+      {uniqueName}
+    </option>
+  ))}
                                     </select>
                                     {error && !employeename &&  <span className="error">Enter Employee Name</span>}
 
@@ -268,7 +270,7 @@ const Payment = () => {
               <td>{item.employeename}</td>
               <td>{item.amount}</td>
               <td>{item.description}</td>
-              <td>
+              <td style={{display:"flex",columnGap:"7px"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
@@ -281,10 +283,11 @@ const Payment = () => {
              <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 , marginLeft:"50px"} }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
-            <div class="col">
+           <div className='textdrawer'>
+           <div class="col">
                                     <label >Date</label><br></br>
                                     <input type="Date" style={{ borderRadius: "5px", padding: "3px" }} value={date}
                                         onChange={(e) => setDate(e.target.value)}></input>
@@ -321,6 +324,7 @@ const Payment = () => {
             <div>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
             </div>
+           </div>
           </List>
         </Drawer>
 

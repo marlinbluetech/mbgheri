@@ -39,6 +39,10 @@ const Sign = () => {
     <div className='signbody'>
         
       <div className="signcard">
+      <div className=" text-center logoimg">
+            
+            <img src="../logologin.png"  style={{width:"150px",height:"100px"}} />
+          </div>
         <form  onSubmit={handleSubmit}>
             <div className="signform">
         <label>
@@ -78,7 +82,7 @@ const Sign = () => {
             />
           </label>
           <button className='signbtn' type="submit">Sign Up</button>
-          <Link to="/loginn" className='text-center mt-4 link'>
+          <Link to="/loginn" className='text-center mt-4 link'style={{textDecoration:"none"}}>
             Already have Account
             </Link>
         </div>

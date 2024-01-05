@@ -4,6 +4,7 @@ const Productschema=new mongoose.Schema({
     date:String,
     customer:String,
    balance:Number,
+   paiditem:Number
 
   
  

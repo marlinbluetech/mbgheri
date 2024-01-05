@@ -43,6 +43,7 @@ const Company = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
         },
         body: JSON.stringify({
           name: name,
@@ -158,7 +159,7 @@ const Company = () => {
     <div>
       <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Company Details</h2>
-        <div className="card mb-4 seccard">
+        <div className=" container card mb-4 seccard">
           <div className="card-body">
             <h4>Add|Update Company Record</h4>
             <div className="container text-start">
@@ -212,7 +213,7 @@ const Company = () => {
               <td>{item.mobile}</td>
               <td>{item.address}</td>
               <td>{item.comment}</td>
-              <td>
+              <td style={{display:"flex",columnGap:"7px"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
@@ -225,9 +226,10 @@ const Company = () => {
         <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
+            <div className='textdrawer'>
             <div className="col-lg-3 col-md-12 col-sm-12">
                   <label >Name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={name} onChange={(e) => setName(e.target.value)}></input>
@@ -246,6 +248,7 @@ const Company = () => {
                 </div>
             <div>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
             </div>
            
           </List>

@@ -174,7 +174,7 @@ const Sales = () => {
   };
   return (
     <div className='  mainpages'>
-      <h2 style={{ textAlign: "center", color: "blue", paddingTop: "20px" }}> sales Dashboard</h2>
+      <h2 style={{ textAlign: "center", color: "blue", paddingTop: "20px" }}> Sales Dashboard</h2>
       <div className='container'>
         <div className='row'>
           <div className='col-lg-4 col-md-12 col-sm-12'>
@@ -205,8 +205,23 @@ const Sales = () => {
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }}>Season</label><br></br>
-                <input type="text" style={{ borderRadius: "5px", marginTop: "10px" }} disabled={localData.length > 0} value={season} onChange={(e) => setSeason(e.target.value)}></input>
+                <select value={season} disabled={localData.length > 0}
+                    onChange={(e) => setSeason(e.target.value)}>
+                      <option>Select Season</option>
+                    <option value="s1">s1</option>
+                    <option value="s2">s2</option>
+                    <option value="s3">s3</option>
+                    <option value="s4">s4</option>
+                    <option value="s5">s5</option>
+                    <option value="s6">s6</option>
+                    <option value="s7">s7</option>
+                    <option value="s8">s8</option>
+                    <option value="s9">s9</option>
+                    <option value="s10">s10</option>
+                    <option value="s11">s11</option>
+                    <option value="s12">s12</option>
 
+                  </select>
               </div>
 
             </form>
@@ -215,10 +230,13 @@ const Sales = () => {
                 <div>
                   <label>Product Name</label><br></br>
                   <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} >
-                    <option value="" disabled>Select a product</option>
-                    {productlist.map((item) => (
-                      <option key={item._id} value={item.name}>{item.name}</option>
-                    ))}
+                    <option value="">Select a product</option>
+                    {Array.from(new Set(productlist.map((item) => item.name))).map((uniqueName) => (
+    <option key={uniqueName} value={uniqueName}>
+      {uniqueName}
+    </option>
+  ))}
+        
                   </select>
                 </div>
               </div>

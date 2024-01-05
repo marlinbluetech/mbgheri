@@ -8,20 +8,41 @@ const Stock = () => {
     const [price, setPrice] = useState();
     const [company, setCompany] = useState();
 
-    
-
-    const [companyname, setCompanyname] = useState([]);
     const [purchase, setPurchase] = useState();
     const [returnlist, setReturnlist] = useState([]);
-    const[sale,setSale]=useState([]);
-     const[stock,setStock]=useState([]);
+    const [sale, setSale] = useState([]);
+    const [stock, setStock] = useState([]);
+    const [itemdeatils, setItemdeatils] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = async(e) => {
+    e.preventDefault();
+    try {
+       
+        const result = await fetch(`http://localhost:5000/stocksearch/${searchTerm}`, {
+  
+        });
+        const data = await result.json();
+        if (data) {
+          setStock(data);
+        }
+  
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+  };
+
     const handleAddCustomer = async () => {
         try {
             const response = await fetch('http://localhost:5000/addstock', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
+                    authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
                 },
                 body: JSON.stringify({
                     itemname: itemname,
@@ -32,6 +53,7 @@ const Stock = () => {
 
             if (response.ok) {
                 toast.success('Stock added successfully');
+                getstock();
                 setItemname('');
                 setPrice('');
                 setCompany('');
@@ -46,23 +68,15 @@ const Stock = () => {
         }
     };
     useEffect(() => {
-        companynamedetails();
+
         getpurchase();
         getstock();
-       
+        itemnamedetails();
+        getreturnlist();
+        getsaledetails();
+
     }, []);
-    const companynamedetails = async () => {
-        try {
-            const result = await fetch('http://localhost:5000/companyget', {
 
-            });
-            const data = await result.json();
-
-            setCompanyname(data);
-        } catch (error) {
-            console.error('Error fetching product data:', error);
-        }
-    };
     const getpurchase = async () => {
         try {
             const result = await fetch('http://localhost:5000/purchaseget', {
@@ -70,17 +84,14 @@ const Stock = () => {
             });
             const data = await result.json();
 
-         
-
-
             setPurchase(data);
-           
+
 
         } catch (error) {
             console.error('Error fetching product data:', error);
         }
     };
-  
+
     const getstock = async () => {
         try {
             const result = await fetch('http://localhost:5000/stockget', {
@@ -93,19 +104,110 @@ const Stock = () => {
             console.error('Error fetching product data:', error);
         }
     };
+    const getreturnlist = async () => {
+        try {
+            const result = await fetch('http://localhost:5000/returnlistget', {
+
+            });
+            const data = await result.json();
+            console.log(data);
+            setReturnlist(data);
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+        }
+    };
+    const itemnamedetails = async () => {
+        try {
+            const result = await fetch('http://localhost:5000/purchaseget', {
+
+            });
+            const data = await result.json();
+            console.log(data);
+            setItemdeatils(data);
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+        }
+    };
+    const getsaledetails = async () => {
+        try {
+            const result = await fetch('http://localhost:5000/saleget', {
+
+            });
+            const data = await result.json();
+            console.log(data);
+            setSale(data);
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+        }
+    };
+    const calculateTotalQuantity = (itemName) => {
+
+        const matchingItems = purchase.filter((item) => item.itemname === itemName);
+
+
+        const totalQuantity = matchingItems.reduce((total, item) => total + item.quantity, 0);
+
+        return totalQuantity;
+    };
+    const calculateTotalQuantity2 = (itemName) => {
+
+        const matchingItems = returnlist.filter((item) => item.item === itemName);
+
+
+        const totalQuantity = matchingItems.reduce((total, item) => total + item.quantity, 0);
+
+        return totalQuantity;
+    };
+    const calculateTotalQuantity3 = (itemName) => {
+
+        const matchingItems = sale.filter((item) => item.
+            selectedOption
+            === itemName);
+
+
+        const totalQuantity = matchingItems.reduce((total, item) => total + item.quantity, 0);
+
+        return totalQuantity;
+    };
+    const deleteproduct = async (id) => {
+        try {
+            const result = await fetch(`http://localhost:5000/stock/${id}`, {
+
+                method: 'DELETE',
+            });
+
+            const data = await result.json();
+            console.log(data);
+            if (data) {
+                getstock();
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
 
     return (
         <div>
             <div className="mainpages">
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Stock Details</h2>
-                <div class="card mb-4 seccard">
+                <div class="container card mb-4 seccard">
                     <div class="card-body">
                         <h4 style={{ marginBottom: "15px" }}>Add|Update Customer Record</h4>
                         <div class="container text-start mb-4">
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label >Item Name</label><br></br>
-                                    <input type="text" style={{ borderRadius: "5px" }} value={itemname} onChange={(e) => setItemname(e.target.value)}></input>
+                                    <select value={itemname} onChange={(e) => setItemname(e.target.value)}>
+                                        <option>Select a product</option>
+                                        {Array.from(new Set(itemdeatils.map((item) => item.
+                                            itemname
+                                        ))).map((uniqueName) => (
+                                            <option key={uniqueName} value={uniqueName}>
+                                                {uniqueName}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div class=" col-lg-4 col-md-12 col-sm-12">
                                     <label>Price</label><br></br>
@@ -115,36 +217,80 @@ const Stock = () => {
                                     <label>Company</label><br></br>
                                     <select value={company} onChange={(e) => setCompany(e.target.value)} >
                                         <option>Select a product</option>
-                                        {companyname.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
+                                        {Array.from(new Set(itemdeatils.map((item) => item.
+                                            company
+                                        ))).map((uniqueName) => (
+                                            <option key={uniqueName} value={uniqueName}>
+                                                {uniqueName}
+                                            </option>
                                         ))}
-                                    </select>                                </div>
+                                    </select>
+                                </div>
                             </div>
 
                         </div>
                         <div className="container text-center mt-4">
                             <button className="btn btn-success" style={{ textAlign: "center", margin: "auto" }} onClick={handleAddCustomer}>Add</button>
                         </div>
-
-
-
                     </div>
                 </div>
-                <div style={{ display: "flex", flexWrap: "wrap", columnGap: "100px" }}>
-                    <div>
-                        <select style={{ padding: "7px", marginLeft: "15px", marginTop: "10px" }}>
-                            <option>select</option>
-                            <option>Item</option>
-                            <option>Company</option>
-                        </select>
-                    </div>
+                <div className='container' >
+                   
 
-                    <form class="d-flex" role="search" style={{ marginTop: "10px" }}>
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-primary" type="submit">Search</button>
+                    <form  role="search" style={{ marginTop: "10px",display:"flex",columnGap:"7px",flexWrap:"wrap" }}>
+                        <input class="form-control me-2" type="search" placeholder="Search"  value={searchTerm}
+        onChange={handleInputChange}aria-label="Search"style={{width:"500px"}} />
+                        <button class="btn btn-primary mt-2" type="submit"  onClick={handleSearch}>Search</button>
                     </form>
                 </div>
-                
+                <div className='container table-container mt-5'>
+                    <table className='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Sl No</th>
+
+
+                                <th>Item Name</th>
+                                <th>Company</th>
+                                <th>Price</th>
+                                <th>Total Purchase</th>
+                                <th>Total Sale</th>
+                                <th>Total Return</th>
+                                <th>Balance</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {stock.map((item, index) => {
+
+                                return (
+                                    <tr key={item._id}>
+                                        <td>{index + 1}</td>
+
+                                        <td>{item.itemname}</td>
+                                        <td>{item.company}</td>
+
+                                        <td>{item.price}</td>
+                                        <td>{calculateTotalQuantity(item.itemname)}</td>
+                                        <td>{calculateTotalQuantity3(item.itemname)}</td>
+                                        <td>{calculateTotalQuantity2(item.itemname)}</td>
+
+                                        <td>{parseInt(calculateTotalQuantity(item.itemname)) - parseInt(calculateTotalQuantity3(item.itemname)) + parseInt(calculateTotalQuantity2(item.itemname))}</td>
+                                        <td>
+                                            <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
+
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
 
             </div>
             <ToastContainer />

@@ -156,7 +156,7 @@ const Transaction = () => {
     <div>
       <div className="mainpages">
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Transaction Details</h2>
-                <div class="card mb-4 seccard">
+                <div class="container card mb-4 seccard">
                     <div class="card-body">
                         <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
                         <div class="container text-start">
@@ -257,7 +257,9 @@ const Transaction = () => {
               <td>{item.purpose}</td>
               <td>{item.type}</td>
               <td>{item.description}</td>
-              <td>
+              <td style={{display:"flex",columnGap:"7px"}}
+              
+              >
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
@@ -270,10 +272,11 @@ const Transaction = () => {
              <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
            
+            <div className='textdrawer'>
             <div class="col">
                                     <label >Date</label><br></br>
                                     <input type="Date" style={{ borderRadius: "5px", padding: "3px" }}value={date}
@@ -336,6 +339,7 @@ const Transaction = () => {
             
                 <div>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
+            </div>
             </div>
           </List>
         </Drawer>

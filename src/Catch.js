@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Drawer from '@mui/material/Drawer';
@@ -22,7 +22,7 @@ const Catch = () => {
   const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [updateItemId, setUpdateItemId] = useState(null);
-  const[companyname,setCompanyname]=useState([]);
+  const [companyname, setCompanyname] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -50,20 +50,21 @@ const Catch = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
         },
         body: JSON.stringify({
-         date:date,
-         customer:customer,
-         season:season,
-         quantity:quantity,
-         count:count,
-         pillingcount:pillingcount,
-         dcqty:dcqty,
-         extraqty:extraqty,
-         marketprice:marketprice,
-         partyprice:partyprice,
-         partyname:partyname,
-         partypaid:partypaid
+          date: date,
+          customer: customer,
+          season: season,
+          quantity: quantity,
+          count: count,
+          pillingcount: pillingcount,
+          dcqty: dcqty,
+          extraqty: extraqty,
+          marketprice: marketprice,
+          partyprice: partyprice,
+          partyname: partyname,
+          partypaid: partypaid
         }),
       });
 
@@ -71,17 +72,17 @@ const Catch = () => {
         toast.success('Company added successfully');
         getproduct();
         setDate('');
-     setCustomer('');
-     setSeason('');
-     setQuantity('');
-     setCount('');
-     setPillingcount('');
-     setDcqty('');
-     setExtraqty('');
-     setMarketprice('');
-     setPartyprice('');
-     setPartyname('');
-     setPartypaid('');
+        setCustomer('');
+        setSeason('');
+        setQuantity('');
+        setCount('');
+        setPillingcount('');
+        setDcqty('');
+        setExtraqty('');
+        setMarketprice('');
+        setPartyprice('');
+        setPartyname('');
+        setPartypaid('');
       } else {
         toast.error('Failed to add company');
         console.error('Failed to add company');
@@ -98,8 +99,8 @@ const Catch = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/catchget',{
-        
+      const result = await fetch('http://localhost:5000/catchget', {
+
       });
       const data = await result.json();
       console.log(data);
@@ -111,13 +112,13 @@ const Catch = () => {
   const deleteproduct = async (id) => {
     try {
       const result = await fetch(`http://localhost:5000/catchdelete/${id}`, {
-        
-        method: 'DELETE', 
+
+        method: 'DELETE',
       });
-  
+
       const data = await result.json();
       console.log(data);
-      if(data){
+      if (data) {
         getproduct();
       }
     } catch (error) {
@@ -136,20 +137,20 @@ const Catch = () => {
 
 
       console.log(data);
-     setDate(data.date);
-     setCustomer(data.customer);
-     setSeason(data.season);
-     setQuantity(data.quantity);
-     setCount(data.count);
-     setPillingcount(data.pillingcount);
-     setDcqty(data.dcqty);
-     setExtraqty(data.extraqty);
-     setMarketprice(data.marketprice);
-     setPartyprice(data.partyprice);
-     setPartyname(data.partyname);
-     setPartypaid(data.partypaid);
+      setDate(data.date);
+      setCustomer(data.customer);
+      setSeason(data.season);
+      setQuantity(data.quantity);
+      setCount(data.count);
+      setPillingcount(data.pillingcount);
+      setDcqty(data.dcqty);
+      setExtraqty(data.extraqty);
+      setMarketprice(data.marketprice);
+      setPartyprice(data.partyprice);
+      setPartyname(data.partyname);
+      setPartypaid(data.partypaid);
 
-      setUpdateItemId(data._id); 
+      setUpdateItemId(data._id);
     } catch (error) {
 
       console.error('Error fetching product details:', error);
@@ -159,30 +160,30 @@ const Catch = () => {
     console.log(updateItemId);
     try {
       const response = await fetch(`http://localhost:5000/catchupdate/${updateItemId}`, {
-        method: 'PUT', 
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          date:date,
-          customer:customer,
-          season:season,
-          quantity:quantity,
-          count:count,
-          pillingcount:pillingcount,
-          dcqty:dcqty,
-          extraqty:extraqty,
-          marketprice:marketprice,
-          partyprice:partyprice,
-          partyname:partyname,
-          partypaid:partypaid
+          date: date,
+          customer: customer,
+          season: season,
+          quantity: quantity,
+          count: count,
+          pillingcount: pillingcount,
+          dcqty: dcqty,
+          extraqty: extraqty,
+          marketprice: marketprice,
+          partyprice: partyprice,
+          partyname: partyname,
+          partypaid: partypaid
         }),
       });
 
       if (response.ok) {
         toast.success('Record updated successfully');
-        handleDrawerClose(); 
-        getproduct(); 
+        handleDrawerClose();
+        getproduct();
       } else {
         toast.error('Failed to update record');
       }
@@ -192,8 +193,8 @@ const Catch = () => {
   };
   const getcompanyname = async () => {
     try {
-      const result = await fetch('http://localhost:5000/userget',{
-        
+      const result = await fetch('http://localhost:5000/userget', {
+
       });
       const data = await result.json();
       console.log(data);
@@ -205,29 +206,49 @@ const Catch = () => {
 
   return (
     <div>
-        <div className="mainpages">
+      <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Catch Details</h2>
-        <div class="card mb-4 seccards">
+        <div class=" container card mb-4 seccards">
           <div class="card-body">
             <h4>Add|Update Customer Record</h4>
             <div class="container text-start">
               <div class="row">
-              <div class="col">
+                <div class="col">
                   <label>Date</label><br></br>
                   <input type="date" style={{ borderRadius: "5px" }} value={date} onChange={(e) => setDate(e.target.value)}></input>
                 </div>
                 <div class="col">
                   <label >Customer</label><br></br>
-                  <select  value={customer} onChange={(e) => setCustomer(e.target.value)} >
-                                        <option>Select a product</option>
-                                        {companyname.map((item) => (
-                                            <option key={item._id} value={item.name}>{item.name}</option>
-                                        ))}
-                                    </select>
+                  <select value={customer} onChange={(e) => setCustomer(e.target.value)} >
+                    <option>Select Name</option>
+                    {Array.from(new Set(companyname.map((item) => item.name))).map((uniqueName) => (
+                      <option key={uniqueName} value={uniqueName}>
+                        {uniqueName}
+                      </option>
+                    ))}
+
+                  </select>
                 </div>
                 <div class=" col">
                   <label>Season</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={season} onChange={(e) => setSeason(e.target.value)}></input>
+                  <select value={season}
+                    onChange={(e) => setSeason(e.target.value)}>
+                      <option>Select season</option>
+                    <option value="s1">s1</option>
+                    <option value="s2">s2</option>
+                    <option value="s3">s3</option>
+                    <option value="s4">s4</option>
+                    <option value="s5">s5</option>
+                    <option value="s6">s6</option>
+                    <option value="s7">s7</option>
+                    <option value="s8">s8</option>
+                    <option value="s9">s9</option>
+                    <option value="s10">s10</option>
+                    <option value="s11">s11</option>
+                    <option value="s12">s12</option>
+
+
+                  </select>
                 </div>
                 <div class="col">
                   <label>Quantity</label><br></br>
@@ -260,21 +281,21 @@ const Catch = () => {
                   <input type="text" style={{ borderRadius: "5px" }} value={partyprice} onChange={(e) => setPartyprice(e.target.value)}></input>
                 </div>
               </div>
-              <div class="row">
-              <div class="col-lg-3">
+              <div style={{display:"flex",columnGap:"56px",flexWrap:"wrap"}}>
+                <div >
                   <label>Party Name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={partyname} onChange={(e) => setPartyname(e.target.value)}></input>
                 </div>
-                <div class="col-lg-3">
+                <div>
                   <label>Party Paid</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={partypaid} onChange={(e) => setPartypaid(e.target.value)}></input>
                 </div>
-                
+
               </div>
 
             </div>
             <div className="container text-center mt-4">
-            <button className="btn btn-success" onClick={handleAddCustomer} style={{ textAlign: "center", margin: "auto" }}>Add</button>
+              <button className="btn btn-success" onClick={handleAddCustomer} style={{ textAlign: "center", margin: "auto" }}>Add</button>
             </div>
 
 
@@ -283,125 +304,132 @@ const Catch = () => {
         <div className='container table-container'>
         <table className='table table-bordered table-striped'>
     <thead>
-      <tr>
-        <td>SL NO</td>
-    <td>Date</td>
-    <td>Customer</td>
-    <td>Season</td>
-    <td>Quantity</td>
-    <td>Count</td>
-   
-    <td>Pilling Count</td>
-    <td>Dc Qty</td>
-    <td>Extra Qty</td>
-    <td>Market price</td>
-    <td>Party Price</td>
-    <td>Total Price</td>
-    <td>Party Name</td>
-    <td>Party paid</td>
-    <td>Balance</td>
-    <td>Operation</td>
-   
+    <tr>
+                <th>SL NO</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Season</th>
+                <th>Quantity</th>
+                <th>Count</th>
 
-      </tr>
+                <th>Pilling Count</th>
+                <th>Dc Qty</th>
+                <th>Extra Qty</th>
+                <th>Market price</th>
+                <th>Party Price</th>
+                <th>Total Price</th>
+                <th>Party Name</th>
+                <th>Party paid</th>
+                <th>Balance</th>
+                <th>Operation</th>
+              </tr>
     </thead>
     <tbody>
     {product.map((item, index) => (
-            <tr key={item._id} >
-              <td>{index+1}</td>
-              <td>{item.date}</td>
-              <td>{item.customer}</td>
-              <td>{item.season}</td>
-              <td>{item.quantity}</td>
-              <td>{item.count}</td>
-              <td>{item.pillingcount}</td>
-              <td>{item.dcqty}</td>
-              <td>{item.extraqty}</td>
-              <td>{item.marketprice}</td>
-              <td>{item.partyprice}</td>
-              <td>{item.quantity*item.marketprice}</td>
-              <td>{item.partyname}</td>
-              <td>{item.partypaid}</td>
-              <td>{(item.quantity*item.marketprice)-item.partypaid}</td>
-              <td>
+                <tr key={item._id} >
+                  <td>{index + 1}</td>
+                  <td>{item.date}</td>
+                  <td>{item.customer}</td>
+                  <td>{item.season}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.count}</td>
+                  <td>{item.pillingcount}</td>
+                  <td>{item.dcqty}</td>
+                  <td>{item.extraqty}</td>
+                  <td>{item.marketprice}</td>
+                  <td>{item.partyprice}</td>
+                  <td>{item.quantity * item.marketprice}</td>
+                  <td>{item.partyname}</td>
+                  <td>{item.partypaid}</td>
+                  <td>{(item.quantity * item.marketprice) - item.partypaid}</td>
+                  <td style={{display:"flex",columnGap:"7px"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>
-            </tr>
-          ))}
-      
+                </tr>
+              ))}
+   
     </tbody>
   </table>
         </div>
+        
+       
+
+        
+       
         <Drawer anchor="right" open={open} onClose={handleDrawerClose} PaperProps={{ style: { width: 400 } }}>
           <List>
             <ListItem button onClick={handleDrawerClose}>
-              <ListItemText primary="Close" />
+              <ListItemText primary="Close" className='textdrawer' />
 
             </ListItem>
+            <div className='textdrawer'>
             <div class="col">
-                  <label>Date</label><br></br>
-                  <input type="date" style={{ borderRadius: "5px" }} value={date} onChange={(e) => setDate(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label >Customer</label><br></br>
-                  <select  >
-        <option value="" disabled>Select a product</option>
-        {companyname.map((item) => (
-          <option key={item._id} value={item.name}>{item.name}</option>
-        ))}
-      </select>
-                </div>
-                <div class=" col">
-                  <label>Season</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={season} onChange={(e) => setSeason(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label>Quantity</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={quantity} onChange={(e) => setQuantity(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label>Count</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={count} onChange={(e) => setCount(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label >pilling count</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={pillingcount} onChange={(e) => setPillingcount(e.target.value)}></input>
-                </div>
-                <div class=" col">
-                  <label>Dc Qty</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={dcqty} onChange={(e) => setDcqty(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label>Extra qty</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={extraqty} onChange={(e) => setExtraqty(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label>Market price</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={marketprice} onChange={(e) => setMarketprice(e.target.value)}></input>
-                </div>
-                <div class="col">
-                  <label>Party price</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={partyprice} onChange={(e) => setPartyprice(e.target.value)}></input>
-                </div>
-                <div class="col-lg-3">
-                  <label>Party Name</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={partyname} onChange={(e) => setPartyname(e.target.value)}></input>
-                </div>
-                <div class="col-lg-3">
-                  <label>Party Paid</label><br></br>
-                  <input type="text" style={{ borderRadius: "5px" }} value={partypaid} onChange={(e) => setPartypaid(e.target.value)}></input>
-                </div>
-            
-            <div>
+              <label>Date</label><br></br>
+              <input type="date" style={{ borderRadius: "5px" }} value={date} onChange={(e) => setDate(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label >Customer</label><br></br>
+              <select  >
+                <option value="" disabled>Select a product</option>
+                {companyname.map((item) => (
+                  <option key={item._id} value={item.name}>{item.name}</option>
+                ))}
+              </select>
+            </div>
+            <div class=" col">
+              <label>Season</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={season} onChange={(e) => setSeason(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label>Quantity</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={quantity} onChange={(e) => setQuantity(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label>Count</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={count} onChange={(e) => setCount(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label >pilling count</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={pillingcount} onChange={(e) => setPillingcount(e.target.value)}></input>
+            </div>
+            <div class=" col">
+              <label>Dc Qty</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={dcqty} onChange={(e) => setDcqty(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label>Extra qty</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={extraqty} onChange={(e) => setExtraqty(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label>Market price</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={marketprice} onChange={(e) => setMarketprice(e.target.value)}></input>
+            </div>
+            <div class="col">
+              <label>Party price</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={partyprice} onChange={(e) => setPartyprice(e.target.value)}></input>
+            </div>
+           <div classname="row">
+           <div class="col-md-2">
+              <label>Party Name</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={partyname} onChange={(e) => setPartyname(e.target.value)}></input>
+            </div>
+            <div class="col-md-2">
+              <label>Party Paid</label><br></br>
+              <input type="text" style={{ borderRadius: "5px" }} value={partypaid} onChange={(e) => setPartypaid(e.target.value)}></input>
+            </div>
+           </div>
+
+            <div className='mt-4'>
               <button className='btn btn-success' onClick={handleUpdateCustomer}>Update</button>
             </div>
-           
+            </div>
+
           </List>
         </Drawer>
 
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   )
 }

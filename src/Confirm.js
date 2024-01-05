@@ -76,9 +76,9 @@ const Confirm = () => {
                 />
               </label>
               <button className='signbtn mt-3' type="submit">Submit</button>
-              <Link to="/loginn" className='text-center mt-4 link'>
+              {/* <Link to="/loginn" className='text-center mt-4 link'>
                 Login
-              </Link>
+              </Link> */}
             </div>
           </form>
         </div>

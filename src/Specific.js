@@ -28,7 +28,7 @@ const Specific = () => {
   };
   const getproduct = async () => {
     try {
-      const result = await fetch(`http://localhost:5000/user/${_id}`);
+      const result = await fetch(`http://localhost:5000/return/${_id}`);
       const data = await result.json();
       console.log(data);
       setCustomerData(data);
@@ -103,87 +103,83 @@ const Specific = () => {
     }
   };
  return (
-    <div>
-     <h3>Name:{name}</h3> 
-    <h3>Mobile:{mobile}</h3>
-    <h3>Address:{address}</h3>
-    <h4 className='text-center'>Return List</h4>
+   <div className=' specific'>
+     <div className=' container specificpage'>
+     <div style={{display:"flex",justifyContent:"space-between",flexWrap:"wrap",marginBottom:"40px",paddingTop:"40px"}}>
+     
+      <div>
+      <img src="../logologin.png" style={{height:"150px",width:"150px"}} />
+      </div>
+      <div>
+      <h5>Name:{name}</h5> 
+    <h5>Mobile:{mobile}</h5>
+    <h5>Address:{address}</h5>
+      </div>
+     </div>
+    <h3 className='text-center'>Return List</h3>
     <div className='container table-container'>
-        <table className='table table-bordered table-striped'>
-    <thead>
-      <tr>
-        <th>Sl No</th>
-        <th>Date</th>
-        <th>Customer name</th>
-      
-        <th>Item</th>
-        <th>Quantity</th>
-      
-      </tr>
-    </thead>
-    <tbody>
-   
-    {customerData && customerData.customer && customerData.returnDetails && (
-  <>
-    {customerData.returnDetails.map((item, index) => (
-      <React.Fragment key={index}>
-        <td>{index+1}</td>
-       
-        <td>{item.date}</td>
-        <td>{item.customer}</td>
-        <td>{item.item}</td>
-        <td>{item.quantity}</td>
-      </React.Fragment>
-    ))}
-  </>
-)}
+    <table className='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>Sl No</th>
+      <th>Date</th>
+      <th>Customer name</th>
+      <th>Item</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {customerData &&
+      customerData.customer &&
+      customerData.returnDetails &&
+      customerData.returnDetails.map((item, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{item.date}</td>
+          <td>{item.customer}</td>
+          <td>{item.item}</td>
+          <td>{item.quantity}</td>
+        </tr>
+      ))}
+  </tbody>
+</table>
 
-       
-    </tbody>
-  </table>
         </div>
-       <h4 className='text-center'>Catch Details</h4>
+       <h3 className='text-center'>Catch Details</h3>
         <div className='container table-container'>
         <table className='table table-bordered table-striped'>
-    <thead>
-      <tr>
-        <th>Sl No</th>
-        <th>Date</th>
-        <th>Quantity</th>
-        <th> Pilling Quantity</th>
-        <th> Dc Qty</th>
-        <th>Count</th>
-      
-        <th>Market price</th>
-      
-      </tr>
-    </thead>
-    <tbody>
-   
+  <thead>
+    <tr>
+      <th>Sl No</th>
+      <th>Date</th>
+      <th>Quantity</th>
+      <th>Pilling Quantity</th>
+      <th>Dc Qty</th>
+      <th>Count</th>
+      <th>Market price</th>
+    </tr>
+  </thead>
+  <tbody>
     {catchData && catchData.customer && catchData.catchDetails && (
-  <tr>
-    {catchData.catchDetails.map((item, index) => (
-      <React.Fragment key={index}>
-        <td>{index+1}</td>
-       
-        <td>{item.date}</td>
-        <td>{item.quantity}</td>
-        <td>{item.pillingcount}</td>
-        <td>{item.dcqty}</td>
+      <>
+        {catchData.catchDetails.map((item, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{item.date}</td>
+            <td>{item.quantity}</td>
+            <td>{item.pillingcount}</td>
+            <td>{item.dcqty}</td>
+            <td>{item.count}</td>
+            <td>{item.marketprice}</td>
+          </tr>
+        ))}
+      </>
+    )}
+  </tbody>
+</table>
 
-        <td>{item.count}</td>
-        <td>{item.marketprice}</td>
-       
-      </React.Fragment>
-    ))}
-  </tr>
-)}
-
-       
-    </tbody>
-  </table>
         </div>
-        <h2 className='text-center'>Extra Discount</h2>
+        <h3 className='text-center'>Extra Discount</h3>
         <div className='container table-container'>
         <table className='table table-bordered table-striped'>
     <thead>
@@ -237,7 +233,7 @@ const Specific = () => {
   </table>
         </div>
        
-<h2 className='text-center'>Gheri Details</h2>
+<h3 className='text-center'>Gheri Details</h3>
 <div className='container table-container'>
   <table className='table table-bordered table-striped'>
     <thead>
@@ -267,6 +263,7 @@ const Specific = () => {
   </table>
 </div>
 </div>
+   </div>
 
   );
 };

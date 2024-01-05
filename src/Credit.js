@@ -142,7 +142,7 @@ const Credit = () => {
     <div>
       <div className="mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Credit & Collection PendingList</h2>
-        <div class="card mb-4 seccard">
+        <div class="container card mb-4 seccard">
           <div class="card-body">
             <h4>Add|Update Customer Record</h4>
             <div class="container text-start">
@@ -208,7 +208,7 @@ const Credit = () => {
               <td>{item.type}</td>
               <td>{item.amount}</td>
              
-              <td>
+              <td style={{display:"flex",columnGap:"7px"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
 
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>

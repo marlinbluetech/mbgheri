@@ -26,6 +26,7 @@ const employee = require('./employee');
 const sales = require('./sales');
 const spotsalesecond = require('./spotsalesecond');
 const extradiscount=require('./extradiscount');
+
 app.use(express.json());
 app.use(cors());
 
@@ -57,13 +58,14 @@ app.post("/addcompany", verifytoken,  async (req, resp) => {
     resp.send(result);
 
 });
-app.post("/addemployee", verifytoken,  async (req, resp) => {
+app.post("/addemployee",   async (req, resp) => {
     let data = new employee(req.body);
     let result = await data.save();
     console.log(result);
     resp.send(result);
 
 });
+
 app.post("/addproduct",  async (req, resp) => {
     let data = new productlist(req.body);
     let result = await data.save();
@@ -718,13 +720,14 @@ app.get("/customer/:name",  async (req, resp) => {
 
 app.post('/spotsale', async (req, res) => {
     try {
-      const {billno,date,customer,balance} = req.body;
+      const {billno,date,customer,balance,paiditem} = req.body;
   
       const result = new spotsale({
         billno,
         date,
         customer,
-      balance
+      balance,
+      paiditem
       });
   
       await result.save();
@@ -888,7 +891,7 @@ app.get('/customer/:customerId', async (req, res) => {
     }
   });
 
-  app.get('/user/:userId', async (req, res) => {
+  app.get('/return/:userId', async (req, res) => {
     try {
         const userId = new mongoose.Types.ObjectId(req.params.userId);
   
@@ -1090,5 +1093,43 @@ app.get("/paymenthistoryget",  async (req, resp) => {
     resp.send(result);
 
 });
+app.delete("/stock/:_id",  async (req, resp) => {
 
+    let data = await stock.deleteOne({ _id: req.params._id });
+
+    if (data.deletedCount === 1) {
+        resp.send({ message: 'Product deleted successfully' });
+    } else {
+        resp.status(404).send({ message: 'Product not found' });
+    }
+
+});
+
+app.get("/stocksearch/:key", async (req, resp) => {
+    let result = await stock.find({
+        "$or": [
+            
+            {itemname: { $regex: req.params.key } }
+           
+        ]
+    });
+    resp.send(result);
+});
+app.get("/billget",  async (req, resp) => {
+
+    let result = await spotsale.find();
+    console.log(result);
+    resp.send(result);
+
+});
+app.get("/billsearch/:key", async (req, resp) => {
+    let result = await spotsale.find({
+        "$or": [
+            
+            {customer: { $regex: req.params.key } }
+           
+        ]
+    });
+    resp.send(result);
+});
 app.listen(5000);

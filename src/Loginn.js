@@ -41,6 +41,10 @@ const Loginn = () => {
         </div>
      <div className='signbody'>
       <div className="signcard">
+      <div className=" text-center logoimg">
+            
+            <img src="../logologin.png"  style={{width:"150px",height:"100px"}} />
+          </div>
         <form  onSubmit={handleSubmit}>
             <div className="signform">
         
@@ -62,11 +66,11 @@ const Loginn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <Link to="/confirm" className='text-center mt-4 link'>
+          <Link to="/confirm" className='text-left link' style={{textDecoration:"none"}}>
             Forgot Password
             </Link>
           <button className='signbtn mt-3' type="submit">Login</button>
-          <Link to="/" className='text-center mt-4 link'>
+          <Link to="/" className='text-center mt-4 link'style={{textDecoration:"none"}}>
             No Account
             </Link>
         </div>
