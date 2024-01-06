@@ -19,7 +19,7 @@ const Gheri = () => {
   const [customer, setCustomer] = useState([]);
   const customernamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/userget', {
+      const result = await fetch('http://localhost:5500/userget', {
 
       });
       const data = await result.json();
@@ -45,7 +45,7 @@ const Gheri = () => {
 
   const handleAddCustomer = async () => {
     try {
-      const response = await fetch('http://localhost:5000/addgheriexpenditure', {
+      const response = await fetch('http://localhost:5500/addgheriexpenditure', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ getproduct();
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/gheriexpenditureget', {
+      const result = await fetch('http://localhost:5500/gheriexpenditureget', {
 
       });
       const data = await result.json();
@@ -97,7 +97,7 @@ getproduct();
 
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/gheriexpendituredelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/gheriexpendituredelete/${id}`, {
 
         method: 'DELETE',
       });
@@ -114,7 +114,7 @@ getproduct();
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/gheriexpenditureupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/gheriexpenditureupdateget/${id}`, {
 
       });
 
@@ -141,7 +141,7 @@ getproduct();
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/gheriexpenditureupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/gheriexpenditureupdate/${updateItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ getproduct();
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Gheri Expenditure Details</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
+            <h4 style={{ marginBottom: "25px" }}>Add|Update Gheri Exp Record</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col">

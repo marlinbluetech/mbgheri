@@ -43,11 +43,11 @@ const Employee = () => {
         return false;
     } 
     try {
-      const response = await fetch('http://localhost:5000/addemployee', {
+      const response = await fetch('http://localhost:5500/addemployee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        
+          authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
 
         },
         body: JSON.stringify({
@@ -85,7 +85,7 @@ setMobile('');
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/employeeget',{
+      const result = await fetch('http://localhost:5500/employeeget',{
         
       });
       const data = await result.json();
@@ -97,7 +97,7 @@ setMobile('');
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/employeedelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/employeedelete/${id}`, {
         
         method: 'DELETE', 
       });
@@ -114,7 +114,7 @@ setMobile('');
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/employeeupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/employeeupdateget/${id}`, {
 
       });
 
@@ -143,7 +143,7 @@ setMobile(data.mobile);
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/employeeupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/employeeupdate/${updateItemId}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ setMobile(data.mobile);
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Employee Details</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4>Add|Update Customer Record</h4>
+            <h4 className='mb-4'>Add|Update Employee Record</h4>
             <div class="container text-center">
               <div class="row">
               <div class="col-lg-3 col-md-12 col-sm-12">

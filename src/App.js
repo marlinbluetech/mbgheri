@@ -19,7 +19,7 @@ function App() {
           <Route path="/confirm" element={<Confirm/>} />
           <Route path="/indexpage/*" element={<Indexpage />} />
           <Route path="/specific/:_id" element={<Specific />} />
-          <Route path="/billreport" element={<Billreport />} />
+          <Route path="/billreport" element={<Billreport/>} />
         </Routes>
       </Router>
     </div>

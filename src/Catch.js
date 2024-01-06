@@ -46,7 +46,7 @@ const Catch = () => {
 
   const handleAddCustomer = async () => {
     try {
-      const response = await fetch('http://localhost:5000/addcatch', {
+      const response = await fetch('http://localhost:5500/addcatch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const Catch = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/catchget', {
+      const result = await fetch('http://localhost:5500/catchget', {
 
       });
       const data = await result.json();
@@ -111,7 +111,7 @@ const Catch = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/catchdelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/catchdelete/${id}`, {
 
         method: 'DELETE',
       });
@@ -128,7 +128,7 @@ const Catch = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/catchupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/catchupdateget/${id}`, {
 
       });
 
@@ -159,7 +159,7 @@ const Catch = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/catchupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/catchupdate/${updateItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ const Catch = () => {
   };
   const getcompanyname = async () => {
     try {
-      const result = await fetch('http://localhost:5000/userget', {
+      const result = await fetch('http://localhost:5500/userget', {
 
       });
       const data = await result.json();
@@ -210,7 +210,7 @@ const Catch = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Catch Details</h2>
         <div class=" container card mb-4 seccards">
           <div class="card-body">
-            <h4>Add|Update Customer Record</h4>
+            <h4 className='mb-4'>Add|Update Catch  Record</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col">

@@ -41,7 +41,7 @@ const Purchase = () => {
   }, [product]);
   const companynamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/companyget', {
+      const result = await fetch('http://localhost:5500/companyget', {
 
       });
       const data = await result.json();
@@ -53,7 +53,7 @@ const Purchase = () => {
   };
   const itemnamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/productlistget', {
+      const result = await fetch('http://localhost:5500/productlistget', {
 
       });
       const data = await result.json();
@@ -80,7 +80,7 @@ const Purchase = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/purchaseupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/purchaseupdate/${updateItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const Purchase = () => {
       return false;
     }
     try {
-      const response = await fetch('http://localhost:5000/addpurchase', {
+      const response = await fetch('http://localhost:5500/addpurchase', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const Purchase = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/purchaseget', {
+      const result = await fetch('http://localhost:5500/purchaseget', {
 
       });
       const data = await result.json();
@@ -174,7 +174,7 @@ const Purchase = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/purchasedelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/purchasedelete/${id}`, {
 
         method: 'DELETE',
       });
@@ -191,7 +191,7 @@ const Purchase = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/purchaseupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/purchaseupdateget/${id}`, {
 
       });
 
@@ -220,7 +220,7 @@ const Purchase = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Purchase Details</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
+            <h4 style={{ marginBottom: "25px" }}>Add|Update Purchase Record</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col">

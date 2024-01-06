@@ -12,7 +12,7 @@ const Confirm = () => {
 
     try {
       
-      const result = await fetch('http://localhost:5000/forgot-password', {
+      const result = await fetch('http://localhost:5500/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,9 +76,7 @@ const Confirm = () => {
                 />
               </label>
               <button className='signbtn mt-3' type="submit">Submit</button>
-              {/* <Link to="/loginn" className='text-center mt-4 link'>
-                Login
-              </Link> */}
+              
             </div>
           </form>
         </div>

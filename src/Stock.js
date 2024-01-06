@@ -23,7 +23,7 @@ const Stock = () => {
     e.preventDefault();
     try {
        
-        const result = await fetch(`http://localhost:5000/stocksearch/${searchTerm}`, {
+        const result = await fetch(`http://localhost:5500/stocksearch/${searchTerm}`, {
   
         });
         const data = await result.json();
@@ -38,7 +38,7 @@ const Stock = () => {
 
     const handleAddCustomer = async () => {
         try {
-            const response = await fetch('http://localhost:5000/addstock', {
+            const response = await fetch('http://localhost:5500/addstock', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const Stock = () => {
 
     const getpurchase = async () => {
         try {
-            const result = await fetch('http://localhost:5000/purchaseget', {
+            const result = await fetch('http://localhost:5500/purchaseget', {
 
             });
             const data = await result.json();
@@ -94,7 +94,7 @@ const Stock = () => {
 
     const getstock = async () => {
         try {
-            const result = await fetch('http://localhost:5000/stockget', {
+            const result = await fetch('http://localhost:5500/stockget', {
 
             });
             const data = await result.json();
@@ -106,7 +106,7 @@ const Stock = () => {
     };
     const getreturnlist = async () => {
         try {
-            const result = await fetch('http://localhost:5000/returnlistget', {
+            const result = await fetch('http://localhost:5500/returnlistget', {
 
             });
             const data = await result.json();
@@ -118,7 +118,7 @@ const Stock = () => {
     };
     const itemnamedetails = async () => {
         try {
-            const result = await fetch('http://localhost:5000/purchaseget', {
+            const result = await fetch('http://localhost:5500/purchaseget', {
 
             });
             const data = await result.json();
@@ -130,7 +130,7 @@ const Stock = () => {
     };
     const getsaledetails = async () => {
         try {
-            const result = await fetch('http://localhost:5000/saleget', {
+            const result = await fetch('http://localhost:5500/saleget', {
 
             });
             const data = await result.json();
@@ -171,7 +171,7 @@ const Stock = () => {
     };
     const deleteproduct = async (id) => {
         try {
-            const result = await fetch(`http://localhost:5000/stock/${id}`, {
+            const result = await fetch(`http://localhost:5500/stock/${id}`, {
 
                 method: 'DELETE',
             });
@@ -193,7 +193,7 @@ const Stock = () => {
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Stock Details</h2>
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
-                        <h4 style={{ marginBottom: "15px" }}>Add|Update Customer Record</h4>
+                        <h4 style={{ marginBottom: "25px" }}>Add|Update Stock Record</h4>
                         <div class="container text-start mb-4">
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-sm-12">

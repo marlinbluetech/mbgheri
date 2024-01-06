@@ -32,7 +32,7 @@ const Credit = () => {
       return false;
     }
     try {
-      const response = await fetch('http://localhost:5000/addcreditpending', {
+      const response = await fetch('http://localhost:5500/addcreditpending', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Credit = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/creditpendingget',{
+      const result = await fetch('http://localhost:5500/creditpendingget',{
         
       });
       const data = await result.json();
@@ -75,7 +75,7 @@ const Credit = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/creditpendingdelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/creditpendingdelete/${id}`, {
         
         method: 'DELETE', 
       });
@@ -92,7 +92,7 @@ const Credit = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/creditpendingupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/creditpendingupdateget/${id}`, {
 
       });
 
@@ -114,7 +114,7 @@ const Credit = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/creditpendingupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/creditpendingupdate/${updateItemId}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ const Credit = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Credit & Collection PendingList</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4>Add|Update Customer Record</h4>
+            <h4 className='mb-4'>Add Credit/Loan Details</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col-lg-4 col-md-12 col-sm-12">

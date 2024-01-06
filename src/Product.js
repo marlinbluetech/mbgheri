@@ -44,10 +44,11 @@ const Product = () => {
       return false;
     }
     try {
-      const response = await fetch('http://localhost:5000/addproduct', {
+      const response = await fetch('http://localhost:5500/addproduct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
         },
         body: JSON.stringify({
           name: name,
@@ -90,7 +91,7 @@ const Product = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/productlistget', {
+      const result = await fetch('http://localhost:5500/productlistget', {
 
       });
       const data = await result.json();
@@ -102,7 +103,7 @@ const Product = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/productlistdelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/productlistdelete/${id}`, {
 
         method: 'DELETE',
       });
@@ -119,7 +120,7 @@ const Product = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/productlistupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/productlistupdateget/${id}`, {
 
       });
 
@@ -149,7 +150,7 @@ const Product = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/productlistupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/productlistupdate/${updateItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -181,7 +182,7 @@ const Product = () => {
   };
   const companynamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/companyget', {
+      const result = await fetch('http://localhost:5500/companyget', {
 
       });
       const data = await result.json();
@@ -199,7 +200,7 @@ const Product = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>ProductList Details</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
+            <h4 style={{ marginBottom: "25px" }}>Add|Update Product List</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col">

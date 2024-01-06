@@ -20,7 +20,7 @@ const Return = () => {
 
   const customernamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/userget', {
+      const result = await fetch('http://localhost:5500/userget', {
 
       });
       const data = await result.json();
@@ -44,7 +44,7 @@ const Return = () => {
   };
   const handleAddCustomer = async () => {
     try {
-      const response = await fetch('http://localhost:5000/addreturnlist', {
+      const response = await fetch('http://localhost:5500/addreturnlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const Return = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/returnlistget',{
+      const result = await fetch('http://localhost:5500/returnlistget',{
         
       });
       const data = await result.json();
@@ -93,7 +93,7 @@ const Return = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/returnlistdelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/returnlistdelete/${id}`, {
         
         method: 'DELETE', 
       });
@@ -110,7 +110,7 @@ const Return = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/returnlistupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/returnlistupdateget/${id}`, {
 
       });
 
@@ -134,7 +134,7 @@ const Return = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/returnlistupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/returnlistupdate/${updateItemId}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ const Return = () => {
   };
   const itemnamedetails = async () => {
     try {
-        const result = await fetch('http://localhost:5000/purchaseget', {
+        const result = await fetch('http://localhost:5500/purchaseget', {
 
         });
         const data = await result.json();
@@ -177,7 +177,7 @@ const Return = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Return List</h2>
         <div class="container card mb-4 seccard">
           <div class="card-body">
-            <h4>Add|Update Customer Record</h4>
+            <h4 className='mb-4'>Add|Update Return Record</h4>
             <div class="container text-start">
               <div class="row">
                 <div class="col">
@@ -200,6 +200,7 @@ const Return = () => {
                   <label >Season</label><br></br>
                   <select value={season}
                     onChange={(e) => setSeason(e.target.value)}>
+                          <option >select Season</option>
                     <option value="s1">s1</option>
                     <option value="s2">s2</option>
                     <option value="s3">s3</option>
@@ -297,11 +298,14 @@ const Return = () => {
                   <label >Customer Name</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={customer}
                     onChange={(e) => setCustomer(e.target.value)}></input>
-                </div>
+                </div><br></br>
                 <div className='col md-5'>
                   <label >Season</label><br></br>
                   <select value={season}
                     onChange={(e) => setSeason(e.target.value)}>
+                      <option 
+                      
+                      >select Season</option>
                     <option value="s1">s1</option>
                     <option value="s2">s2</option>
                     <option value="s3">s3</option>

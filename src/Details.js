@@ -22,7 +22,7 @@ const Details = () => {
     const { _id } = useParams();
     const productdetails = async () => {
         try {
-          const result = await fetch(`http://localhost:5000/customerupdateget/${_id}`);
+          const result = await fetch(`http://localhost:5500/customerupdateget/${_id}`);
           const data = await result.json();
           console.log(data);
           setName(data.name);
@@ -45,7 +45,7 @@ const Details = () => {
 
   const adddiscount = async () => {
 try {
-      const response = await fetch('http://localhost:5000/adddiscount', {
+      const response = await fetch('http://localhost:5500/adddiscount', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ setDiscount('');
   };
   const addpayment = async () => {
     try {
-          const response = await fetch('http://localhost:5000/adddpaymenthistory', {
+          const response = await fetch('http://localhost:5500/adddpaymenthistory', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ setDiscount('');
       };
       const getpaymentdetails = async () => {
         try {
-            const result = await fetch('http://localhost:5000/paymenthistoryget');
+            const result = await fetch('http://localhost:5500/paymenthistoryget');
             const getdataArray = await result.json();
         
             console.log('Received data:', getdataArray);
@@ -130,7 +130,7 @@ setDiscount('');
 
   const companynamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/companyget', {
+      const result = await fetch('http://localhost:5500/companyget', {
 
       });
       const data = await result.json();
@@ -142,7 +142,7 @@ setDiscount('');
   };
   const categorynamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/productlistget', {
+      const result = await fetch('http://localhost:5500/productlistget', {
 
       });
       const data = await result.json();
@@ -154,7 +154,7 @@ setDiscount('');
   };
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/extradiscountget');
+      const result = await fetch('http://localhost:5500/extradiscountget');
       const dataArray = await result.json();
   
       console.log('Received data:', dataArray);

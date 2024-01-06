@@ -13,7 +13,7 @@ const Sign = () => {
     e.preventDefault();
 
     try {
-      const result = await fetch('http://localhost:5000/create', {
+      const result = await fetch('http://localhost:5500/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,6 +50,7 @@ const Sign = () => {
             <input
               className='formtext'
               type="text"
+              autocomplete="off"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -58,6 +59,7 @@ const Sign = () => {
             Email:
             <input
               className='formtext'
+              autocomplete="off"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -67,6 +69,7 @@ const Sign = () => {
            Mobile:
             <input
               className='formtext'
+              autocomplete="off"
               type="number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
@@ -77,6 +80,7 @@ const Sign = () => {
             <input
               className='formtext'
               type="password"
+              autocomplete="off"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

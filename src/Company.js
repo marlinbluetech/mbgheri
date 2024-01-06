@@ -39,7 +39,7 @@ const Company = () => {
         return false;
     } 
     try {
-      const response = await fetch('http://localhost:5000/addcompany', {
+      const response = await fetch('http://localhost:5500/addcompany', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const Company = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/companyget',{
+      const result = await fetch('http://localhost:5500/companyget',{
         
       });
       const data = await result.json();
@@ -89,7 +89,7 @@ const Company = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/companydelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/companydelete/${id}`, {
         
         method: 'DELETE', 
       });
@@ -107,7 +107,7 @@ const Company = () => {
   const productdetails = async (id) => {
     try {
 
-      const result = await fetch(`http://localhost:5000/companyupdateget/${id}`, {
+      const result = await fetch(`http://localhost:5500/companyupdateget/${id}`, {
 
       });
 
@@ -130,7 +130,7 @@ const Company = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/companyupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/companyupdate/${updateItemId}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ const Company = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Company Details</h2>
         <div className=" container card mb-4 seccard">
           <div className="card-body">
-            <h4>Add|Update Company Record</h4>
+            <h4 className='mb-4'>Add|Update Company Record</h4>
             <div className="container text-start">
              <div className="row">
                 <div className="col-lg-3 col-md-12 col-sm-12">

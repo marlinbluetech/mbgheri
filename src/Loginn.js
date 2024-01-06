@@ -10,7 +10,7 @@ const Loginn = () => {
       e.preventDefault();
   
       try {
-        const result = await fetch('http://localhost:5000/login', {
+        const result = await fetch('http://localhost:5500/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -53,6 +53,7 @@ const Loginn = () => {
             <input
               className='formtext'
               type="mobile"
+              autocomplete="off"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />

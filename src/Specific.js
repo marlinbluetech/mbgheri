@@ -15,7 +15,7 @@ const Specific = () => {
 
   const productdetails = async () => {
     try {
-      const result = await fetch(`http://localhost:5000/customerupdateget/${_id}`);
+      const result = await fetch(`http://localhost:5500/customerupdateget/${_id}`);
       const data = await result.json();
       console.log(data);
       setName(data.name);
@@ -28,7 +28,7 @@ const Specific = () => {
   };
   const getproduct = async () => {
     try {
-      const result = await fetch(`http://localhost:5000/return/${_id}`);
+      const result = await fetch(`http://localhost:5500/return/${_id}`);
       const data = await result.json();
       console.log(data);
       setCustomerData(data);
@@ -38,7 +38,7 @@ const Specific = () => {
   };
   const getcatchproduct = async () => {
     try {
-      const result = await fetch(`http://localhost:5000/catch/${_id}`);
+      const result = await fetch(`http://localhost:5500/catch/${_id}`);
       const data = await result.json();
       console.log(data);
       setCatchData(data);
@@ -48,7 +48,7 @@ const Specific = () => {
   };
   const getgheridetails = async () => {
     try {
-      const result = await fetch(`http://localhost:5000/gheriexpenditure/${_id}`);
+      const result = await fetch(`http://localhost:5500/gheriexpenditure/${_id}`);
       const data = await result.json();
       console.log(data); 
       setGheridata(data);
@@ -67,7 +67,7 @@ const Specific = () => {
   }, []); 
   const getpaymentdetails = async () => {
     try {
-        const result = await fetch('http://localhost:5000/paymenthistoryget');
+        const result = await fetch('http://localhost:5500/paymenthistoryget');
         const getdataArray = await result.json();
     
         console.log('Received data:', getdataArray);
@@ -86,7 +86,7 @@ const Specific = () => {
 
   const getdiscountdetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/extradiscountget');
+      const result = await fetch('http://localhost:5500/extradiscountget');
       const dataArray = await result.json();
   
       console.log('Received data:', dataArray);
@@ -105,17 +105,18 @@ const Specific = () => {
  return (
    <div className=' specific'>
      <div className=' container specificpage'>
-     <div style={{display:"flex",justifyContent:"space-between",flexWrap:"wrap",marginBottom:"40px",paddingTop:"40px"}}>
-     
-      <div>
-      <img src="../logologin.png" style={{height:"150px",width:"150px"}} />
+     <div className='d-flex flex-column flex-md-row justify-content-between mb-2 pr-2'>
+      <div className='mb-2 mb-md-0 text-center text-md-left'>
+        <img src="../logologin.png" alt="Logo" style={{ height: "130px", width: "150px" }} />
+        <p className='mb-0 mt-2 mt-md-0'>Company Name: Marlin Bluetech</p>
       </div>
-      <div>
-      <h5>Name:{name}</h5> 
-    <h5>Mobile:{mobile}</h5>
-    <h5>Address:{address}</h5>
+      <div className='text-center text-md-right text-sm-right  mt-md-0'>
+        <div style={{textAlign:"left"}}>
+        <p className='mb-1 mt-3'>Name: {name}</p>
+        <p className='mb-0'>Mobile: {mobile}</p>
+        </div>
       </div>
-     </div>
+    </div>
     <h3 className='text-center'>Return List</h3>
     <div className='container table-container'>
     <table className='table table-bordered table-striped'>

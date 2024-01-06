@@ -88,7 +88,7 @@ const Sales = () => {
       for (const entry of localData) {
         const billno = generateBillNo();
         const balance = parseFloat(price) - parseFloat(paiditem);
-        const response = await fetch('http://localhost:5000/saleadd', {
+        const response = await fetch('http://localhost:5500/saleadd', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const Sales = () => {
 
       const existingData = JSON.parse(localStorage.getItem('inputData')) || [];
       if (existingData.length === 0) {
-        const result = await fetch('http://localhost:5000/saleget', {});
+        const result = await fetch('http://localhost:5500/saleget', {});
         const data = await result.json();
         console.log(data);
         setProduct(data);
@@ -145,7 +145,7 @@ const Sales = () => {
   };
  const productlistdetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/productlistget', {
+      const result = await fetch('http://localhost:5500/productlistget', {
 
       });
       const data = await result.json();

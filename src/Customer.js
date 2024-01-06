@@ -6,10 +6,6 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-
-
-
-
 const Customer = () => {
   const [name, setName] = useState();
   const [mobile, setMobile] = useState();
@@ -38,7 +34,7 @@ const Customer = () => {
       return false;
     }
     try {
-      const response = await fetch('http://localhost:5000/adduser', {
+      const response = await fetch('http://localhost:5500/adduser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +70,7 @@ const Customer = () => {
 
   const getproduct = async () => {
     try {
-      const result = await fetch('http://localhost:5000/userget', {
+      const result = await fetch('http://localhost:5500/userget', {
  headers: {
           'Content-Type': 'application/json',
           authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -89,7 +85,7 @@ const Customer = () => {
   };
   const deleteproduct = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/userdelete/${id}`, {
+      const result = await fetch(`http://localhost:5500/userdelete/${id}`, {
 
         method: 'DELETE',
       });
@@ -105,7 +101,7 @@ const Customer = () => {
   };
   const productdetails = async (id) => {
     try {
-      const result = await fetch(`http://localhost:5000/customerupdateget/${id}`);
+      const result = await fetch(`http://localhost:5500/customerupdateget/${id}`);
       const data = await result.json();
       console.log(data);
 
@@ -128,7 +124,7 @@ const Customer = () => {
   const handleUpdateCustomer = async () => {
     console.log(updateItemId);
     try {
-      const response = await fetch(`http://localhost:5000/customerupdate/${updateItemId}`, {
+      const response = await fetch(`http://localhost:5500/customerupdate/${updateItemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +157,7 @@ const Customer = () => {
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Customer Details</h2>
         <div className=" container card mb-4 seccard">
           <div className="card-body">
-            <h4>Add|Update Customer Record</h4>
+            <h4 className='mb-4'>Add|Update Customer Record</h4>
             <div className="container text-center">
               <div className="row">
                 <div className="col-lg-4 col-md-12 col-sm-12">
@@ -169,6 +165,7 @@ const Customer = () => {
                   <input
                     type="text"
                     name="name"
+                    autocomplete="off"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     style={{ borderRadius: "5px" }}
@@ -181,6 +178,7 @@ const Customer = () => {
                   <input
                     type="text"
                     name="mobile"
+                    autocomplete="off"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     style={{ borderRadius: "5px" }}
@@ -193,6 +191,7 @@ const Customer = () => {
                   <input
                     type="text"
                     name="address"
+                    autocomplete="off"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     style={{ borderRadius: "5px" }}
@@ -234,7 +233,7 @@ const Customer = () => {
 </td>
                   <td>{item.mobile}</td>
                   <td>{item.address}</td>
-                  <td style={{display:"flex",columnGap:"7px"}}>
+                  <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
                     <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                     <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
                   </td>

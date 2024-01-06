@@ -17,6 +17,9 @@ const Spotsales = () => {
   const [localData, setLocalData] = useState([]);
   const [paiditem, setPaiditem] = useState('');
   const [price, setPrice] = useState('')
+const[customername,setCustomername]=useState([]);
+const [selectedname, setSelectedname] = useState('');
+const [selectedmobile, setSelectedmobile] = useState('');
 
 
   const calculateTotalPrice = () => {
@@ -35,7 +38,7 @@ const Spotsales = () => {
  const searchprod = async (e) => {
     try {
       let key = e.target.value;
-      const result = await fetch(`http://localhost:5000/searchspotsale/${key}`, {
+      const result = await fetch(`http://localhost:5500/searchspotsale/${key}`, {
 
       });
       const data = await result.json();
@@ -58,8 +61,8 @@ const Spotsales = () => {
 
       const inputData = {
         date,
-        customer,
-        mobile,
+        customer:selectedname,
+        mobile:selectedmobile,
         selectedOption: selectedProduct,
         mrp: selectedProductPrice,
         quantity,
@@ -105,7 +108,7 @@ const Spotsales = () => {
       for (const entry of localData) {
         const billno = generateBillNo();
         const balance = price - paiditem;
-        const response = await fetch('http://localhost:5000/spotsalesecond', {
+        const response = await fetch('http://localhost:5500/spotsalesecond', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -146,7 +149,7 @@ const Spotsales = () => {
 
       const { date, customer, } = entry;
 
-      const response = await fetch('http://localhost:5000/spotsale', {
+      const response = await fetch('http://localhost:5500/spotsale', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -174,6 +177,7 @@ const Spotsales = () => {
 
     productlistdetails();
     getproduct();
+    getname();
   }, []);
   useEffect(() => {
 
@@ -193,7 +197,7 @@ const Spotsales = () => {
 
       const existingData = JSON.parse(localStorage.getItem('inputData')) || [];
       if (existingData.length === 0) {
-        const result = await fetch('http://localhost:5000/spotsalesecondget', {});
+        const result = await fetch('http://localhost:5500/spotsalesecondget', {});
         const data = await result.json();
         console.log(data);
         setProduct(data);
@@ -205,7 +209,7 @@ const Spotsales = () => {
 
   const productlistdetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/productlistget', {
+      const result = await fetch('http://localhost:5500/productlistget', {
 
       });
       const data = await result.json();
@@ -226,17 +230,45 @@ const Spotsales = () => {
 
       setSelectedProductPrice(selectedProductData.mrp);
     } else {
-
-
-
       setSelectedProductPrice('');
     }
   };
+  const handleProductChanges = (e) => {
+    const selectedProductNames = e.target.value;
+    console.log('Selected Product Name:', selectedProductNames);
+  
+    setSelectedname(selectedProductNames);
+   const selectedCustomerData = customername.find((customer) => customer.name === selectedProductNames);
+  
+    if (selectedCustomerData) {
+      setSelectedmobile(selectedCustomerData.mobile);
+    } else {
+      setSelectedmobile('');
+    }
+  };
+  
+  
+  
   const handleDeleteData = (index) => {
     const updatedData = [...localData];
     updatedData.splice(index, 1);
     setLocalData(updatedData);
     localStorage.setItem('inputData', JSON.stringify(updatedData));
+  };
+  const getname = async () => {
+    try {
+      const result = await fetch('http://localhost:5500/userget', {
+ headers: {
+          'Content-Type': 'application/json',
+          authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
+        },
+      });
+      const data = await result.json();
+      console.log(data);
+      setCustomername(data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
   };
   return (
     <div className='  mainpages'>
@@ -258,17 +290,23 @@ const Spotsales = () => {
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }} >Customer Name</label><br></br>
-                <input
-                  type="text"
-                  style={{ borderRadius: "5px", marginTop: "10px" }}
-
-                  disabled={localData.length > 0} value={customer}
-                  onChange={(e) => setCustomer(e.target.value)}
-                />
+                <select
+  value={selectedname}
+  disabled={localData.length > 0}
+  onChange={handleProductChanges}
+>
+  <option>Select Product</option>
+  {customername.map((item) => (
+    <option key={item.name} value={item.name}>
+      {item.name}
+    </option>
+  ))}
+</select>
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }}>Mobile</label><br></br>
-                <input type="text" style={{ borderRadius: "5px", marginTop: "10px" }} disabled={localData.length > 0} value={mobile} onChange={(e) => setMobile(e.target.value)}></input>
+                {/* <input type="text" style={{ borderRadius: "5px", marginTop: "10px" }} disabled={localData.length > 0} value={mobile} onChange={(e) => setMobile(e.target.value)}></input> */}
+                <input type="text"disabled={localData.length > 0}style={{ borderRadius: "5px", marginTop: "10px" }} value={selectedmobile} readOnly />
 
               </div>
 
@@ -317,7 +355,7 @@ const Spotsales = () => {
           <div className='col-lg-7
                     
                     col-md-12 col-sm-12'>
-            <div style={{display:"flex",flexWrap:"wrap",columnGap:"40px"}}>
+            <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between"}}>
             <h3 className='mt-5 '>Products In Cart</h3>
             <Link to='/indexpage/bill' className='billbtn' style={{textDecoration:"none",height:"45px",width:"170px",backgroundColor:"orange",color:"white",paddingTop:"10px",borderRadius:"5px",marginTop:"40px",textAlign:"center"}}>Bill Generate</Link>
 

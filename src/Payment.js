@@ -22,7 +22,7 @@ const Payment = () => {
 
   const employeenamedetails = async () => {
     try {
-      const result = await fetch('http://localhost:5000/employeeget',{
+      const result = await fetch('http://localhost:5500/employeeget',{
         
       });
       const data = await result.json();
@@ -54,10 +54,11 @@ const Payment = () => {
           return false;
       } 
         try {
-            const response = await fetch('http://localhost:5000/addpayment', {
+            const response = await fetch('http://localhost:5500/addpayment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization:`bearer ${JSON.parse(localStorage.getItem('token'))}`
                 },
                 body: JSON.stringify({
                     date: date,
@@ -92,7 +93,7 @@ const Payment = () => {
     
       const getproduct = async () => {
         try {
-          const result = await fetch('http://localhost:5000/paymentget',{
+          const result = await fetch('http://localhost:5500/paymentget',{
             
           });
           const data = await result.json();
@@ -104,7 +105,7 @@ const Payment = () => {
       };
       const deleteproduct = async (id) => {
         try {
-          const result = await fetch(`http://localhost:5000/paymentdelete/${id}`, {
+          const result = await fetch(`http://localhost:5500/paymentdelete/${id}`, {
             
             method: 'DELETE', 
           });
@@ -121,7 +122,7 @@ const Payment = () => {
       const productdetails = async (id) => {
         try {
     
-          const result = await fetch(`http://localhost:5000/paymentupdateget/${id}`, {
+          const result = await fetch(`http://localhost:5500/paymentupdateget/${id}`, {
     
           });
     
@@ -148,7 +149,7 @@ const Payment = () => {
       const handleUpdateCustomer = async () => {
         console.log(updateItemId);
         try {
-          const response = await fetch(`http://localhost:5000/paymentupdate/${updateItemId}`, {
+          const response = await fetch(`http://localhost:5500/paymentupdate/${updateItemId}`, {
             method: 'PUT', 
             headers: {
               'Content-Type': 'application/json',
@@ -181,7 +182,7 @@ const Payment = () => {
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Payment Details</h2>
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
-                        <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
+                        <h4 style={{ marginBottom: "25px" }}>Add|Update Payment Record</h4>
                         <div class="container text-start">
                             <div class="row">
                                 <div class="col">
@@ -270,7 +271,7 @@ const Payment = () => {
               <td>{item.employeename}</td>
               <td>{item.amount}</td>
               <td>{item.description}</td>
-              <td style={{display:"flex",columnGap:"7px"}}>
+              <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>

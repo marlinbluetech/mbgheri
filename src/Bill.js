@@ -7,19 +7,20 @@ const Bill = () => {
 
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
+        console.log(searchTerm);
       };
    
   const handleSearch = async(e) => {
     e.preventDefault();
     try {
        
-        const result = await fetch(`http://localhost:5000/billsearch/${searchTerm}`, {
+        const result = await fetch(`http://localhost:5500/billsearch/${searchTerm}`, {
   
         });
         const data = await result.json();
         if (data) {
           setProduct(data);
-          searchTerm('');
+         
         }
   
       } catch (error) {
@@ -40,8 +41,27 @@ const Bill = () => {
                        <button class="btn btn-primary mt-2" type="submit"  onClick={handleSearch}>Search</button>
                    </form>
                </div>
-               <Link to='/billreport' className='billbtn ms-2' style={{textDecoration:"none",height:"150px",width:"180px",backgroundColor:"orange",color:"white",padding:"12px",borderRadius:"5px",marginTop:"40px",textAlign:"center",marginBottom:"15px"}}>Bill Report</Link>
-
+               <Link
+  to={{
+    pathname: '/billreport',
+    search: `?searchTerm=${searchTerm}`,
+  }}
+  className='billbtn ms-2'
+  style={{
+    textDecoration: 'none',
+    height: '150px',
+    width: '180px',
+    backgroundColor: 'orange',
+    color: 'white',
+    padding: '12px',
+    borderRadius: '5px',
+    marginTop: '40px',
+    textAlign: 'center',
+    marginBottom: '15px',
+  }}
+>
+  Bill Report
+</Link>
                <div className='container table-container mt-5'>
   {product.length > 0 ? (
     <table className='table table-bordered table-striped'>

@@ -58,7 +58,7 @@ app.post("/addcompany", verifytoken,  async (req, resp) => {
     resp.send(result);
 
 });
-app.post("/addemployee",   async (req, resp) => {
+app.post("/addemployee",verifytoken,   async (req, resp) => {
     let data = new employee(req.body);
     let result = await data.save();
     console.log(result);
@@ -66,14 +66,14 @@ app.post("/addemployee",   async (req, resp) => {
 
 });
 
-app.post("/addproduct",  async (req, resp) => {
+app.post("/addproduct",verifytoken,  async (req, resp) => {
     let data = new productlist(req.body);
     let result = await data.save();
     console.log(result);
     resp.send(result);
 
 });
-app.post("/addpayment",  async (req, resp) => {
+app.post("/addpayment",verifytoken,  async (req, resp) => {
     let data = new payment(req.body);
     let result = await data.save();
     console.log(result);
@@ -463,6 +463,20 @@ app.put("/companyupdate/:_id", async (req, resp) => {
 app.get("/companyupdateget/:_id",  async (req, resp) => {
     try {
         const data = await company.findOne({ _id: req.params._id });
+
+        if (data) {
+            resp.send(data);
+        } else {
+            resp.status(404).send({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        resp.status(500).send({ message: 'Internal server error' });
+    }
+});
+app.get("/customer/:name",  async (req, resp) => {
+    try {
+        const data = await product.findOne({ name: req.params.name });
 
         if (data) {
             resp.send(data);
@@ -1132,4 +1146,4 @@ app.get("/billsearch/:key", async (req, resp) => {
     });
     resp.send(result);
 });
-app.listen(5000);
+app.listen(5500);

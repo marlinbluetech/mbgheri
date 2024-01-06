@@ -35,7 +35,7 @@ const Transaction = () => {
   };
     const handleAddCustomer = async () => {
         try {
-          const response = await fetch('http://localhost:5000/addtransaction', {
+          const response = await fetch('http://localhost:5500/addtransaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const Transaction = () => {
     
       const getproduct = async () => {
         try {
-          const result = await fetch('http://localhost:5000/transactionget',{
+          const result = await fetch('http://localhost:5500/transactionget',{
             
           });
           const data = await result.json();
@@ -84,7 +84,7 @@ const Transaction = () => {
       };
       const deleteproduct = async (id) => {
         try {
-          const result = await fetch(`http://localhost:5000/transactiondelete/${id}`, {
+          const result = await fetch(`http://localhost:5500/transactiondelete/${id}`, {
             
             method: 'DELETE', 
           });
@@ -101,7 +101,7 @@ const Transaction = () => {
       const productdetails = async (id) => {
         try {
     
-          const result = await fetch(`http://localhost:5000/transactionupdateget/${id}`, {
+          const result = await fetch(`http://localhost:5500/transactionupdateget/${id}`, {
     
           });
     
@@ -126,7 +126,7 @@ const Transaction = () => {
       const handleUpdateCustomer = async () => {
         console.log(updateItemId);
         try {
-          const response = await fetch(`http://localhost:5000/transactionupdate/${updateItemId}`, {
+          const response = await fetch(`http://localhost:5500/transactionupdate/${updateItemId}`, {
             method: 'PUT', 
             headers: {
               'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ const Transaction = () => {
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Transaction Details</h2>
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
-                        <h4 style={{ marginBottom: "25px" }}>Add|Update Customer Record</h4>
+                        <h4 style={{ marginBottom: "25px",marginBottom:"20px" }}>Add|Update Transaction  Record</h4>
                         <div class="container text-start">
                             <div class="row">
                                 <div class="col">
