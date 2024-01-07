@@ -20,7 +20,7 @@ margin-top: 0;
   .signcard {
     width: 450px; 
     padding: 20px;
-    border: 1px solid #ec8b8b;
+  background-color: white;;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
@@ -40,7 +40,7 @@ margin-top: 0;
  .signbtn {
     width: 100%;
     padding: 10px;
-    background-color:#ec8b8b;
+    background-color:blueviolet;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -57,5 +57,5 @@ margin-top: 0;
   }
   
   .link{
-    color:#ec8b8b;
+    color:blueviolet;
   }

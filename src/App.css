@@ -192,13 +192,12 @@ body{
 .seccard{
   border-radius: 30px;
   background-color:lightblue;
-
   height:auto;
-  margin-top: 100px;
- 
+  margin-top: 70px;
   text-align: center;
   padding: 0 20px; 
   box-sizing: border-box;
+
 }
 .seccards{
   border-radius: 30px;

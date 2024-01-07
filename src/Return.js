@@ -17,7 +17,7 @@ const Return = () => {
   const [updateItemId, setUpdateItemId] = useState(null);
   const [customername, setCustomername] = useState([]);
   const [itemdeatils, setItemdeatils] = useState([]);
-
+  const [error, setError] = useState(false)
   const customernamedetails = async () => {
     try {
       const result = await fetch('http://localhost:5500/userget', {
@@ -43,6 +43,10 @@ const Return = () => {
     setQuantity('')
   };
   const handleAddCustomer = async () => {
+    if (!date || !customer ||!season  || !item || !quantity  ) {
+      setError(true);
+      return false;
+    }
     try {
       const response = await fetch('http://localhost:5500/addreturnlist', {
         method: 'POST',
@@ -60,6 +64,7 @@ const Return = () => {
 
       if (response.ok) {
         toast.success('Return List added successfully');
+        setError(false);
         setDate('');
      setCustomer('');
      setSeason('');
@@ -183,7 +188,8 @@ const Return = () => {
                 <div class="col">
                   <label >Date</label><br></br>
                   <input type="Date" style={{ borderRadius: "5px" }} value={date}
-                    onChange={(e) => setDate(e.target.value)}></input>
+                    onChange={(e) => setDate(e.target.value)}></input><br></br>
+                    {error && !date &&  <span className="error">Enter Date</span>}
                 </div>
                 <div class="col">
                   <label >Customer Name</label><br></br>
@@ -194,7 +200,8 @@ const Return = () => {
       {uniqueName}
     </option>
   ))}
-                                    </select>
+                                    </select><br></br>
+                                    {error && !customer &&  <span className="error">Enter Name</span>}
                 </div>
                 <div className='col md-5'>
                   <label >Season</label><br></br>
@@ -214,7 +221,8 @@ const Return = () => {
                     <option value="s11">s11</option>
                     <option value="s12">s12</option>
 
-                  </select>
+                  </select><br></br>
+                  {error && !season &&  <span className="error">Enter Season</span>}
                 </div>
                 <div class="col">
                 <label >Item Name</label><br></br>
@@ -227,12 +235,14 @@ const Return = () => {
                                                 {uniqueName}
                                             </option>
                                         ))}
-                                    </select>
+                                    </select><br></br>
+                                    {error && !item &&  <span className="error">Enter Item</span>}
                 </div>
                 <div class="col">
                   <label >Quantity</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}></input>
+                    onChange={(e) => setQuantity(e.target.value)}></input><br></br>
+                    {error && !quantity &&  <span className="error">Enter Quantity</span>}
                 </div>
               </div>
             </div>

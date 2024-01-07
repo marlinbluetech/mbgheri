@@ -46,18 +46,20 @@ const Bill = () => {
     pathname: '/billreport',
     search: `?searchTerm=${searchTerm}`,
   }}
-  className='billbtn ms-2'
+  className='billbtn ms-5 '
   style={{
     textDecoration: 'none',
     height: '150px',
     width: '180px',
-    backgroundColor: 'orange',
+    backgroundColor: 'blue',
     color: 'white',
     padding: '12px',
     borderRadius: '5px',
     marginTop: '40px',
     textAlign: 'center',
     marginBottom: '15px',
+    textAlign:'center',
+    
   }}
 >
   Bill Report

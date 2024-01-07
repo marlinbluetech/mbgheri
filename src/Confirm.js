@@ -5,10 +5,16 @@ const Confirm = () => {
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(false)
+
   const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    if ( !password ||!mobile || mobile.length > 10 || mobile.length < 10 || !confirmPassword) {
+      setError(true);
+      return false;
+    }
 
     try {
       
@@ -49,32 +55,34 @@ const Confirm = () => {
           <form onSubmit={handleForgotPassword}>
             <div className="signform">
               <label>
-                Mobile:
+                Mobile:  </label>
                 <input
                   className='formtext'
                   type="text"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                 />
-              </label>
+                    {error && !mobile  && mobile!==10 &&  <span className="error">Enter valid Number</span>}
+            
               <label className='mt-3'>
-                New Password:
+                New Password:  </label>
                 <input
                   className='formtext'
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-              </label>
+                  {error && !password &&  <span className="error">Enter password</span>}
+            
               <label className='mt-3'>
-                Confirm Password:
+                Confirm Password:  </label>
                 <input
                   className='formtext'
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-              </label>
+              {error && !confirmPassword &&  <span className="error">Enter Confirm password</span>}
               <button className='signbtn mt-3' type="submit">Submit</button>
               
             </div>

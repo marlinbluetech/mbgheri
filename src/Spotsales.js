@@ -20,7 +20,7 @@ const Spotsales = () => {
 const[customername,setCustomername]=useState([]);
 const [selectedname, setSelectedname] = useState('');
 const [selectedmobile, setSelectedmobile] = useState('');
-
+const [error, setError] = useState(false)
 
   const calculateTotalPrice = () => {
     const newTotalPrice = localData.reduce((total, data) => {
@@ -52,6 +52,11 @@ const [selectedmobile, setSelectedmobile] = useState('');
   };
 
   const handleAddCustomer = async () => {
+    
+    if (!date || !selectedProduct || !quantity || !discount|| !selectedname) {
+      setError(true);
+      return false;
+    }
     try {
 
       setSelectedOption('');
@@ -285,8 +290,8 @@ const [selectedmobile, setSelectedmobile] = useState('');
                   disabled={localData.length > 0} value={date}
                   defaultValue={localData.length > 0 ? localData[0].date : date}
                   onChange={(e) => setDate(e.target.value)}
-                />
-
+                /><br></br>
+   {error && !date &&  <span className="error">Enter Date</span>}
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }} >Customer Name</label><br></br>
@@ -301,11 +306,11 @@ const [selectedmobile, setSelectedmobile] = useState('');
       {item.name}
     </option>
   ))}
-</select>
+</select><br></br>
+{error && !selectedname &&  <span className="error">Enter valid Name</span>}
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }}>Mobile</label><br></br>
-                {/* <input type="text" style={{ borderRadius: "5px", marginTop: "10px" }} disabled={localData.length > 0} value={mobile} onChange={(e) => setMobile(e.target.value)}></input> */}
                 <input type="text"disabled={localData.length > 0}style={{ borderRadius: "5px", marginTop: "10px" }} value={selectedmobile} readOnly />
 
               </div>
@@ -324,7 +329,8 @@ const [selectedmobile, setSelectedmobile] = useState('');
                       </option>
                     ))}
 
-                  </select>
+                  </select><br></br>
+                  {error && !selectedProduct &&  <span className="error">Enter product</span>}
                 </div>
               </div>
               <div className='col'>
@@ -337,13 +343,15 @@ const [selectedmobile, setSelectedmobile] = useState('');
               <div className='col'>
                 <div>
                   <label>Quantity</label><br></br>
-                  <input type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)}></input>
+                  <input type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)}></input><br></br>
+                  {error && !quantity &&  <span className="error">Enter Quantity</span>}
                 </div>
               </div>
               <div className='col'>
                 <div>
                   <label>price/Discount(%)</label><br></br>
                   <input type="text" value={discount} onChange={(e) => setDiscount(e.target.value)}></input>
+                  {error && !discount &&  <span className="error">Enter Discount</span>}
                 </div>
               </div>
               <div className='text-center mt-4'>
@@ -357,7 +365,7 @@ const [selectedmobile, setSelectedmobile] = useState('');
                     col-md-12 col-sm-12'>
             <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between"}}>
             <h3 className='mt-5 '>Products In Cart</h3>
-            <Link to='/indexpage/bill' className='billbtn' style={{textDecoration:"none",height:"45px",width:"170px",backgroundColor:"orange",color:"white",paddingTop:"10px",borderRadius:"5px",marginTop:"40px",textAlign:"center"}}>Bill Generate</Link>
+            <Link to='/indexpage/bill' className='billbtn' style={{textDecoration:"none",height:"45px",width:"170px",backgroundColor:"blue",color:"white",paddingTop:"10px",borderRadius:"5px",marginTop:"40px",textAlign:"center"}}>Bill Generate</Link>
 
             </div>
             <h5 className='mt-4'>Customer:{customer}</h5>

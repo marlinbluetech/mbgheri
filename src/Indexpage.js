@@ -59,8 +59,8 @@ function Indexpage() {
               <Link to="/tech" className="nav_links">
            Technical Dashboard
               </Link> 
-              <Link to="/" className="nav_links"onClick={handleSignOut}>
-          signout
+              <Link to="/profile" className="nav_links">
+         profile
               </Link>
           
           <div className="header_img">

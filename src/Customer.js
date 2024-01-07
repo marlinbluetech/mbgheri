@@ -153,7 +153,7 @@ const Customer = () => {
 
   return (
     <div>
-      <div className="mainpages">
+      <div className=" mainpages">
         <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Customer Details</h2>
         <div className=" container card mb-4 seccard">
           <div className="card-body">

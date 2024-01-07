@@ -213,21 +213,25 @@ const Product = () => {
                   <label>Catagory</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={category}
                     onChange={(e) => setCategory(e.target.value)}></input>
+                     {error && !category && <span className="error">Enter category</span>}
                 </div>
                 <div class="col">
                   <label>pack size</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={packsize}
                     onChange={(e) => setPacksize(e.target.value)}></input>
+                     {error && !packsize && <span className="error">Enter packsize</span>}
                 </div>
                 <div class="col">
                   <label >MRP</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={mrp}
                     onChange={(e) => setMrp(e.target.value)}></input>
+                     {error && !mrp && <span className="error">Enter MRP</span>}
                 </div>
                 <div class=" col">
                   <label>Purchase Price</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={purprice}
                     onChange={(e) => setPurprice(e.target.value)}></input>
+                    \ {error && !purprice && <span className="error">Enter Price</span>}
                 </div>
 
 
@@ -238,6 +242,7 @@ const Product = () => {
                   <label>MB Discount</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={discount}
                     onChange={(e) => setDiscount(e.target.value)}></input>
+                   
                 </div>
                 <div class="col">
                   <label >Company Name</label><br></br>
@@ -250,6 +255,7 @@ const Product = () => {
                       </option>
                     ))}
                   </select>
+                  {error && !companyname && <span className="error">Enter companyName</span>}
                 </div>
                 <div class=" col">
                   <label>Dealer Name</label><br></br>

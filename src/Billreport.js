@@ -47,7 +47,11 @@ const Billreport = () => {
   useEffect(() => {
    productdetails();
   }, []);
-
+  const handlePrintClick = (event) => {
+    event.preventDefault();
+    window.print();
+  };
+  
   return (
     <div className='specific'>
       <div className='container specificpage'>
@@ -55,25 +59,30 @@ const Billreport = () => {
   {product.length > 0 && (
     <div className='d-flex flex-column flex-md-row justify-content-between mb-2 pr-2'>
       <div className='mb-2 mb-md-0 text-center text-md-left'>
-      <div style={{textAlign:"left"}}>
-      <img src="../logologin.png" alt="Logo" style={{ height: "130px", width: "150px" }} />
-        <h4 className='mb-0 mt-2 mt-md-0'>Marlin BlueTech Private Limited</h4>
-     
-        <h5>GSTIN: XXXXXXXXXX</h5>
-        <h5>sales@mbaquatech.com</h5>
-        <h5>+91-9438572589</h5>
+        <div style={{ textAlign: 'left' }}>
+          <img
+            src="../logologin.png"
+            alt="Logo"
+            className='text-sm-center'
+            style={{ height: '130px', width: '150px' }}
+          />
+          <h4 className='mb-0 mt-2 mt-md-0'>Marlin BlueTech Private Limited</h4>
+          <h5>GSTIN: XXXXXXXXXX</h5>
+          <h5>sales@mbaquatech.com</h5>
+          <h5>+91-9438572589</h5>
         </div>
       </div>
-      <div className='text-center text-md-right text-sm-right  mt-md-0'>
-        <div style={{textAlign:"left"}}>
-        <h5 className='mb-1 mt-5'>Customer: {product[0].customer}</h5>
-        <h5 className='mb-0'>Mobile: {product[0].mobile}</h5>
-        <h5>Address:{address}</h5>
-          </div>
+      <div className='text-center text-md-right text-sm-left mt-md-0'>
+        <div style={{ textAlign: 'left' }}>
+          <h5 className='mb-1 mt-2 mt-md-5'>Customer: {product[0].customer}</h5>
+          <h5 className='mb-0'>Mobile: {product[0].mobile}</h5>
+          <h5>Address: {address}</h5>
+        </div>
       </div>
     </div>
   )}
 </div>
+
 
 
 
@@ -116,9 +125,10 @@ const Billreport = () => {
           </table>
         </div>
 
-        <div className='text-center mt-5'>
-          <button className='btn btn-primary'>Print</button>
-        </div>
+        <button className='btn btn-primary text-center d-print-none mt-5' onClick={ handlePrintClick }>
+          Print
+        </button>
+
       </div>
     </div>
   );

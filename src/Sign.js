@@ -7,10 +7,15 @@ const Sign = () => {
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false)
   const navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name || !mobile || !email || !password || mobile.length > 10 || mobile.length < 10) {
+      setError(true);
+      return false;
+    }
 
     try {
       const result = await fetch('http://localhost:5500/create', {
@@ -32,8 +37,8 @@ const Sign = () => {
   };
 
   return (
-    <div className='signpage text-white'>
-        <div className='text-center text-white signup mb-5'>
+    <div className='container signpage '>
+        <div className='text-center text-white  signup mb-5'>
             <h1><b>Sign up Form</b></h1>
         </div>
     <div className='signbody'>
@@ -46,7 +51,7 @@ const Sign = () => {
         <form  onSubmit={handleSubmit}>
             <div className="signform">
         <label>
-            Username:
+            Username: </label>
             <input
               className='formtext'
               type="text"
@@ -54,9 +59,10 @@ const Sign = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </label>
+                {error && !name &&  <span className="error">Enter valid Name</span>}
+       
           <label>
-            Email:
+            Email: </label>
             <input
               className='formtext'
               autocomplete="off"
@@ -64,9 +70,9 @@ const Sign = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </label>
+      {error && !email &&  <span className="error">Enter valid Email</span>}
           <label>
-           Mobile:
+           Mobile: </label>
             <input
               className='formtext'
               autocomplete="off"
@@ -74,9 +80,11 @@ const Sign = () => {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />
-          </label>
+                             {error && !mobile  && mobile!==10 &&  <span className="error">Enter valid Number</span>}
+
+         
           <label>
-            Password:
+            Password: </label>
             <input
               className='formtext'
               type="password"
@@ -84,7 +92,9 @@ const Sign = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </label>
+   {error && !password &&  <span className="error">Enter password</span>}
+
+    
           <button className='signbtn' type="submit">Sign Up</button>
           <Link to="/loginn" className='text-center mt-4 link'style={{textDecoration:"none"}}>
             Already have Account

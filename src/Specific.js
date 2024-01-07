@@ -12,7 +12,11 @@ const Specific = () => {
   const [catchData, setCatchData] = useState(null)
   const[discount,setDiscount]=useState([]);
   const [gheridata, setGheridata] = useState([]);
-
+  const handlePrintClick = (event) => {
+    event.preventDefault();
+    window.print();
+  };
+  
   const productdetails = async () => {
     try {
       const result = await fetch(`http://localhost:5500/customerupdateget/${_id}`);
@@ -106,18 +110,28 @@ const Specific = () => {
    <div className=' specific'>
      <div className=' container specificpage'>
      <div className='d-flex flex-column flex-md-row justify-content-between mb-2 pr-2'>
-      <div className='mb-2 mb-md-0 text-center text-md-left'>
-        <img src="../logologin.png" alt="Logo" style={{ height: "130px", width: "150px" }} />
-        <p className='mb-0 mt-2 mt-md-0'>Company Name: Marlin Bluetech</p>
+     <div className='mb-2 mb-md-0 text-center text-md-left'>
+        <div style={{ textAlign: 'left' }}>
+          <img
+            src="../logologin.png"
+            alt="Logo"
+            className='text-sm-center'
+            style={{ height: '130px', width: '150px' }}
+          />
+          <h4 className='mb-0 mt-2 mt-md-0'>Marlin BlueTech Private Limited</h4>
+          <h5>GSTIN: XXXXXXXXXX</h5>
+          <h5>sales@mbaquatech.com</h5>
+          <h5>+91-9438572589</h5>
+        </div>
       </div>
-      <div className='text-center text-md-right text-sm-right  mt-md-0'>
+      <div className='text-center text-md-right text-sm-right  mt-md-0 mt-lg-2'>
         <div style={{textAlign:"left"}}>
-        <p className='mb-1 mt-3'>Name: {name}</p>
-        <p className='mb-0'>Mobile: {mobile}</p>
+        <h5 className='mb-1 mt-5'>Name: {name}</h5>
+        <h5 className='mb-0'>Mobile: {mobile}</h5>
         </div>
       </div>
     </div>
-    <h3 className='text-center'>Return List</h3>
+    <h3 className='text-center mt-5'>Return List</h3>
     <div className='container table-container'>
     <table className='table table-bordered table-striped'>
   <thead>
@@ -263,6 +277,9 @@ const Specific = () => {
     </tbody>
   </table>
 </div>
+<button className='btn btn-primary text-center d-print-none mt-5' onClick={ handlePrintClick }>
+          Print
+        </button>
 </div>
    </div>
 

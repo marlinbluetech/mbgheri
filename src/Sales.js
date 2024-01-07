@@ -14,10 +14,9 @@ const Sales = () => {
   const [localData, setLocalData] = useState([]);
   const [paiditem, setPaiditem] = useState('');
   const [price, setPrice] = useState('')
-
-  const[combinedData,setCombinedData]=useState([]);
-
- const calculateTotalPrice = () => {
+  const [combinedData, setCombinedData] = useState([]);
+  const [error, setError] = useState(false)
+  const calculateTotalPrice = () => {
     const newTotalPrice = localData.reduce((total, data) => {
       const productTotal = data.mrp * data.quantity * (100 - data.discount) / 100;
       return total + productTotal;
@@ -32,13 +31,13 @@ const Sales = () => {
     calculateTotalPrice();
   }, [localData]);
 
-
-
-
-
   const handleAddCustomer = async () => {
+    if (!date || !customer || !season || !quantity || !paiditem) {
+      setError(true);
+      return false;
+    }
     try {
- setSelectedOption('');
+      setSelectedOption('');
       setQuantity('');
       setPaiditem('')
 
@@ -79,7 +78,7 @@ const Sales = () => {
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     const day = currentDate.getDate().toString().padStart(2, '0');
     const seconds = currentDate.getSeconds().toString().padStart(2, '0');
-     const billno = `MB${year}${month}${day}${seconds}`;
+    const billno = `MB${year}${month}${day}${seconds}`;
     return billno;
   };
 
@@ -95,13 +94,13 @@ const Sales = () => {
           },
           body: JSON.stringify({ ...entry, billno, balance }),
         });
-  
+
         if (!response.ok) {
           console.error('Error adding product to the database:', response.status);
-      
+
         }
       }
-  
+
       localStorage.removeItem('inputData');
       setLocalData([]);
       getproduct();
@@ -110,12 +109,12 @@ const Sales = () => {
       alert('An error occurred during checkout. Please try again later.');
     }
   };
-  
- useEffect(() => {
+
+  useEffect(() => {
 
     productlistdetails();
     getproduct();
-   
+
   }, []);
   useEffect(() => {
 
@@ -143,7 +142,7 @@ const Sales = () => {
       console.error('Error fetching product data:', error);
     }
   };
- const productlistdetails = async () => {
+  const productlistdetails = async () => {
     try {
       const result = await fetch('http://localhost:5500/productlistget', {
 
@@ -161,7 +160,7 @@ const Sales = () => {
         const matchingItem2 = productlist.find((item2) => item2.name === item1.selectedOption);
         return { ...item1, ...(matchingItem2 || {}) };
       });
-  
+
       setCombinedData(matchingItems);
     }
   }, [product, productlist]);
@@ -188,6 +187,7 @@ const Sales = () => {
                   defaultValue={localData.length > 0 ? localData[0].date : date}
                   onChange={(e) => setDate(e.target.value)}
                 />
+                {error && !date && <span className="error">Enter Date</span>}
 
               </div>
               <div>
@@ -200,28 +200,29 @@ const Sales = () => {
                   onChange={(e) => setCustomer(e.target.value)}
                 />
 
-
+                {error && !customer && <span className="error">Enter valid Name</span>}
 
               </div>
               <div>
                 <label style={{ paddingTop: "10px" }}>Season</label><br></br>
                 <select value={season} disabled={localData.length > 0}
-                    onChange={(e) => setSeason(e.target.value)}>
-                      <option>Select Season</option>
-                    <option value="s1">s1</option>
-                    <option value="s2">s2</option>
-                    <option value="s3">s3</option>
-                    <option value="s4">s4</option>
-                    <option value="s5">s5</option>
-                    <option value="s6">s6</option>
-                    <option value="s7">s7</option>
-                    <option value="s8">s8</option>
-                    <option value="s9">s9</option>
-                    <option value="s10">s10</option>
-                    <option value="s11">s11</option>
-                    <option value="s12">s12</option>
+                  onChange={(e) => setSeason(e.target.value)}>
+                  <option>Select Season</option>
+                  <option value="s1">s1</option>
+                  <option value="s2">s2</option>
+                  <option value="s3">s3</option>
+                  <option value="s4">s4</option>
+                  <option value="s5">s5</option>
+                  <option value="s6">s6</option>
+                  <option value="s7">s7</option>
+                  <option value="s8">s8</option>
+                  <option value="s9">s9</option>
+                  <option value="s10">s10</option>
+                  <option value="s11">s11</option>
+                  <option value="s12">s12</option>
 
-                  </select>
+                </select>
+                {error && !season && <span className="error">Enter Season</span>}
               </div>
 
             </form>
@@ -232,11 +233,11 @@ const Sales = () => {
                   <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} >
                     <option value="">Select a product</option>
                     {Array.from(new Set(productlist.map((item) => item.name))).map((uniqueName) => (
-    <option key={uniqueName} value={uniqueName}>
-      {uniqueName}
-    </option>
-  ))}
-        
+                      <option key={uniqueName} value={uniqueName}>
+                        {uniqueName}
+                      </option>
+                    ))}
+
                   </select>
                 </div>
               </div>
@@ -244,13 +245,15 @@ const Sales = () => {
               <div className='col'>
                 <div>
                   <label>Quantity</label><br></br>
-                  <input type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)}></input>
+                  <input type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)}></input><br></br>
+                  {error && !quantity && <span className="error">Enter Quantity</span>}
                 </div>
               </div>
               <div className='col'>
                 <div>
                   <label>paid</label><br></br>
-                  <input type="text" value={paiditem} onChange={(e) => setPaiditem(e.target.value)}></input>
+                  <input type="text" value={paiditem} onChange={(e) => setPaiditem(e.target.value)}></input><br></br>
+                  {error && !paiditem && <span className="error">Enter Quantity</span>}
                 </div>
               </div>
               <div className='text-center mt-4'>
@@ -313,8 +316,8 @@ const Sales = () => {
 
         </div>
       </div>
-     
-      
+
+
       <div className='container table-container mt-4'>
         <table className='table table-bordered table-striped'>
           <thead>
@@ -331,7 +334,7 @@ const Sales = () => {
               <th>Price</th>
               <th>Paid</th>
               <th>Balance</th>
-             
+
             </tr>
           </thead>
           <tbody>
@@ -348,14 +351,14 @@ const Sales = () => {
                 <td>{item.discount}</td>
                 <td>{item.mrp}</td>
                 <td>{item.paiditem}</td>
-                <td>{(item.quantity*item.mrp*(100-item.discount)/100)-item.paiditem}</td>
-               
+                <td>{(item.quantity * item.mrp * (100 - item.discount) / 100) - item.paiditem}</td>
+
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-     
+
     </div>
   )
 };

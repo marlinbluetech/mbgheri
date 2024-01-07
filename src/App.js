@@ -8,6 +8,7 @@ import Loginn from './Loginn';
 import Confirm from './Confirm';
 import Specific from './Specific';
 import Billreport from './Billreport';
+import Profile from './Profile';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/indexpage/*" element={<Indexpage />} />
           <Route path="/specific/:_id" element={<Specific />} />
           <Route path="/billreport" element={<Billreport/>} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </Router>
     </div>

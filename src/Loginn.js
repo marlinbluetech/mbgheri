@@ -5,10 +5,15 @@ const Loginn = () => {
     
     const [mobile, setMobile] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false)
+
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
+      if ( !password ||!mobile || mobile.length > 10 || mobile.length < 10) {
+        setError(true);
+        return false;
+      }
       try {
         const result = await fetch('http://localhost:5500/login', {
           method: 'POST',
@@ -35,8 +40,8 @@ const Loginn = () => {
    
   
   return (
- <div className='signpage text-white'>
-     <div className='text-center  text-white signup mb-5'>
+ <div className='container signpage'>
+     <div className='text-center text-white  signup mb-5'>
             <h1><b>Login Form</b></h1>
         </div>
      <div className='signbody'>
@@ -49,7 +54,7 @@ const Loginn = () => {
             <div className="signform">
         
           <label>
-            mobile:
+            Mobile:</label>
             <input
               className='formtext'
               type="mobile"
@@ -57,16 +62,16 @@ const Loginn = () => {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />
-          </label>
+            {error && !mobile  && mobile!==10 &&  <span className="error">Enter valid Number</span>}
           <label className='mt-3'>
-            Password:
+            Password:</label>
             <input
               className='formtext'
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </label>
+          {error && !password &&  <span className="error">Enter password</span>}
           <Link to="/confirm" className='text-left link' style={{textDecoration:"none"}}>
             Forgot Password
             </Link>
