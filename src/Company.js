@@ -162,7 +162,7 @@ const Company = () => {
         <div className=" container card mb-4 seccard">
           <div className="card-body">
             <h4 className='mb-4'>Add|Update Company Record</h4>
-            <div className="container text-start">
+            <div className="container text-center">
              <div className="row">
                 <div className="col-lg-3 col-md-12 col-sm-12">
                   <label >Name</label><br></br>
@@ -213,7 +213,7 @@ const Company = () => {
               <td>{item.mobile}</td>
               <td>{item.address}</td>
               <td>{item.comment}</td>
-              <td style={{display:"flex",columnGap:"7px"}}>
+              <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>

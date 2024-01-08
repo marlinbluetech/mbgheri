@@ -176,7 +176,7 @@ getproduct();
         <div class="container card mb-4 seccard">
           <div class="card-body">
             <h4 style={{ marginBottom: "25px" }}>Add|Update Gheri Exp Record</h4>
-            <div class="container text-start">
+            <div class="container text-center">
               <div class="row">
                 <div class="col">
                   <label >Date</label><br></br>
@@ -199,6 +199,7 @@ getproduct();
                   <label>Season</label><br></br>
                   <select value={season}
                     onChange={(e) => setSeason(e.target.value)}>
+                      <option>Select Season</option>
                     <option value="s1">s1</option>
                     <option value="s2">s2</option>
                     <option value="s3">s3</option>
@@ -261,7 +262,7 @@ getproduct();
 
                   <td>{item.purpose}</td>
 
-                  <td style={{display:"flex",columnGap:"7px"}}>
+                  <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
                     <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                     <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
                   </td>

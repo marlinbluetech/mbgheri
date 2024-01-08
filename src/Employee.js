@@ -271,7 +271,7 @@ setMobile(data.mobile);
               <td>{item.mobile}</td>
               <td>{item.worklocation}</td>
               <td>{item.address}</td>
-              <td style={{display:"flex",columnGap:"7px"}}>
+              <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger' onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>

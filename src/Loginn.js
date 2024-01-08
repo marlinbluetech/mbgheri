@@ -40,7 +40,7 @@ const Loginn = () => {
    
   
   return (
- <div className='container signpage'>
+ <div className='signpage'>
      <div className='text-center text-white  signup mb-5'>
             <h1><b>Login Form</b></h1>
         </div>

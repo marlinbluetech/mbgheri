@@ -194,7 +194,7 @@ const Stock = () => {
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
                         <h4 style={{ marginBottom: "25px" }}>Add|Update Stock Record</h4>
-                        <div class="container text-start mb-4">
+                        <div class="container text-center mb-4">
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <label >Item Name</label><br></br>
@@ -240,7 +240,10 @@ const Stock = () => {
                     <form  role="search" style={{ marginTop: "10px",display:"flex",columnGap:"7px",flexWrap:"wrap" }}>
                         <input class="form-control me-2" type="search" placeholder="Search"  value={searchTerm}
         onChange={handleInputChange}aria-label="Search"style={{width:"500px"}} />
-                        <button class="btn btn-primary mt-2" type="submit"  onClick={handleSearch}>Search</button>
+        <div className=''>
+        <button className="btn btn-primary mt-2 " type="submit"  onClick={handleSearch}>Search</button>
+
+        </div>
                     </form>
                 </div>
                 <div className='container table-container mt-5'>

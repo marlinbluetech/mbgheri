@@ -776,19 +776,33 @@ app.post('/spotsale', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   })
-  app.get("/spotsaleget",  async (req, resp) => {
+//   app.get("/spotsaleget",  async (req, resp) => {
 
-    let result = await spotsalefirst.find();
-    console.log(result);
-    resp.send(result);
+//     let result = await spotsalefirst.find();
+//     console.log(result);
+//     resp.send(result);
 
-});
+// });
 app.get("/spotsalesecondget",  async (req, resp) => {
 
     let result = await spotsalesecond.find();
     console.log(result);
     resp.send(result);
 
+});
+app.get("/spotsalefind/:name",  async (req, resp) => {
+    try {
+        const data = await spotsale.findOne({ customer: req.params.name });
+
+        if (data) {
+            resp.send(data);
+        } else {
+            resp.status(404).send({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        resp.status(500).send({ message: 'Internal server error' });
+    }
 });
 app.post('/saleadd', async (req, res) => {
     try {

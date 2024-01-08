@@ -222,6 +222,9 @@ body{
   input{
     width:250px;
   }
+  select{
+    width:250px;
+  }
   .nav_links{
     display:none;
   }
@@ -229,14 +232,15 @@ body{
 }
 @media screen and (max-width: 668px){
   
-  input{
+  input,select{
     width:200px;
   }
+  
  
 }
 @media screen and (max-width: 400px){
   
-  input{
+  input,select{
     width:150px;
   }
  
@@ -247,7 +251,7 @@ body{
   min-height:100vh; 
   height:auto; 
   background-repeat: no-repeat;
-  padding: 0px !important;
+ 
 }
 
 @media (max-width: 768px) {
@@ -255,11 +259,10 @@ body{
     min-height:100vh; 
   }
 }
-
 input,select{
   border:none;
   background-color: rgb(230, 232, 233);
-  padding: 3px;
+  padding: 7px;
   border-radius: 5px;
 }
 .nav_links{
@@ -322,7 +325,4 @@ td,th{
   background-color:rgb(230, 232, 233);
   text-align: center;
   height: 100vh;
-}
-specific{
-  text-align: center;
 }

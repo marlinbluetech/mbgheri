@@ -332,7 +332,7 @@ const Purchase = () => {
                     <td>{item.category}</td>
                     <td>{item.paid}</td>
                  <td>{(item.quantity*item.price)-item.paid}</td>
-                    <td style={{display:"flex",columnGap:"7px"}}>
+                    <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
                       <button
                         className='btn btn-primary'
                         style={{ marginRight: "5px" }}

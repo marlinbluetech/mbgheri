@@ -158,8 +158,8 @@ const Transaction = () => {
                 <h2 style={{ textAlign: "center", color: "red", paddingTop: "20px" }}>Transaction Details</h2>
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
-                        <h4 style={{ marginBottom: "25px",marginBottom:"20px" }}>Add|Update Transaction  Record</h4>
-                        <div class="container text-start">
+                        <h4 style={{ marginBottom: "25px"}}>Add|Update Transaction  Record</h4>
+                        <div class="container text-center">
                             <div class="row">
                                 <div class="col">
                                     <label >Date</label><br></br>
@@ -169,7 +169,7 @@ const Transaction = () => {
                                 <div class=" col">
                                     <label>Cash flow</label><br></br>
                                     <select name="Category" value={cashflow} onChange={(e) => setCashflow(e.target.value)}>
-                                    <option value="Select">Select</option>
+                                    <option value="Select">Select Option</option>
 
                                         <option value="salry">Receive</option>
                                         <option value="paid">Paid</option>
@@ -185,7 +185,6 @@ const Transaction = () => {
                                     <label >Purpose</label><br></br>
                                    <select name="Category" value={purpose} onChange={(e) => setPurpose(e.target.value)}>
                                     <option value="Select">Select</option>
-
                                         <option value="diesel">Diesel</option>
                                         <option value="Engine oil">Engine oil</option>
                                         <option value="Transport">Transport</option>
@@ -200,8 +199,6 @@ const Transaction = () => {
                                         <option value="catch">catch</option>
                                         <option value="farmer">Farmer</option>
                                         <option value="other">other</option>
-                                        
-                                        
                                     </select>
                                 </div>
                                 <div class=" col">
@@ -257,7 +254,7 @@ const Transaction = () => {
               <td>{item.purpose}</td>
               <td>{item.type}</td>
               <td>{item.description}</td>
-              <td style={{display:"flex",columnGap:"7px"}}
+              <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}
               
               >
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>

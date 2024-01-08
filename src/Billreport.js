@@ -3,6 +3,9 @@ import { useLocation } from 'react-router-dom';
 
 const Billreport = () => {
   const [product, setProduct] = useState([]);
+  const [paid, setPaid] = useState([]);
+  const[combined,setCombined]=useState([]);
+
   const [address, setAddress] = useState('');
   const location = useLocation();
   const searchTerm = new URLSearchParams(location.search).get('searchTerm');
@@ -46,7 +49,24 @@ const Billreport = () => {
   };
   useEffect(() => {
    productdetails();
+   paidsearch();
   }, []);
+  const paidsearch = async () => {
+    try {
+      const result = await fetch(`http://localhost:5500/spotsalefind/${searchTerm}`);
+      const data = await result.json();
+
+      if (Array.isArray(data)) {
+        setPaid(data);
+      } else {
+ console.log("error");
+      }
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+     
+    }
+  };
+
   const handlePrintClick = (event) => {
     event.preventDefault();
     window.print();
@@ -104,6 +124,7 @@ const Billreport = () => {
                 <th>Quantity</th>
                 <th>Discount</th>
                 <th>Price</th>
+                <th>Remain Balance</th>
               </tr>
             </thead>
             <tbody>
@@ -119,6 +140,7 @@ const Billreport = () => {
                   <td>{item.quantity}</td>
                   <td>{item.discount}</td>
                   <td>{item.mrp * item.quantity * (100 - item.discount) / 100}</td>
+                  <td>{item.balance}</td>
                 </tr>
               ))}
             </tbody>

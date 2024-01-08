@@ -183,7 +183,7 @@ const Payment = () => {
                 <div class="container card mb-4 seccard">
                     <div class="card-body">
                         <h4 style={{ marginBottom: "25px" }}>Add|Update Payment Record</h4>
-                        <div class="container text-start">
+                        <div class="container text-center">
                             <div class="row">
                                 <div class="col">
                                     <label >Date</label><br></br>

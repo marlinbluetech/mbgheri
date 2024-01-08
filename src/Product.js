@@ -231,7 +231,7 @@ const Product = () => {
                   <label>Purchase Price</label><br></br>
                   <input type="text" style={{ borderRadius: "5px" }} value={purprice}
                     onChange={(e) => setPurprice(e.target.value)}></input>
-                    \ {error && !purprice && <span className="error">Enter Price</span>}
+                     {error && !purprice && <span className="error">Enter Price</span>}
                 </div>
 
 
@@ -308,7 +308,7 @@ const Product = () => {
                   <td>{item.discount}</td>
                   <td>{item.companyname}</td>
                   <td>{item.dealername}</td>
-                  <td style={{ display: "flex", columnGap: "7px" }}>
+                  <td style={{ display: "flex", columnGap: "7px",justifyContent:"center" }}>
                     <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                     <button className='btn btn-danger' onClick={() => deleteproduct(item._id)}>Delete</button>
                   </td>

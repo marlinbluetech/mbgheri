@@ -183,7 +183,7 @@ const Return = () => {
         <div class="container card mb-4 seccard">
           <div class="card-body">
             <h4 className='mb-4'>Add|Update Return Record</h4>
-            <div class="container text-start">
+            <div class="container text-center">
               <div class="row">
                 <div class="col">
                   <label >Date</label><br></br>
@@ -280,7 +280,7 @@ const Return = () => {
               <td>{item.season}</td>
               <td>{item.item}</td>
               <td>{item.quantity}</td>
-              <td style={{display:"flex",columnGap:"7px"}}>
+              <td style={{display:"flex",columnGap:"7px",justifyContent:"center"}}>
               <button className='btn btn-primary' style={{ marginRight: "5px" }} onClick={() => { handleDrawerOpen(); productdetails(item._id); }}>Edit</button>
                 <button className='btn btn-danger'onClick={()=>deleteproduct(item._id)}>Delete</button>
               </td>

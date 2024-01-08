@@ -354,8 +354,8 @@ const [error, setError] = useState(false)
                   {error && !discount &&  <span className="error">Enter Discount</span>}
                 </div>
               </div>
-              <div className='text-center mt-4'>
-                <button className='btn btn-success' onClick={handleAddCustomer}>Add</button>
+              <div className='text-center mt-4 mb-md-4'>
+                <button className='btn btn-success' style={{marginBottom:"10px"}}onClick={handleAddCustomer}>Add</button>
               </div>
 
             </div>
@@ -363,9 +363,9 @@ const [error, setError] = useState(false)
           <div className='col-lg-7
                     
                     col-md-12 col-sm-12'>
-            <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between"}}>
-            <h3 className='mt-5 '>Products In Cart</h3>
-            <Link to='/indexpage/bill' className='billbtn' style={{textDecoration:"none",height:"45px",width:"170px",backgroundColor:"blue",color:"white",paddingTop:"10px",borderRadius:"5px",marginTop:"40px",textAlign:"center"}}>Bill Generate</Link>
+            <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-between",flexWrap:"wrap"}}>
+            <h3 className='mt-5'>Products In Cart</h3>
+            <Link to='/indexpage/bill' className='billbtn' style={{textDecoration:"none",height:"45px",width:"170px",backgroundColor:"blue",color:"white",paddingTop:"10px",marginTop:"50px",borderRadius:"5px",textAlign:"center"}}>Bill Generate</Link>
 
             </div>
             <h5 className='mt-4'>Customer:{customer}</h5>
