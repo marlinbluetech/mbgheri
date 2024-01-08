@@ -38,7 +38,7 @@ const Sign = () => {
 
   return (
     <div className=' signpage '>
-        <div className='text-center text-white  signup mb-5'>
+        <div className='text-center text-white  signup mb-4'>
             <h1><b>Sign up Form</b></h1>
         </div>
     <div className='signbody'>
