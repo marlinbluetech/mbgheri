@@ -46,8 +46,8 @@ const Confirm = () => {
   };
 
   return (
-    <div className='signpage text-white'>
-      <div className='text-center text-white signup mb-5'>
+    <div className='signpage '>
+      <div className='text-center  signup mb-5'>
         <h1><b>Forgot Password</b></h1>
       </div>
       <div className='signbody'>

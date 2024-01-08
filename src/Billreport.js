@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 const Billreport = () => {
   const [product, setProduct] = useState([]);
   const [paid, setPaid] = useState([]);
-  const[combined,setCombined]=useState([]);
 
   const [address, setAddress] = useState('');
   const location = useLocation();
@@ -124,6 +123,7 @@ const Billreport = () => {
                 <th>Quantity</th>
                 <th>Discount</th>
                 <th>Price</th>
+                <th>Paid</th>
                 <th>Remain Balance</th>
               </tr>
             </thead>
@@ -140,6 +140,7 @@ const Billreport = () => {
                   <td>{item.quantity}</td>
                   <td>{item.discount}</td>
                   <td>{item.mrp * item.quantity * (100 - item.discount) / 100}</td>
+                  <td>{item.mrp * item.quantity * (100 - item.discount) / 100-item.balance}</td>
                   <td>{item.balance}</td>
                 </tr>
               ))}
